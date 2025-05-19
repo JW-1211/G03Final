@@ -11,7 +11,7 @@ tab1, tab2 = st.tabs(["Get a Random Word", "Grammar Check"])
 # --- TAB 1: Random Word ---
 with tab1:
     # Correct CSV URL with proper raw GitHub link
-    CSV_URL = "https://raw.githubusercontent.com/thelighterside/streamlit25/main/data/group3_word_frequency.csv"
+    CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
     
     @st.cache_data
     def load_words(url):
