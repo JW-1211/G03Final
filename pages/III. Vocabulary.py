@@ -147,7 +147,7 @@ with tab5 :
 # Configuration
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
-API_KEY = "YOUR_API_KEY"  # Replace with your API Ninjas key
+API_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # Replace with your API Ninjas key
 
 @st.cache_data
 def load_word_list():
