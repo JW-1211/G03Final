@@ -142,7 +142,6 @@ with tab4:
         st.error(f"Failed to load CSV: {e}")
 
 with tab5 : 
-    st.caption("## Let's check if you can remember which of the following words are synonyms/anyonyms!")
 
 # Configuration
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
@@ -194,8 +193,8 @@ def generate_quiz_question():
 
 def main():
     st.title("Antonym Quiz Challenge 🔄")
-    
-    if 'current_question' not in st.session_state:
+    st.caption("# Let's check if you can remember which of the following words are synonyms/anyonyms!")
+  if 'current_question' not in st.session_state:
         st.session_state.current_question = generate_quiz_question()
         st.session_state.score = 0
         st.session_state.show_answer = False
