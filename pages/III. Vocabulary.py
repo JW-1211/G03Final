@@ -3,8 +3,9 @@ import pandas as pd
 from gtts import gTTS
 from io import BytesIO
 import random
-from nltk.corpus import wordnet
-import nltk
+import requests
+
+API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"
 
 st.write("🌱 Vocabulary learning")
 
@@ -108,54 +109,37 @@ with tab4:
     url = "https://raw.githubusercontent.com/JW-1211/streamlit25/refs/heads/main/word_frequency2.csv"
     try:
         df = pd.read_csv(url)
-        
         if "Word" not in df.columns:
             st.error("CSV file must contain a 'Word' column")
         else:
             selected_word = st.selectbox("Choose a word to explore:", df["Word"].dropna().unique())
-            
             if selected_word:
+                api_url = f"https://api.api-ninjas.com/v1/thesaurus?word={selected_word}"
+                headers = {'X-Api-Key': API_NINJAS_KEY}
                 try:
-                    from thesaurus import Word
-                    
-                    # Initialize Thesaurus.com parser
-                    word = Word(selected_word)
-                    
-                    # Get synonyms (all definitions, relevance 2-3)
-                    synonyms = word.synonyms('all', relevance=[2,3], allowEmpty=False)
-                    flat_synonyms = [item for sublist in synonyms for item in sublist]  # Flatten nested lists
-                    
-                    # Get antonyms (all definitions, relevance 2-3)
-                    antonyms = word.antonyms('all', relevance=[2,3], allowEmpty=False)
-                    flat_antonyms = [item for sublist in antonyms for item in sublist]
-                    
-                    # Remove duplicates and format
-                    synonyms = list(set(flat_synonyms))
-                    antonyms = list(set(flat_antonyms))
-                    
-                    # Display results
+                    response = requests.get(api_url, headers=headers)
+                    response.raise_for_status()
+                    data = response.json()
+                    synonyms = data.get('synonyms', [])
+                    antonyms = data.get('antonyms', [])
+
                     st.markdown("---")
-                    
-                    # Synonyms section
                     st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
                     if synonyms:
                         st.write(", ".join(synonyms))
                     else:
-                        st.write("No synonyms found")
-                    
-                    # Antonyms section
+                        st.write("No synonyms found.")
+
                     st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
                     if antonyms:
                         st.write(", ".join(antonyms))
                     else:
-                        st.write("No antonyms found")
-                        
+                        st.write("No antonyms found.")
+
                 except Exception as e:
-                    st.error(f"Error processing word: {str(e)}")
-                    st.info("Note: Thesaurus.com may have changed their website structure")
-                    
+                    st.error(f"API error: {e}")
     except Exception as e:
-        st.error(f"Failed to load CSV: {str(e)}")
+        st.error(f"Failed to load CSV: {e}")
 
 with tab5 : 
     st.write("### To be announced...")
