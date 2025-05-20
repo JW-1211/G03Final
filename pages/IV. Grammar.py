@@ -101,6 +101,7 @@ with tab2:
         st.write(f"Base form: {selected_regular_verb}, Past tense: {past_form}")
         
         # Pronunciation for base form
+        st.write("Pronunciation for base form:")
         tts_base = gTTS(selected_regular_verb)
         audio_fp_base = BytesIO()
         tts_base.write_to_fp(audio_fp_base)
@@ -108,6 +109,7 @@ with tab2:
         st.audio(audio_fp_base, format="audio/mp3")
         
         # Pronunciation for past tense form
+        st.write("Pronunciation for past tense:")
         tts_past = gTTS(past_form)
         audio_fp_past = BytesIO()
         tts_past.write_to_fp(audio_fp_past)
@@ -242,3 +244,4 @@ with tab4:
                     st.info(f"The correct past tense is: **{correct_past}**")
                 if not participle_correct:
                     st.info(f"The correct past participle is: **{correct_participle}**")
+
