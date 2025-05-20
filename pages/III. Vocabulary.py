@@ -98,9 +98,66 @@ with tab3:
         else:
             st.error("❌ Try again.")
 
-with tab4 : 
-    st.write("### 📋 What are some words that can be found that uses")
-
+with tab4:
+    st.markdown("### 🔄 Word Relationships Explorer")
+    
+    # Load CSV
+    url = "https://raw.githubusercontent.com/JW-1211/streamlit25/refs/heads/main/word_frequency2.csv"
+    try:
+        df = pd.read_csv(url)
+        
+        # Check if Word column exists
+        if "Word" not in df.columns:
+            st.error("CSV file must contain a 'Word' column")
+        else:
+            # Word selector
+            selected_word = st.selectbox("Choose a word to explore:", df["Word"].dropna().unique())
+            
+            if selected_word:
+                try:
+                    # Download WordNet if not already installed
+                    nltk.download('wordnet', quiet=True)
+                    
+                    # Get synonyms
+                    synonyms = []
+                    for syn in wordnet.synsets(selected_word):
+                        for lemma in syn.lemmas():
+                            if lemma.name() != selected_word:
+                                synonyms.append(lemma.name())
+                    
+                    # Get antonyms
+                    antonyms = []
+                    for syn in wordnet.synsets(selected_word):
+                        for lemma in syn.lemmas():
+                            if lemma.antonyms():
+                                antonyms.append(lemma.antonyms()[0].name())
+                    
+                    # Remove duplicates
+                    synonyms = list(set(synonyms))
+                    antonyms = list(set(antonyms))
+                    
+                    # Display results
+                    st.markdown("---")
+                    
+                    # Synonyms section
+                    st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
+                    if synonyms:
+                        st.write(", ".join(synonyms))
+                    else:
+                        st.write("No synonyms found")
+                    
+                    # Antonyms section
+                    st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
+                    if antonyms:
+                        st.write(", ".join(antonyms))
+                    else:
+                        st.write("No antonyms found")
+                        
+                except Exception as e:
+                    st.error(f"Error processing word: {str(e)}")
+                    
+    except Exception as e:
+        st.error(f"Failed to load CSV: {str(e)}")
 
 with tab5 : 
     st.write("### To be announced...")
