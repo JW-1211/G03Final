@@ -142,4 +142,88 @@ with tab4:
         st.error(f"Failed to load CSV: {e}")
 
 with tab5 : 
-    st.write("### To be announced...")
+    st.write("### Let's check whether you remember which words are synonyms and anyonyms")
+
+# Configuration
+CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
+API_URL = "https://api.api-ninjas.com/v1/thesaurus"
+API_KEY = "YOUR_API_KEY"  # Replace with your API Ninjas key
+
+@st.cache_data
+def load_word_list():
+    df = pd.read_csv(CSV_URL)
+    if 'Frequency' in df.columns:
+        df = df.sort_values('Frequency', ascending=False)
+    return df['Word'].dropna().tolist()
+
+def get_word_relations(word):
+    try:
+        response = requests.get(f"{API_URL}?word={word}", headers={'X-Api-Key': API_KEY})
+        response.raise_for_status()
+        data = response.json()
+        return {
+            'synonyms': data.get('synonyms', [])[:10],  # Get top 10 synonyms
+            'antonyms': data.get('antonyms', [])[:3]    # Get top 3 antonyms
+        }
+    except Exception as e:
+        st.error(f"API Error: {str(e)}")
+        return None
+
+def generate_quiz_question():
+    words = load_word_list()
+    
+    for word in words:
+        relations = get_word_relations(word)
+        if relations and len(relations['antonyms']) >= 1 and len(relations['synonyms']) >= 3:
+            # Prepare options (1 antonym + 3 synonyms)
+            correct_answer = random.choice(relations['antonyms'])
+            distractors = random.sample(relations['synonyms'], 3)
+            
+            options = [correct_answer] + distractors
+            random.shuffle(options)
+            
+            return {
+                'question': f"Which of the following is an antonym of '{word}'?",
+                'options': options,
+                'correct': correct_answer,
+                'word': word
+            }
+    
+    st.error("Could not generate quiz questions. Some words may lack sufficient synonyms/antonyms.")
+    return None
+
+def main():
+    st.title("Antonym Quiz Challenge 🔄")
+    
+    if 'current_question' not in st.session_state:
+        st.session_state.current_question = generate_quiz_question()
+        st.session_state.score = 0
+        st.session_state.show_answer = False
+
+    if st.session_state.current_question:
+        q = st.session_state.current_question
+        
+        st.markdown(f"### {q['question']}")
+        selected = st.radio("Options:", q['options'])
+        
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            if st.button("Check Answer"):
+                st.session_state.show_answer = True
+                
+        if st.session_state.show_answer:
+            if selected == q['correct']:
+                st.success("✅ Correct! Well done!")
+                st.session_state.score += 1
+            else:
+                st.error(f"❌ Incorrect. The correct antonym was: {q['correct']}")
+            
+            st.markdown(f"**Current Score:** {st.session_state.score}")
+            
+            if st.button("Next Question"):
+                st.session_state.current_question = generate_quiz_question()
+                st.session_state.show_answer = False
+                st.experimental_rerun()
+
+if __name__ == "__main__":
+    main()
