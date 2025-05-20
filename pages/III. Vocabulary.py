@@ -6,8 +6,8 @@ import random
 import requests
 
 # --- CONFIGURATION ---
-API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"
-CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/refs/heads/main/word_frequency2.csv"
+API_NINJAS_KEY = "YOUR_API_KEY"  # <-- Replace with your API Ninjas key
+CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
 
 @st.cache_data
@@ -35,12 +35,13 @@ word_list = df["Word"].dropna().tolist()
 
 st.write("🌱 Vocabulary learning")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "❄️ 1. Lesson: Word list",
     "❄️ 2. Activity: Listen to the word",
     "❄️ 3. Spelling practice",
     "❄️ 4. Word relationships",
-    "❄️ 5. Check your understanding"
+    "❄️ 5. Synonym Quiz",
+    "❄️ 6. Antonym Quiz"
 ])
 
 # TAB 1: Word list
@@ -123,49 +124,90 @@ with tab4:
         else:
             st.write("No antonyms found.")
 
-# TAB 5: Antonym quiz
+# TAB 5: Synonym Quiz
 with tab5:
-    st.title("Antonym Quiz Challenge 🔄")
+    st.title("🟢 Synonym Quiz")
 
-    def generate_quiz_question():
+    def generate_synonym_quiz():
+        for word in word_list:
+            relations = get_word_relations(word)
+            if len(relations['synonyms']) >= 1 and len(relations['antonyms']) >= 3:
+                correct = random.choice(relations['synonyms'])
+                distractors = random.sample(relations['antonyms'], 3)
+                options = [correct] + distractors
+                random.shuffle(options)
+                return {
+                    'word': word,
+                    'question': f"Which of the following is a synonym of '{word}'?",
+                    'options': options,
+                    'correct': correct
+                }
+        st.error("Could not generate a synonym quiz. Try again later.")
+        return None
+
+    if 'quiz_synonym' not in st.session_state or st.session_state['quiz_synonym'] is None:
+        st.session_state['quiz_synonym'] = generate_synonym_quiz()
+        st.session_state['score_synonym'] = 0
+        st.session_state['answered_synonym'] = False
+
+    quiz = st.session_state['quiz_synonym']
+    if quiz:
+        st.markdown(f"### {quiz['question']}")
+        selected = st.radio("Options:", quiz['options'], key="options_synonym")
+        if st.button("Check Answer", key="check_synonym"):
+            st.session_state['answered_synonym'] = True
+            if selected == quiz['correct']:
+                st.success("✅ Correct! Well done!")
+                st.session_state['score_synonym'] += 1
+            else:
+                st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
+            st.markdown(f"**Score:** {st.session_state['score_synonym']}")
+        if st.session_state['answered_synonym']:
+            if st.button("Next Word", key="next_synonym"):
+                st.session_state['quiz_synonym'] = generate_synonym_quiz()
+                st.session_state['answered_synonym'] = False
+                st.experimental_rerun()
+
+# TAB 6: Antonym Quiz
+with tab6:
+    st.title("🔴 Antonym Quiz")
+
+    def generate_antonym_quiz():
         for word in word_list:
             relations = get_word_relations(word)
             if len(relations['antonyms']) >= 1 and len(relations['synonyms']) >= 3:
-                correct_answer = random.choice(relations['antonyms'])
+                correct = random.choice(relations['antonyms'])
                 distractors = random.sample(relations['synonyms'], 3)
-                options = [correct_answer] + distractors
+                options = [correct] + distractors
                 random.shuffle(options)
                 return {
+                    'word': word,
                     'question': f"Which of the following is an antonym of '{word}'?",
                     'options': options,
-                    'correct': correct_answer,
-                    'word': word
+                    'correct': correct
                 }
-        st.error("Could not generate quiz questions. Some words may lack sufficient synonyms/antonyms.")
+        st.error("Could not generate an antonym quiz. Try again later.")
         return None
 
-    if 'current_question' not in st.session_state:
-        st.session_state.current_question = generate_quiz_question()
-        st.session_state.score = 0
-        st.session_state.show_answer = False
+    if 'quiz_antonym' not in st.session_state or st.session_state['quiz_antonym'] is None:
+        st.session_state['quiz_antonym'] = generate_antonym_quiz()
+        st.session_state['score_antonym'] = 0
+        st.session_state['answered_antonym'] = False
 
-    q = st.session_state.current_question
-    if q:
-        st.markdown(f"### {q['question']}")
-        selected = st.radio("Options:", q['options'], key="antonym_quiz_options")
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            if st.button("Check Answer", key="antonym_check"):
-                st.session_state.show_answer = True
-
-        if st.session_state.show_answer:
-            if selected == q['correct']:
+    quiz = st.session_state['quiz_antonym']
+    if quiz:
+        st.markdown(f"### {quiz['question']}")
+        selected = st.radio("Options:", quiz['options'], key="options_antonym")
+        if st.button("Check Answer", key="check_antonym"):
+            st.session_state['answered_antonym'] = True
+            if selected == quiz['correct']:
                 st.success("✅ Correct! Well done!")
-                st.session_state.score += 1
+                st.session_state['score_antonym'] += 1
             else:
-                st.error(f"❌ Incorrect. The correct antonym was: {q['correct']}")
-            st.markdown(f"**Current Score:** {st.session_state.score}")
-            if st.button("Next Question", key="antonym_next"):
-                st.session_state.current_question = generate_quiz_question()
-                st.session_state.show_answer = False
+                st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
+            st.markdown(f"**Score:** {st.session_state['score_antonym']}")
+        if st.session_state['answered_antonym']:
+            if st.button("Next Word", key="next_antonym"):
+                st.session_state['quiz_antonym'] = generate_antonym_quiz()
+                st.session_state['answered_antonym'] = False
                 st.experimental_rerun()
