@@ -2,4 +2,6 @@ streamlit
 gtts
 pandas
 requests
-nltk
+git+https://github.com/bradleyfowler123/thesaurus-api.git
+beautifulsoup4
+requests
