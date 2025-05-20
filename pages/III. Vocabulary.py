@@ -103,61 +103,52 @@ with tab3:
 with tab4:
     st.markdown("### 🔄 Synonyms and Anyonyms")
     st.caption("Enrich your vocabulary by learning how a single word can be expressed in different ways!")
-
+    
     # Load CSV
     url = "https://raw.githubusercontent.com/JW-1211/streamlit25/refs/heads/main/word_frequency2.csv"
     try:
         df = pd.read_csv(url)
         
-        # Check if Word column exists
         if "Word" not in df.columns:
             st.error("CSV file must contain a 'Word' column")
         else:
-            # Word selector
             selected_word = st.selectbox("Choose a word to explore:", df["Word"].dropna().unique())
             
             if selected_word:
-                try:
-                    # Download WordNet if not already installed
-                    nltk.download('wordnet', quiet=True)
-                    
-                    # Get synonyms
-                    synonyms = []
-                    for syn in wordnet.synsets(selected_word):
-                        for lemma in syn.lemmas():
-                            if lemma.name() != selected_word:
-                                synonyms.append(lemma.name())
-                    
-                    # Get antonyms
-                    antonyms = []
-                    for syn in wordnet.synsets(selected_word):
-                        for lemma in syn.lemmas():
-                            if lemma.antonyms():
-                                antonyms.append(lemma.antonyms()[0].name())
-                    
-                    # Remove duplicates
-                    synonyms = list(set(synonyms))
-                    antonyms = list(set(antonyms))
-                    
-                    # Display results
-                    st.markdown("---")
-                    
-                    # Synonyms section
-                    st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
-                    if synonyms:
-                        st.write(", ".join(synonyms))
-                    else:
-                        st.write("No synonyms found")
-                    
-                    # Antonyms section
-                    st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
-                    if antonyms:
-                        st.write(", ".join(antonyms))
-                    else:
-                        st.write("No antonyms found")
-                        
-                except Exception as e:
-                    st.error(f"Error processing word: {str(e)}")
+                import nltk
+                from nltk.corpus import wordnet
+                nltk.download('wordnet', quiet=True)
+                
+                # Get synonyms
+                synonyms = []
+                for syn in wordnet.synsets(selected_word):
+                    for lemma in syn.lemmas():
+                        name = lemma.name()
+                        if name.lower() != selected_word.lower():
+                            synonyms.append(name.replace('_', ' '))
+                
+                # Get antonyms
+                antonyms = []
+                for syn in wordnet.synsets(selected_word):
+                    for lemma in syn.lemmas():
+                        for ant in lemma.antonyms():
+                            antonyms.append(ant.name().replace('_', ' '))
+                
+                synonyms = list(set(synonyms))
+                antonyms = list(set(antonyms))
+                
+                st.markdown("---")
+                st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
+                if synonyms:
+                    st.write(", ".join(synonyms))
+                else:
+                    st.write("No synonyms found")
+                
+                st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
+                if antonyms:
+                    st.write(", ".join(antonyms))
+                else:
+                    st.write("No antonyms found")
                     
     except Exception as e:
         st.error(f"Failed to load CSV: {str(e)}")
