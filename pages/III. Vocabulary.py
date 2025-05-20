@@ -8,7 +8,7 @@ import nltk
 
 st.write("🌱 Vocabulary learning")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["❄️ 1. Lesson: Word list", "❄️ 2. Activity: Listen to the word", "❄️ 3. Spelling practice", "❄️ 4. Synonyms and Antonyms", "❄️ 5. Check your understanding"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["❄️ 1. Lesson: Word list", "❄️ 2. Activity: Listen to the word", "❄️ 3. Spelling practice", "❄️ 4. Word relationships", "❄️ 5. Check your understanding"])
 
 ######### TAB 1
 
@@ -101,8 +101,9 @@ with tab3:
             st.error("❌ Try again.")
 
 with tab4:
-    st.markdown("### 🔄 Word Relationships Explorer")
-    
+    st.markdown("### 🔄 Synonyms and Anyonyms")
+    st.caption("Enrich your vocabulary by learning how a single word can be expressed in different ways!")
+
     # Load CSV
     url = "https://raw.githubusercontent.com/JW-1211/streamlit25/refs/heads/main/word_frequency2.csv"
     try:
