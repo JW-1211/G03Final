@@ -142,7 +142,7 @@ with tab4:
         st.error(f"Failed to load CSV: {e}")
 
 with tab5 : 
-    st.write("### Let's check whether you remember which words are synonyms and anyonyms")
+    st.caption("### Let's check whether you remember which words are synonyms and anyonyms!")
 
 # Configuration
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
