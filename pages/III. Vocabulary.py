@@ -3,6 +3,8 @@ import pandas as pd
 from gtts import gTTS
 from io import BytesIO
 import random
+from nltk.corpus import wordnet
+import nltk
 
 st.write("🌱 Vocabulary learning")
 
