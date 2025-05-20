@@ -126,7 +126,7 @@ with tab4:
 
 # TAB 5: Synonym Quiz
 with tab5:
-    st.title("🟢 Synonym Quiz")
+    st.title("🟢 Synonym quiz")
 
     def generate_synonym_quiz():
         for word in word_list:
@@ -170,7 +170,7 @@ with tab5:
 
 # TAB 6: Antonym Quiz
 with tab6:
-    st.title("🔴 Antonym Quiz")
+    st.title("🔴 Antonym quiz")
 
     def generate_antonym_quiz():
         for word in word_list:
