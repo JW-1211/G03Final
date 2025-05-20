@@ -115,40 +115,44 @@ with tab4:
             selected_word = st.selectbox("Choose a word to explore:", df["Word"].dropna().unique())
             
             if selected_word:
-                import nltk
-                from nltk.corpus import wordnet
-                nltk.download('wordnet', quiet=True)
-                
-                # Get synonyms
-                synonyms = []
-                for syn in wordnet.synsets(selected_word):
-                    for lemma in syn.lemmas():
-                        name = lemma.name()
-                        if name.lower() != selected_word.lower():
-                            synonyms.append(name.replace('_', ' '))
-                
-                # Get antonyms
-                antonyms = []
-                for syn in wordnet.synsets(selected_word):
-                    for lemma in syn.lemmas():
-                        for ant in lemma.antonyms():
-                            antonyms.append(ant.name().replace('_', ' '))
-                
-                synonyms = list(set(synonyms))
-                antonyms = list(set(antonyms))
-                
-                st.markdown("---")
-                st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
-                if synonyms:
-                    st.write(", ".join(synonyms))
-                else:
-                    st.write("No synonyms found")
-                
-                st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
-                if antonyms:
-                    st.write(", ".join(antonyms))
-                else:
-                    st.write("No antonyms found")
+                try:
+                    from thesaurus import Word
+                    
+                    # Initialize Thesaurus.com parser
+                    word = Word(selected_word)
+                    
+                    # Get synonyms (all definitions, relevance 2-3)
+                    synonyms = word.synonyms('all', relevance=[2,3], allowEmpty=False)
+                    flat_synonyms = [item for sublist in synonyms for item in sublist]  # Flatten nested lists
+                    
+                    # Get antonyms (all definitions, relevance 2-3)
+                    antonyms = word.antonyms('all', relevance=[2,3], allowEmpty=False)
+                    flat_antonyms = [item for sublist in antonyms for item in sublist]
+                    
+                    # Remove duplicates and format
+                    synonyms = list(set(flat_synonyms))
+                    antonyms = list(set(flat_antonyms))
+                    
+                    # Display results
+                    st.markdown("---")
+                    
+                    # Synonyms section
+                    st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
+                    if synonyms:
+                        st.write(", ".join(synonyms))
+                    else:
+                        st.write("No synonyms found")
+                    
+                    # Antonyms section
+                    st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
+                    if antonyms:
+                        st.write(", ".join(antonyms))
+                    else:
+                        st.write("No antonyms found")
+                        
+                except Exception as e:
+                    st.error(f"Error processing word: {str(e)}")
+                    st.info("Note: Thesaurus.com may have changed their website structure")
                     
     except Exception as e:
         st.error(f"Failed to load CSV: {str(e)}")
