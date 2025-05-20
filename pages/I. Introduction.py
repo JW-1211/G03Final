@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title("I. Introduction")
 
-tab1, tab2 = st.tabs(["A four-panel summary of the story", "..."])
+tab1, tab2 = st.tabs(["A four-panel summary of the story", "word cloud"])
 
 with tab1:
     st.subheader("Story Summary")
@@ -12,3 +12,5 @@ with tab1:
 
 with tab2:
     st.write("Second tab content here.")
+    image = Image.open("images/IMG_1605.jpeg")
+    st.image(image, caption="A four-panel comic", use_container_width=True)
