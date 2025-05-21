@@ -15,7 +15,7 @@ with tab1:
     with col1:
         st.image(image1, caption="A four-panel comic", use_container_width=True)
     with col2:
-        st.image(image2, caption="Another related image", use_container_width=True)
+        st.image(image2, caption="Word cloud", use_container_width=True)
 
 with tab2:
     st.subheader("word cloud")
