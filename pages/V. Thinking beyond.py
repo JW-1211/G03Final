@@ -93,9 +93,6 @@ with tab3:
     """)
     st.success("Congratulations! Your project objectives have been met.")
 
-    st.metric(label="Final Accuracy", value="92.5%", delta="+3.4%")
-    st.metric(label="Precision", value="90.1%")
-    st.metric(label="Recall", value="89.7%")
     st.image(
         "https://static.streamlit.io/examples/owl.jpg",
         caption="Model Overview",
@@ -103,11 +100,6 @@ with tab3:
     )
 
     st.divider()
-
-    st.download_button(
-        label="Download Full Report",
-        data="Your full report content here...",
-        file_name="report.txt"
     )
 
     st.info("For more details or to discuss results, contact the project team.")
