@@ -12,7 +12,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["💖 1. Lesson: Word list", "💖 2. Activity
 
 
 with tab1:
-  st.markdown("### 📋 Word Frequency Table")
+  st.markdown("### 📋 Word Table")
 
    # Load CSV from GitHub (update the link below)
   url = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
