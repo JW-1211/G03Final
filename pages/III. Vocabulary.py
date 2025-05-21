@@ -4,7 +4,7 @@ import requests
 import random
 
 # --- CONFIGURATION ---
-CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
+CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
 API_NINJAS_KEY = st.secrets["API_NINJAS_KEY"]  # <-- This line uses the secret
 
