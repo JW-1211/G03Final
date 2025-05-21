@@ -101,7 +101,7 @@ with tab2:
     st.image(
         "https://static.streamlit.io/examples/owl.jpg",
         caption="Model Overview",
-        use_column_width=True
+        use_container_width=True
     )
 
     st.divider()
