@@ -11,6 +11,6 @@ with tab1:
     st.image(image, caption="A four-panel comic", use_container_width=True)
 
 with tab2:
-    st.write("Second tab content here.")
+    st.write("word cloud")
     image = Image.open("images/IMG_1605.jpeg")
-    st.image(image, caption="A four-panel comic", use_container_width=True)
+    st.image(image, caption="", use_container_width=True)
