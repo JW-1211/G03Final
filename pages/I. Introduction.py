@@ -22,5 +22,4 @@ with tab1:
 
 with tab2:
     st.subheader("Guidelines")
-    st.write("Let’s guess what the story is about by looking at the two pictures! Let’s try to guess the overall flow of the story based on the four-panel comic. Let’s try to predict the key words that appear in the story using the word cloud.
-  So, What might happen to the main character?")
+    st.write("Let’s guess what the story is about by looking at the two pictures! So, What might happen to the main character?")
