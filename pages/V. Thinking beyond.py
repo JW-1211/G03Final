@@ -8,7 +8,7 @@ st.set_page_config(page_title="V. Thinking beyond")  # Default centered layout
 st.title("Get creative!")
 
 # Define tabs
-tab1, tab2 = st.tabs(["Get Creative", "The Epic Conclusion"])
+tab1, tab2 = st.tabs(["Creative writing", "The Epic Conclusion"])
 
 # --- TAB 1: Combined Random Word & Grammar Check ---
 with tab1:
