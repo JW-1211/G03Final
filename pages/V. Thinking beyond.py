@@ -36,7 +36,13 @@ with tab1:
 
 # --- TAB 2: Grammar Check ---
 with tab2:
-    sentence = st.subheader("Enter your text to check:", height=150)
+    st.subheader("Grammar Checker")
+    st.markdown(
+        "Enter any English sentence or paragraph below. "
+        "We'll check it for grammar and spelling mistakes using LanguageTool. "
+        "You'll get instant feedback and suggestions for improvement!"
+    )
+    sentence = st.text_area("Enter your text to check:", height=150)
     
     if st.button("Check Grammar"):
         if sentence.strip():
