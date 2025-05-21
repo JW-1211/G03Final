@@ -6,7 +6,7 @@ import requests
 # Set page config to default (centered)
 st.set_page_config(page_title="Get creative!")  # No layout="wide"
 
-st.title("Write your own sentence!")
+st.title("Get creative!")
 
 # Define tabs
 tab1, tab2, tab3 = st.tabs(["Get a Random Word", "Grammar Check", "The Epic Conclusion"])
