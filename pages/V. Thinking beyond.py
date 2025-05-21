@@ -38,11 +38,11 @@ with tab1:
 
     st.header("2. Grammar Checker")
     st.markdown(
-        "Enter any English sentence or paragraph below. "
-        "We'll check it for grammar and spelling mistakes using LanguageTool. "
-        "You'll get instant feedback and suggestions for improvement!"
+        "Write about what you think happened next in the story, after Emma went home. "
+        "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
+        "You'll get instant feedback and suggestions for improving your creative writing!"
     )
-    sentence = st.text_area("Enter your text to check:", height=150)
+    sentence = st.text_area("Enter your story to check for errors:", height=150)
     
     if st.button("Check Grammar"):
         if sentence.strip():
