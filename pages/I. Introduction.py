@@ -4,10 +4,10 @@ from PIL import Image
 st.title("I. Introduction")
 
 # 탭 2개 생성
-tab1, tab2 = st.tabs(["A four-panel summary of the story", "guidelines"])
+tab1, tab2 = st.tabs(["Guess the story", "guidelines"])
 
 with tab1:
-    st.subheader("Story Summary")
+    st.subheader("Guess the story")
 
     col1, col2 = st.columns(2)
 
