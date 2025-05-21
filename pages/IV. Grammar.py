@@ -132,6 +132,8 @@ with tab2:
 
 ######### TAB 3
 
+######### TAB 3
+
 with tab3:
     st.title("Regular Verb Quiz")
 
@@ -158,29 +160,12 @@ with tab3:
         st.session_state.regular_user_input = ""
         st.session_state.regular_check_clicked = False
 
-    # Display the current regular verb and its pronunciation options
+    # Display the current regular verb
     if st.session_state.current_regular_verb:
         base_form = st.session_state.current_regular_verb
         past_form, explanation = regular_verbs_explained[base_form]
 
         st.write(f"Base form: **{base_form}**")
-        st.write(f"Past tense: **{past_form}**")
-        
-        # Pronunciation for base form
-        if st.button(f"🔊 Pronounce '{base_form}'", key=f"pronounce_base_{base_form}"):
-            tts = gTTS(base_form)
-            audio_fp = BytesIO()
-            tts.write_to_fp(audio_fp)
-            audio_fp.seek(0)
-            st.audio(audio_fp, format="audio/mp3")
-
-        # Pronunciation for past tense form
-        if st.button(f"🔊 Pronounce '{past_form}'", key=f"pronounce_past_{base_form}"):
-            tts = gTTS(past_form)
-            audio_fp = BytesIO()
-            tts.write_to_fp(audio_fp)
-            audio_fp.seek(0)
-            st.audio(audio_fp, format="audio/mp3")
 
         # Text input for user's answer
         st.session_state.regular_user_input = st.text_input("Enter the past tense form:", value=st.session_state.regular_user_input, key="regular_input")
@@ -195,6 +180,7 @@ with tab3:
                 st.success(f"✅ Correct! {explanation}")
             else:
                 st.error(f"❌ Incorrect. The correct past tense is: **{past_form}**")
+
 
 ######### TAB 4
 
