@@ -4,9 +4,9 @@ from gtts import gTTS
 from io import BytesIO
 import random
 
-st.write("🌱 Vocabulary learning")
+st.write("Vocabulary learning")
 
-tab1, tab2, tab3, tab4 = st.tabs(["❄️ 1. Lesson: Word list", "❄️ 2. Activity: Listen to the word", "❄️ 3. Spelling practice", "4. TBA"])
+tab1, tab2, tab3, tab4 = st.tabs(["💖 1. Lesson: Word list", "💖 2. Activity: Listen to the word", "💖 3. Spelling practice", "4. TBA"])
 
 ######### TAB 1
 
