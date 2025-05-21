@@ -36,7 +36,7 @@ with tab1:
 
 # --- TAB 2: Grammar Check ---
 with tab2:
-    st.subheader("## Think of what would have happened after Emma went home, and write a follow-up story using the suggested words in past tense!")
+    sentence = st.subheader("Enter your text to check:", height=150)
     
     if st.button("Check Grammar"):
         if sentence.strip():
