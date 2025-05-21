@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title("I. Introduction")
 
-tab1, tab2 = st.tabs(["A four-panel summary of the story", "guidelines"])
+tab1, tab2 = st.tabs(["", "guidelines"])
 
 with tab1:
     st.subheader("Story Summary")
@@ -19,4 +19,4 @@ with tab1:
 
 with tab2:
     st.subheader("guidelines")
-    st.image(image, caption="guidelines", use_container_width=True)
+    st.image(caption="guidelines", use_container_width=True)
