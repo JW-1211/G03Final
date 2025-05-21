@@ -21,4 +21,4 @@ with tab1:
 
 with tab2:
     st.subheader("guidelines")
-    st.write("This tab does not contain an image.")
+    st.write("Let’s guess what the story is about by looking at the first two pictures!.")
