@@ -3,11 +3,12 @@ from PIL import Image
 
 st.title("I. Introduction")
 
-tab1, tab2 = st.tabs(["A four-panel summary of the story", "Word Cloud"])
+# 탭 2개 생성
+tab1, tab2 = st.tabs(["A four-panel summary of the story", "Word cloud"])
 
 with tab1:
     st.subheader("Story Summary")
-    
+
     col1, col2 = st.columns(2)
 
     with col1:
@@ -19,5 +20,5 @@ with tab1:
         st.image(image2, caption="Word cloud", use_container_width=True)
 
 with tab2:
-    st.subheader("Guidelines")
-    st.image(image3, caption="Guidelines", use_container_width=True)
+    st.subheader("guidelines")
+    st.write("This tab does not contain an image.")
