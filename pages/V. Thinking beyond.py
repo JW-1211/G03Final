@@ -83,7 +83,7 @@ with tab1:
 # --- TAB 2: The Epic Conclusion ---
 with tab2:
     st.header("📊 App Conclusion & Summary")
-    st.subheader("Key Takeaways from Your Analysis")
+    st.subheader("Key Takeaways")
 
     st.markdown("""
     **This application:**
