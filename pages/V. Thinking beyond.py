@@ -86,15 +86,11 @@ with tab2:
     st.subheader("Key Takeaways from Your Analysis")
 
     st.markdown("""
-    **Summary of Results:**
-    - Your main findings or model outcomes go here.
-    - Highlight important insights, trends, or recommendations.
-    - Note any limitations or next steps.
+    **This application:**
+    - Allows a easy understanding of paragraphs by utilizing word cloud and illustrations.
+    - Provides a thorough analysis of vocabulary and grammar.
+    - Helps to take a step beyond simple memorization, and practice application through creative writing.
 
-    **Example:**
-    - The model achieved an accuracy of **92.5%**.
-    - Feature X was the most influential.
-    - Further data collection is recommended for Segment C.
     """)
     st.success("Congratulations! Your project objectives have been met.")
 
