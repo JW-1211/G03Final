@@ -100,6 +100,6 @@ with tab3:
     )
 
     st.divider()
-    )
+
 
     st.info("For more details or to discuss results, contact the project team.")
