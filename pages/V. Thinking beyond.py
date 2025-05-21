@@ -10,7 +10,6 @@ tab1, tab2, tab3 = st.tabs(["Get a Random Word", "Grammar Check", "The Epic Conc
 
 # --- TAB 1: Random Word ---
 with tab1:
-    # Correct CSV URL with proper raw GitHub link
     CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
     
     @st.cache_data
@@ -25,7 +24,7 @@ with tab1:
     df = load_words(CSV_URL)
     
     if df is not None:
-        if "Word" not in df.columns:  # Note the capital "W"
+        if "Word" not in df.columns:
             st.error("CSV must have a column named 'Word'.")
         else:
             if st.button("Suggest a Random Word"):
@@ -43,7 +42,7 @@ with tab2:
             
             try:
                 response = requests.post(url, data=data)
-                response.raise_for_status()  # Check for HTTP errors
+                response.raise_for_status()
                 result = response.json()
                 
                 matches = result.get('matches', [])
@@ -72,53 +71,44 @@ with tab2:
         else:
             st.warning("Please enter some text.")
 
-with tab2:
-import streamlit as st
+# --- TAB 3: The Epic Conclusion ---
+with tab3:
+    st.set_page_config(page_title="App Conclusion", layout="wide")
+    st.header("📊 App Conclusion & Summary")
+    st.subheader("Key Takeaways from Your Analysis")
 
-# Set page config for a wide layout
-st.set_page_config(page_title="App Conclusion", layout="wide")
+    col1, col2 = st.columns([2, 1])
 
-# Main header
-st.header("📊 App Conclusion & Summary")
+    with col1:
+        st.markdown("""
+        **Summary of Results:**
+        - Your main findings or model outcomes go here.
+        - Highlight important insights, trends, or recommendations.
+        - Note any limitations or next steps.
 
-# Subheader or intro text
-st.subheader("Key Takeaways from Your Analysis")
+        **Example:**
+        - The model achieved an accuracy of **92.5%**.
+        - Feature X was the most influential.
+        - Further data collection is recommended for Segment C.
+        """)
+        st.success("Congratulations! Your project objectives have been met.")
 
-# Use columns for a clean, organized summary
-col1, col2 = st.columns([2, 1])
+    with col2:
+        st.metric(label="Final Accuracy", value="92.5%", delta="+3.4%")
+        st.metric(label="Precision", value="90.1%")
+        st.metric(label="Recall", value="89.7%")
+        st.image(
+            "https://static.streamlit.io/examples/owl.jpg",
+            caption="Model Overview",
+            use_column_width=True
+        )
 
-with col1:
-    st.markdown("""
-    **Summary of Results:**
-    - Your main findings or model outcomes go here.
-    - Highlight important insights, trends, or recommendations.
-    - Note any limitations or next steps.
+    st.divider()
 
-    **Example:**
-    - The model achieved an accuracy of **92.5%**.
-    - Feature X was the most influential.
-    - Further data collection is recommended for Segment C.
-    """)
-    st.success("Congratulations! Your project objectives have been met.")
-
-with col2:
-    st.metric(label="Final Accuracy", value="92.5%", delta="+3.4%")
-    st.metric(label="Precision", value="90.1%")
-    st.metric(label="Recall", value="89.7%")
-    st.image(
-        "https://static.streamlit.io/examples/owl.jpg",
-        caption="Model Overview",
-        use_column_width=True
+    st.download_button(
+        label="Download Full Report",
+        data="Your full report content here...",
+        file_name="report.txt"
     )
 
-st.divider()
-
-# Optional: Download button for full report or results
-st.download_button(
-    label="Download Full Report",
-    data="Your full report content here...",
-    file_name="report.txt"
-)
-
-# Optional: Info box for next steps or contact
-st.info("For more details or to discuss results, contact the project team.")
+    st.info("For more details or to discuss results, contact the project team.")
