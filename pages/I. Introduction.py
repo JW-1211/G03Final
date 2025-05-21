@@ -24,6 +24,8 @@ with tab2:
     st.subheader("Guidelines")
     st.write("""
 Let’s try to guess the overall flow of the story based on the four-panel comic.
+
 Let’s try to predict the key words that appear in the story using the word cloud.
+
 So, what might happen to the main character?
 """)
