@@ -8,6 +8,7 @@ tab1, tab2 = st.tabs(["Guess the story", "guidelines"])
 
 with tab1:
     st.subheader("Guess the story")
+    st.write("Let's guess the story!")
 
     col1, col2 = st.columns(2)
 
