@@ -99,8 +99,8 @@ with tab2:
     st.success("Congratulations! Your project objectives have been met.")
 
     st.image(
-        "https://static.streamlit.io/examples/owl.jpg",
-        caption="Model Overview",
+        "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/diagram%20goes%20here.png",
+        caption="The big picture!",
         use_container_width=True
     )
 
