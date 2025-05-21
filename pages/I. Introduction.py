@@ -18,5 +18,5 @@ with tab1:
         st.image(image2, caption="Word cloud", use_container_width=True)
 
 with tab2:
-    st.subheader("word cloud")
-    st.image(image, caption="", use_container_width=True)
+    st.subheader("guidelines")
+    st.image(image, caption="guidelines", use_container_width=True)
