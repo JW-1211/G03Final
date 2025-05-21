@@ -6,7 +6,7 @@ import random
 import requests
 
 # --- CONFIGURATION ---
-API_NINJAS_KEY = "YOUR_API_KEY"  # <-- Replace with your API Ninjas key
+API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # <-- Replace with your API Ninjas key
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
 
