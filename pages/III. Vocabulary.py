@@ -7,6 +7,8 @@ import requests
 
 # --- CONFIGURATION ---
 API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # <-- Replace with your API Ninjas key
+
+
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/streamlit25/main/word_frequency2.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
 
@@ -19,7 +21,10 @@ def load_word_list():
 
 def get_word_relations(word):
     try:
-        response = requests.get(f"{API_URL}?word={word}", headers={'X-Api-Key': API_NINJAS_KEY})
+        response = requests.get(
+            f"{API_URL}?word={word}",
+            headers={'X-Api-Key': API_NINJAS_KEY}
+        )
         response.raise_for_status()
         data = response.json()
         return {
@@ -110,14 +115,12 @@ with tab4:
         relations = get_word_relations(selected_word)
         synonyms = relations['synonyms']
         antonyms = relations['antonyms']
-
         st.markdown("---")
         st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
         if synonyms:
             st.write(", ".join(synonyms))
         else:
             st.write("No synonyms found.")
-
         st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
         if antonyms:
             st.write(", ".join(antonyms))
@@ -166,7 +169,7 @@ with tab5:
             if st.button("Next Word", key="next_synonym"):
                 st.session_state['quiz_synonym'] = generate_synonym_quiz()
                 st.session_state['answered_synonym'] = False
-                st.experimental_rerun()
+                st.rerun()  # Use st.rerun() instead of st.experimental_rerun()
 
 # TAB 6: Antonym Quiz
 with tab6:
@@ -210,4 +213,4 @@ with tab6:
             if st.button("Next Word", key="next_antonym"):
                 st.session_state['quiz_antonym'] = generate_antonym_quiz()
                 st.session_state['answered_antonym'] = False
-                st.experimental_rerun()
+                st.rerun()  # Use st.rerun() instead of st.experimental_rerun()
