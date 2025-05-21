@@ -4,7 +4,7 @@ import random
 import requests
 
 # Set page config to default (centered)
-st.set_page_config(page_title="Get creative!")  # No layout="wide"
+st.set_page_config(page_title="V. Thinking beyond")  # No layout="wide"
 
 st.title("Get creative!")
 
