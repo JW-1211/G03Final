@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title("I. Introduction")
 
-tab1, tab2 = st.tabs(["A four-panel summary of the story", "word cloud"])
+tab1, tab2 = st.tabs(["A four-panel summary of the story", "guidelines"])
 
 with tab1:
     st.subheader("Story Summary")
