@@ -4,7 +4,7 @@ import random
 import requests
 
 # Set page config to default (centered)
-st.set_page_config(page_title="Write your own sentence!")  # No layout="wide"
+st.set_page_config(page_title="Get creative!")  # No layout="wide"
 
 st.title("Write your own sentence!")
 
