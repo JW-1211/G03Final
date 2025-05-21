@@ -21,4 +21,4 @@ with tab1:
 
 with tab2:
     st.subheader("guidelines")
-    st.write("Let’s guess what the story is about by looking at the first two pictures!.")
+    st.write("Let’s guess what the story is about by looking at the two pictures! What might happen to the main character?)
