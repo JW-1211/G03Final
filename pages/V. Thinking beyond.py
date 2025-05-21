@@ -3,16 +3,16 @@ import pandas as pd
 import random
 import requests
 
-# Set page config to default (centered)
-st.set_page_config(page_title="V. Thinking beyond")  # No layout="wide"
+st.set_page_config(page_title="V. Thinking beyond")  # Default centered layout
 
 st.title("Get creative!")
 
 # Define tabs
-tab1, tab2, tab3 = st.tabs(["Get a Random Word", "Grammar Check", "The Epic Conclusion"])
+tab1, tab2 = st.tabs(["Get Creative", "The Epic Conclusion"])
 
-# --- TAB 1: Random Word ---
+# --- TAB 1: Combined Random Word & Grammar Check ---
 with tab1:
+    st.header("1. Get a Random Word")
     CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
     
     @st.cache_data
@@ -34,9 +34,9 @@ with tab1:
                 word = random.choice(df["Word"].dropna().tolist())
                 st.success(f"Your random word is: **{word}**")
 
-# --- TAB 2: Grammar Check ---
-with tab2:
-    st.subheader("Grammar Checker")
+    st.divider()
+
+    st.header("2. Grammar Checker")
     st.markdown(
         "Enter any English sentence or paragraph below. "
         "We'll check it for grammar and spelling mistakes using LanguageTool. "
@@ -80,12 +80,11 @@ with tab2:
         else:
             st.warning("Please enter some text.")
 
-# --- TAB 3: The Epic Conclusion ---
-with tab3:
+# --- TAB 2: The Epic Conclusion ---
+with tab2:
     st.header("📊 App Conclusion & Summary")
     st.subheader("Key Takeaways from Your Analysis")
 
-    # Use a single column for a more centered, less wide look
     st.markdown("""
     **Summary of Results:**
     - Your main findings or model outcomes go here.
@@ -106,6 +105,5 @@ with tab3:
     )
 
     st.divider()
-
 
     st.info("For more details or to discuss results, contact the project team.")
