@@ -97,3 +97,70 @@ with tab3:
             st.success("✅ Correct!")
         else:
             st.error("❌ Try again.")
+
+# TAB 4: Word relationships
+with tab4:
+    st.markdown("### 🔄 Synonyms and Antonyms")
+    st.caption("Enrich your vocabulary by learning how a single word can be expressed in different ways!")
+    selected_word = st.selectbox("Choose a word to explore:", word_list, key="relationships")
+    if selected_word:
+        relations = get_word_relations(selected_word)
+        synonyms = relations['synonyms']
+        antonyms = relations['antonyms']
+
+        st.markdown("---")
+        st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
+        if synonyms:
+            st.write(", ".join(synonyms))
+        else:
+            st.write("No synonyms found.")
+
+        st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
+        if antonyms:
+            st.write(", ".join(antonyms))
+        else:
+            st.write("No antonyms found.")
+
+# TAB 5: Synonym Quiz
+with tab5:
+    st.title("🟢 Synonym Quiz")
+
+    def generate_synonym_quiz():
+        for word in word_list:
+            relations = get_word_relations(word)
+            if len(relations['synonyms']) >= 1 and len(relations['antonyms']) >= 3:
+                correct = random.choice(relations['synonyms'])
+                distractors = random.sample(relations['antonyms'], 3)
+                options = [correct] + distractors
+                random.shuffle(options)
+                return {
+                    'word': word,
+                    'question': f"Which of the following is a synonym of '{word}'?",
+                    'options': options,
+                    'correct': correct
+                }
+        st.error("Could not generate a synonym quiz. Try again later.")
+        return None
+
+    if 'quiz_synonym' not in st.session_state or st.session_state['quiz_synonym'] is None:
+        st.session_state['quiz_synonym'] = generate_synonym_quiz()
+        st.session_state['score_synonym'] = 0
+        st.session_state['answered_synonym'] = False
+
+    quiz = st.session_state['quiz_synonym']
+    if quiz:
+        st.markdown(f"### {quiz['question']}")
+        selected = st.radio("Options:", quiz['options'], key="options_synonym")
+        if st.button("Check Answer", key="check_synonym"):
+            st.session_state['answered_synonym'] = True
+            if selected == quiz['correct']:
+                st.success("✅ Correct! Well done!")
+                st.session_state['score_synonym'] += 1
+            else:
+                st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
+            st.markdown(f"**Score:** {st.session_state['score_synonym']}")
+        if st.session_state['answered_synonym']:
+            if st.button("Next Word", key="next_synonym"):
+                st.session_state['quiz_synonym'] = generate_synonym_quiz()
+                st.session_state['answered_synonym'] = False
+                st.experimental_rerun()
