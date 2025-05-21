@@ -8,7 +8,6 @@ import requests
 # --- CONFIGURATION ---
 API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # <-- Replace with your API Ninjas key
 
-
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
 
@@ -49,12 +48,27 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "💖 6. Antonym Quiz"
 ])
 
+# --- DEBUG: Show column names and sample data ---
+with st.expander("🔍 Debug: Show CSV columns and sample data"):
+    st.write("CSV columns:", df.columns.tolist())
+    st.write(df.head(3))
+
 # TAB 1: Word list
 with tab1:
     st.markdown("### 📋 Word Frequency Table")
     if st.button("Show Word List"):
-        st.dataframe(df, use_container_width=True)
-
+        # Check if 'Definition' column exists
+        if 'Definition' in df.columns:
+            st.dataframe(
+                df[['Word', 'Definition', 'Frequency']] if 'Frequency' in df.columns else df[['Word', 'Definition']],
+                use_container_width=True,
+                column_config={
+                    'Word': 'Vocabulary Term',
+                    'Definition': st.column_config.TextColumn('Meaning')
+                }
+            )
+        else:
+            st.warning("The 'Definition' column was not found in your CSV file. Please check the column name.")
 # TAB 2: Listen to the word
 with tab2:
     st.title("🔊 Word Pronunciation Practice")
