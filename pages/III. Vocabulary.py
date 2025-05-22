@@ -48,11 +48,6 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "💖 6. Antonym Quiz"
 ])
 
-# --- DEBUG: Show column names and sample data ---
-with st.expander("🔍 Debug: Show CSV columns and sample data"):
-    st.write("CSV columns:", df.columns.tolist())
-    st.write(df.head(3))
-
 # TAB 1: Word list
 with tab1:
     st.markdown("### 📋 Word Frequency Table")
