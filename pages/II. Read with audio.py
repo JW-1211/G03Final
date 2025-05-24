@@ -1,6 +1,7 @@
 import streamlit as st
 from gtts import gTTS
 import io
+import re
 
 text = """
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
@@ -10,8 +11,7 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 """
 
-sentences = text.split('. ')
-sentences = [s.strip() + ('' if s.endswith('.') else '.') for s in sentences]
+sentences = re.split(r'(?<=[.!?])\s+', text.strip())
 
 st.title("II. Read with audio")
 tab1, tab2 = st.tabs(["Story", "Read with audio"])
