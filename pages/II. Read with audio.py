@@ -1,10 +1,6 @@
 import streamlit as st
 from gtts import gTTS
 import io
-import nltk
-
-nltk.download('punkt', quiet=True)
-from nltk.tokenize import sent_tokenize
 
 text = """
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
@@ -14,7 +10,8 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 """
 
-sentences = sent_tokenize(text)
+sentences = text.split('. ')
+sentences = [s.strip() + ('' if s.endswith('.') else '.') for s in sentences]
 
 st.title("II. Read with audio")
 tab1, tab2 = st.tabs(["Story", "Read with audio"])
@@ -25,12 +22,12 @@ with tab1:
 
 with tab2:
     st.header("Select a sentence to hear")
-    
+
     selected_sentence = st.selectbox("Choose a sentence:", sentences)
-    
+
     if st.button("Play Audio"):
         st.write(f"**Selected sentence:** {selected_sentence}")
-        
+
         tts = gTTS(text=selected_sentence, lang='en')
         audio_bytes = io.BytesIO()
         tts.write_to_fp(audio_bytes)
