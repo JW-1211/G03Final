@@ -87,8 +87,8 @@ with tab2:
 
     st.markdown("""
     - 1. As you share your story, explain your reasoning behind it! Describe why you think this happened.
-    - 2. What are some notable events in your story? Make sure to put emphasis when you get to the important parts.
-    - 3.
+    - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important parts.
+    - 3. Last but not least - 
 
     """)
     st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
