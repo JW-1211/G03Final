@@ -85,7 +85,7 @@ with tab1:
 
     # --- 3. Final Draft Section with TTS ---
     st.header("3. Final Draft")
-    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you want during this session!")
+    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you don't refresh the page! When you're done editing, use the button on the bottom right to generate audio, so that you can practice your pronunciation before sharing it with the class.")
 
     if "final_draft" not in st.session_state:
         st.session_state["final_draft"] = ""
@@ -120,7 +120,7 @@ with tab1:
                 st.warning("Please write something first!")
 
     if st.session_state["final_draft"]:
-        st.subheader("Your Saved Final Draft:")
+        st.subheader("Your saved draft:")
         st.info(st.session_state["final_draft"])
 
 # --- TAB 2: The Epic Conclusion ---
