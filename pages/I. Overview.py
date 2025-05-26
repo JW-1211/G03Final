@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title("I. Overview")
 
-tab1, tab2, tab3 = st.tabs(["🧭 Guidelines", "🧩 Guess the story", "🗣️ TTS"])
+tab1, tab2, tab3 = st.tabs(["🧭 Guidelines", "🧩 Guess the story", "🗣️ Share ideas"])
 
 with tab1:
     st.subheader("Guidelines")
