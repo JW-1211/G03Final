@@ -95,6 +95,6 @@ with tab2:
 
     st.image(
         "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/story03.png",
-        caption="The big picture!",
+        caption="Thank you for participating! :D",
         use_container_width=True
     )
