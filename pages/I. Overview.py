@@ -32,3 +32,16 @@ with tab2:
     with col2:
         image2 = Image.open("images/IMG_1605.jpeg")
         st.image(image2, caption="Word cloud", use_container_width=True)
+
+ with tab3:
+    st.subheader("Share your idea")
+    text_input = st.text_area("Enter text to convert to speech:")
+    
+    if st.button("Generate Speech"):
+        if text_input.strip() != "":
+            tts = gTTS(text_input)
+            tts.save("tts_output.mp3")
+            audio_file = open("tts_output.mp3", "rb")
+            st.audio(audio_file.read(), format="audio/mp3")
+        else:
+            st.warning("Please enter some text.")
