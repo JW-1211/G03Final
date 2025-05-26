@@ -17,6 +17,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 ######### TAB 1
 
 with tab1:
+    with tab1:
     st.markdown("## 📋 Understanding Past Tense")
     st.write("Let's Learn About the Past Tense!")
 
@@ -44,7 +45,20 @@ with tab1:
 
     irregular_verbs_df = pd.DataFrame(irregular_verbs_data)
     st.table(irregular_verbs_df)
+    
+    # Add the new section for stories with past tense forms
+    st.header("Stories with Past Tense Forms")
+    st.write("Here is a table of verbs used in stories with their past and past participle forms:")
 
+    # Combine regular and irregular verbs into one table
+    combined_verb_data = {
+        "Base Form": ["Discover", "End", "Realize", "Inspire", "Start", "Find", "Become", "Be"],
+        "Simple Past": ["Discovered", "Ended", "Realized", "Inspired", "Started", "Found", "Became", "Was/Were"],
+        "Past Participle": ["Discovered", "Ended", "Realized", "Inspired", "Started", "Found", "Become", "Been"]
+    }
+
+    combined_verbs_df = pd.DataFrame(combined_verb_data)
+    st.table(combined_verbs_df)
 ######### TAB 2
 
 with tab2:
