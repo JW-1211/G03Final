@@ -94,7 +94,7 @@ with tab2:
     st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
 
     st.image(
-        "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/diagram%20goes%20here.png",
+        "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/story03.png",
         caption="The big picture!",
         use_container_width=True
     )
