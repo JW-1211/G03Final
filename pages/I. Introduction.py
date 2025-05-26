@@ -3,8 +3,7 @@ from PIL import Image
 
 st.title("I. Introduction")
 
-# 탭 2개 생성
-tab1, tab2 = st.tabs(["Guess the story", "Guidelines"])
+tab1, tab2 = st.tabs(["💫Guess the story", "💫Guidelines"])
 
 with tab1:
     st.subheader("Guess the story")
