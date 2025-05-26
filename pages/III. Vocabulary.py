@@ -1,22 +1,14 @@
 import streamlit as st
-st.set_page_config(
-    page_title="Vocabulary Learning",
-    page_icon="🌱",
-    layout="centered"
-)
-
 import pandas as pd
 from gtts import gTTS
 from io import BytesIO
 import random
 import requests
 
-# --- CONFIGURATION ---
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
 API_URL = "https://api.api-ninjas.com/v1/thesaurus"
 API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # <-- Place your API key here
 
-# --- CACHING ---
 @st.cache_data(show_spinner=False)
 def load_word_list():
     df = pd.read_csv(CSV_URL)
@@ -40,23 +32,9 @@ def get_word_relations(word):
     except Exception:
         return {'synonyms': [], 'antonyms': []}
 
-# --- DATA ---
 df = load_word_list()
 word_list = df["Word"].dropna().tolist()
-word_examples = {
-    "abundant": "The region is abundant in natural resources.",
-    "beneficial": "Regular exercise is beneficial to your health.",
-    "consequence": "He was prepared to accept the consequences of his decision.",
-    "diminish": "The pain will gradually diminish.",
-    "emerge": "She emerged from the room with a smile.",
-    "fluctuate": "Oil prices have fluctuated wildly in recent weeks.",
-    "gratitude": "She expressed her gratitude to the committee for their support.",
-    "harsh": "The weather was too harsh for camping.",
-    "inevitable": "It was inevitable that there would be job losses.",
-    "justify": "How can you justify the expense?",
-}
 
-# --- UI ---
 st.write("🌱 Vocabulary learning")
 tabs = st.tabs([f"💖 {i+1}. {title}" for i, title in enumerate([
     "Lesson: Word list", "Connect the word to the passage", 
@@ -76,12 +54,28 @@ with tabs[0]:
         else:
             st.warning("Missing 'Definition' column in CSV file")
 
-# --- TAB 2: Connect word to passage ---
+# --- TAB 2: Connect the word to the passage ---
+word_examples = {
+    "compass" : "Emma found an old **compass** in her attic one rainy afternoon.",
+    "journey" : "The **journey** ended at the gallery, where the compass stopped moving.",
+    "desire" : "Emma realized her **desire** to become an artist.",
+    "attic" : "Emma found an old compass in her **attic** one rainy afternoon.",
+    "magnetic" : "It pointed to the one's greatest desire rather than **magnetic** north.",
+    "curiosity" : "Emma, driven by **curiosity**, followed the compass's lead.",
+    "deserted" : "The compass led her to various places: a lonely old bookstore, a **deserted** park, and finally, a small, forgotten art gallery.",
+    "discover" : "At each stop, she **discovered** pieces of her own hidden passions.",
+    "passion" : "At each stop, she discovered pieces of her own hidden **passions**.",
+    "literature" : "At each stop, she discovered pieces of her own hidden passions: **literature**, nature, and art.",
+    "inspire" : "**Inspired**, Emma went home to start her first painting.",
+    "treasured" : "The compass now her most **treasured** possession.",
+    "possession" : "the compass now her most treasured **possession**."
+}  # <-- Fixed: missing closing bracket
+
 with tabs[1]:
     st.title("📚 Word to the Passage")
-    selected_word = st.selectbox("Choose a word", [""] + list(word_examples.keys()), key="passage_word")
+    selected_word = st.selectbox("Choose a word", [""] + list(word_examples.keys()))
     if selected_word:
-        st.markdown(f"**Passage:** {word_examples[selected_word]}")
+        st.markdown(f"**passage** {word_examples[selected_word]}")  # <-- Fixed: missing parenthesis
 
 # --- TAB 3: Pronunciation ---
 with tabs[2]:
@@ -140,70 +134,86 @@ with tabs[4]:
             st.write(", ".join(relations['antonyms']) or "No antonyms found")
 
 # --- QUIZ HELPERS ---
-def generate_quiz(quiz_type):
-    eligible = []
-    target_key = 'synonyms' if quiz_type == 'synonym' else 'antonyms'
-    distractor_key = 'antonyms' if quiz_type == 'synonym' else 'synonyms'
+def generate_synonym_quiz():
     for word in word_list:
         relations = get_word_relations(word)
-        if len(relations[target_key]) >= 1 and len(relations[distractor_key]) >= 3:
-            eligible.append((word, relations))
-    if eligible:
-        word, relations = random.choice(eligible)
-        correct = random.choice(relations[target_key])
-        distractors = random.sample(relations[distractor_key], 3)
-        return {
-            'word': word,
-            'question': f"Which of the following is a {quiz_type} of '{word}'?",
-            'options': random.sample([correct] + distractors, 4),
-            'correct': correct
-        }
+        if len(relations['synonyms']) >= 1 and len(relations['antonyms']) >= 3:
+            correct = random.choice(relations['synonyms'])
+            distractors = random.sample(relations['antonyms'], 3)
+            options = [correct] + distractors
+            random.shuffle(options)
+            return {
+                'word': word,
+                'question': f"Which of the following is a synonym of '{word}'?",
+                'options': options,
+                'correct': correct
+            }
+    st.error("Could not generate a synonym quiz. Try again later.")
+    return None
+
+def generate_antonym_quiz():
+    for word in word_list:
+        relations = get_word_relations(word)
+        if len(relations['antonyms']) >= 1 and len(relations['synonyms']) >= 3:
+            correct = random.choice(relations['antonyms'])
+            distractors = random.sample(relations['synonyms'], 3)
+            options = [correct] + distractors
+            random.shuffle(options)
+            return {
+                'word': word,
+                'question': f"Which of the following is an antonym of '{word}'?",
+                'options': options,
+                'correct': correct
+            }
+    st.error("Could not generate an antonym quiz. Try again later.")
     return None
 
 # --- TAB 6: Synonym Quiz ---
 with tabs[5]:
     st.title("🟢 Synonym Quiz")
-    if 'synonym_quiz' not in st.session_state:
-        st.session_state.synonym_quiz = {'quiz': None, 'score': 0, 'answered': False}
-    if st.session_state.synonym_quiz['quiz'] is None:
-        st.session_state.synonym_quiz['quiz'] = generate_quiz('synonym')
-    quiz = st.session_state.synonym_quiz['quiz']
+    if 'quiz_synonym' not in st.session_state or st.session_state['quiz_synonym'] is None:
+        st.session_state['quiz_synonym'] = generate_synonym_quiz()
+        st.session_state['score_synonym'] = 0
+        st.session_state['answered_synonym'] = False
+
+    quiz = st.session_state['quiz_synonym']  # <-- Fixed: define quiz
     if quiz:
         st.markdown(f"### {quiz['question']}")
         selected = st.radio("Options:", quiz['options'], key="options_synonym")
         if st.button("Check Answer", key="check_synonym"):
-            st.session_state.synonym_quiz['answered'] = True
+            st.session_state['answered_synonym'] = True
             if selected == quiz['correct']:
                 st.success("✅ Correct! Well done!")
-                st.session_state.synonym_quiz['score'] += 1
+                st.session_state['score_synonym'] += 1
             else:
                 st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
-            st.markdown(f"**Score:** {st.session_state.synonym_quiz['score']}")
-        if st.session_state.synonym_quiz['answered'] and st.button("Next Word"):
-            st.session_state.synonym_quiz['quiz'] = generate_quiz('synonym')
-            st.session_state.synonym_quiz['answered'] = False
+            st.markdown(f"**Score:** {st.session_state['score_synonym']}")
+        if st.session_state['answered_synonym'] and st.button("Next Word"):
+            st.session_state['quiz_synonym'] = generate_synonym_quiz()
+            st.session_state['answered_synonym'] = False
             st.rerun()
 
 # --- TAB 7: Antonym Quiz ---
 with tabs[6]:
     st.title("🔴 Antonym Quiz")
-    if 'antonym_quiz' not in st.session_state:
-        st.session_state.antonym_quiz = {'quiz': None, 'score': 0, 'answered': False}
-    if st.session_state.antonym_quiz['quiz'] is None:
-        st.session_state.antonym_quiz['quiz'] = generate_quiz('antonym')
-    quiz = st.session_state.antonym_quiz['quiz']
+    if 'quiz_antonym' not in st.session_state or st.session_state['quiz_antonym'] is None:
+        st.session_state['quiz_antonym'] = generate_antonym_quiz()
+        st.session_state['score_antonym'] = 0
+        st.session_state['answered_antonym'] = False
+
+    quiz = st.session_state['quiz_antonym']
     if quiz:
         st.markdown(f"### {quiz['question']}")
         selected = st.radio("Options:", quiz['options'], key="options_antonym")
         if st.button("Check Answer", key="check_antonym"):
-            st.session_state.antonym_quiz['answered'] = True
+            st.session_state['answered_antonym'] = True
             if selected == quiz['correct']:
                 st.success("✅ Correct! Well done!")
-                st.session_state.antonym_quiz['score'] += 1
+                st.session_state['score_antonym'] += 1
             else:
                 st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
-            st.markdown(f"**Score:** {st.session_state.antonym_quiz['score']}")
-        if st.session_state.antonym_quiz['answered'] and st.button("Next Word"):
-            st.session_state.antonym_quiz['quiz'] = generate_quiz('antonym')
-            st.session_state.antonym_quiz['answered'] = False
+            st.markdown(f"**Score:** {st.session_state['score_antonym']}")
+        if st.session_state['answered_antonym'] and st.button("Next Word"):
+            st.session_state['quiz_antonym'] = generate_antonym_quiz()
+            st.session_state['answered_antonym'] = False
             st.rerun()
