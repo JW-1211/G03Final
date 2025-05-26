@@ -54,7 +54,6 @@ word_examples = {
     "harsh": "The weather was too harsh for camping.",
     "inevitable": "It was inevitable that there would be job losses.",
     "justify": "How can you justify the expense?",
-    # ...add more as needed
 }
 
 # --- UI ---
