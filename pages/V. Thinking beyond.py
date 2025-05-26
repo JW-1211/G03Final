@@ -2,13 +2,15 @@ import streamlit as st
 import pandas as pd
 import random
 import requests
+from gtts import gTTS
+from io import BytesIO
 
 st.set_page_config(page_title="V. Thinking beyond")  # Default centered layout
 
 st.title("Get creative!")
 
 # Define tabs
-tab1, tab2 = st.tabs(["1. Creative writing", "2. Follow-up activities"])
+tab1, tab2 = st.tabs(["Creative writing", "Follow-up activities"])
 
 # --- TAB 1: Combined Random Word & Grammar Check ---
 with tab1:
@@ -81,23 +83,41 @@ with tab1:
 
     st.divider()
 
-    # --- 3. Final Draft Section ---
+    # --- 3. Final Draft Section with TTS ---
     st.header("3. Final Draft")
-    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you want, as long as you don't refresh the page!")
+    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you want during this session!")
 
     if "final_draft" not in st.session_state:
         st.session_state["final_draft"] = ""
 
     final_draft = st.text_area(
-        "Your final draft:",
+        "Your Final Draft",
         value=st.session_state["final_draft"],
         height=200,
         key="final_draft_area"
     )
 
-    if st.button("Save Final Draft"):
-        st.session_state["final_draft"] = final_draft
-        st.success("Your draft has been saved for this session!")
+    # Two buttons side-by-side
+    col1, col2 = st.columns([1, 2])
+    
+    with col1:
+        if st.button("Save Final Draft"):
+            st.session_state["final_draft"] = final_draft
+            st.success("Draft saved for this session!")
+    
+    with col2:
+        if st.button("🎧 Generate TTS Audio"):
+            if final_draft.strip():
+                try:
+                    tts = gTTS(final_draft)
+                    audio_bytes = BytesIO()
+                    tts.write_to_fp(audio_bytes)
+                    audio_bytes.seek(0)
+                    st.audio(audio_bytes, format="audio/mp3")
+                except Exception as e:
+                    st.error(f"Error generating audio: {str(e)}")
+            else:
+                st.warning("Please write something first!")
 
     if st.session_state["final_draft"]:
         st.subheader("Your Saved Final Draft:")
