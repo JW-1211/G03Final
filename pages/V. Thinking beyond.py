@@ -14,7 +14,7 @@ tab1, tab2 = st.tabs(["✨1. Creative writing", "✨2. Follow-up activities"])
 
 # --- TAB 1: Combined Random Word & Grammar Check ---
 with tab1:
-    st.header("1. Get a Random Word")
+    st.header("1. Get a Random Word from the Story")
     CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocab_past.csv"
     
     @st.cache_data
