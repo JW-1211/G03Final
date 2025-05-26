@@ -15,7 +15,7 @@ with tab1:
 
 2.  Let’s try to predict the key words that appear in the story using the **word cloud**.
 
-3. What do you think will happen to the main character? Talk in your group!
+3. What do you think will happen to the main character? **Talk in your group!**
 
 """)
 
