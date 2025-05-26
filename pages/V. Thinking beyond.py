@@ -83,7 +83,7 @@ with tab1:
 
     st.divider()
 
-    # --- 3. Final Draft Section with Side-by-Side Buttons ---
+    # --- 3. Final Draft Section with TTS ---
     st.header("3. Final Draft")
     st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you want during this session!")
 
@@ -97,29 +97,27 @@ with tab1:
         key="final_draft_area"
     )
 
-    # Place Save and TTS buttons side by side
-    col1, col2 = st.columns([1, 1])
+    # Two buttons side-by-side
+    col1, col2 = st.columns([1, 2])
+    
     with col1:
-        save_clicked = st.button("Save Final Draft")
+        if st.button("Save Final Draft"):
+            st.session_state["final_draft"] = final_draft
+            st.success("Draft saved for this session!")
+    
     with col2:
-        tts_clicked = st.button("🎧 Generate TTS Audio")
-
-    if save_clicked:
-        st.session_state["final_draft"] = final_draft
-        st.success("Draft saved for this session!")
-
-    if tts_clicked:
-        if final_draft.strip():
-            try:
-                tts = gTTS(final_draft)
-                audio_bytes = BytesIO()
-                tts.write_to_fp(audio_bytes)
-                audio_bytes.seek(0)
-                st.audio(audio_bytes, format="audio/mp3")
-            except Exception as e:
-                st.error(f"Error generating audio: {str(e)}")
-        else:
-            st.warning("Please write something first!")
+        if st.button("🎧 Generate TTS Audio"):
+            if final_draft.strip():
+                try:
+                    tts = gTTS(final_draft)
+                    audio_bytes = BytesIO()
+                    tts.write_to_fp(audio_bytes)
+                    audio_bytes.seek(0)
+                    st.audio(audio_bytes, format="audio/mp3")
+                except Exception as e:
+                    st.error(f"Error generating audio: {str(e)}")
+            else:
+                st.warning("Please write something first!")
 
     if st.session_state["final_draft"]:
         st.subheader("Your Saved Final Draft:")
