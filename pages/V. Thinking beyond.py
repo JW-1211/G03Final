@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 import requests
+from datetime import datetime
 
 st.set_page_config(page_title="V. Thinking beyond")  # Default centered layout
 
@@ -73,28 +74,3 @@ with tab1:
                             f"**Issue {i}:** {match.get('message', 'Unknown error')}\n\n"
                             f"- **Error:** `{error_part}`\n"
                             f"- **Suggestion:** `{suggestion}`\n"
-                            f"- **Rule:** {match.get('rule', {}).get('description', 'Unknown rule')}\n"
-                        )
-            except Exception as e:
-                st.error(f"API Error: {str(e)}")
-        else:
-            st.warning("Please enter some text.")
-
-# --- TAB 2: The Epic Conclusion ---
-with tab2:
-    st.header("📊 Share your writing with your classmates!")
-    st.subheader("Things to keep in mind during the presentation:")
-
-    st.markdown("""
-    - 1. As you share your story, explain your reasoning behind it! Describe why you think this happened.
-    - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important part.
-    - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
-
-    """)
-    st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
-
-    st.image(
-        "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/story03.png",
-        caption="Thank you for participating! :D",
-        use_container_width=True
-    )
