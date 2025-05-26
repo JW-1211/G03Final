@@ -82,17 +82,16 @@ with tab1:
 
 # --- TAB 2: The Epic Conclusion ---
 with tab2:
-    st.header("📊 App Conclusion & Summary")
-    st.subheader("Key Takeaways")
+    st.header("📊 Share your writing with your classmates!")
+    st.subheader("Things to keep in mind:")
 
     st.markdown("""
-    **This application:**
-    - Allows a easy understanding of paragraphs by utilizing word cloud and illustrations.
-    - Provides a thorough analysis of vocabulary and grammar.
-    - Helps to take a step beyond simple memorization, and practice application through creative writing.
+    - 1. As you share your story, explain your reasoning behind it! Describe why you think this happened.
+    - 2. What are some notable events in your story? Make sure to put emphasis when you get to the important parts.
+    - 3.
 
     """)
-    st.success("Congratulations! Your project objectives have been met.")
+    st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
 
     st.image(
         "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/diagram%20goes%20here.png",
