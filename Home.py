@@ -1,7 +1,7 @@
 import streamlit as st
 
-st.title("🌟Everything there is to be done for studying English literature🌟")
+st.title("🌟Getting Comfortable with English Literature🌟")
 st.caption("A masterpiece in progress by 김류경, 김진아, 이주원, 조선미 and 박인겸")
 
-st.write("This page is dedicated to the brilliant & ingenious language learning project developed by the dilligent and wise classmates of Group 3. Just follow the instructions one by one to get familiar with reading and writing!")
+st.write("This page is dedicated to the brilliant & ingenious language learning project developed by the dilligent and wise classmates of Group 3. Just follow the instructions, one at a time to get familiar with reading and writing!")
 st.markdown("---")
