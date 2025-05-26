@@ -98,7 +98,3 @@ with tab2:
         caption="The big picture!",
         use_container_width=True
     )
-
-    st.divider()
-
-    st.info("For more details or to discuss results, contact the project team.")
