@@ -23,7 +23,7 @@ with tab2:
     col1, col2 = st.columns(2)
 
     with col1:
-        image1 = Image.open("images/Compass.png")
+        image1 = Image.open("images/https://github.com/JW-1211/G03Final/blob/main/images/6A82B559-4316-4241-A738-5AE40DE629AA.jpeg")
         st.image(image1, caption="A four-panel comic", use_container_width=True)
 
     with col2:
