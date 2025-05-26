@@ -91,7 +91,7 @@ with tab1:
         st.session_state["final_draft"] = ""
 
     final_draft = st.text_area(
-        "Your Final Draft",
+        "Your draft goes here:",
         value=st.session_state["final_draft"],
         height=200,
         key="final_draft_area"
@@ -101,7 +101,7 @@ with tab1:
     col1, col2 = st.columns([1, 2])
     
     with col1:
-        if st.button("Save Final Draft"):
+        if st.button("Save Current Draft"):
             st.session_state["final_draft"] = final_draft
             st.success("Draft saved for this session!")
     
