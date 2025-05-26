@@ -126,7 +126,7 @@ with tab1:
 # --- TAB 2: The Epic Conclusion ---
 with tab2:
     st.header("📊 Share your writing with your classmates!")
-    st.subheader("Things to keep in mind during the presentation:")
+    st.subheader("Things to keep in mind while presenting:")
 
     st.markdown("""
     - 1. As you share your story, also explain your reasoning behind it! Describe why you think this might have happened.
