@@ -88,7 +88,7 @@ with tab2:
     st.markdown("""
     - 1. As you share your story, explain your reasoning behind it! Describe why you think this happened.
     - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important part.
-    - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to exercise creativity, and make sure that you haven't left any mistakes lying around.
+    - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
 
     """)
     st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
