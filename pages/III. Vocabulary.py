@@ -39,13 +39,14 @@ word_list = df["Word"].dropna().tolist()
 
 st.write("🌱 Vocabulary learning")
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "💖 1. Lesson: Word list",
-    "💖 2. Activity: Listen to the word",
-    "💖 3. Spelling practice",
-    "💖 4. Word relationships",
-    "💖 5. Synonym Quiz",
-    "💖 6. Antonym Quiz"
+    "💖 2. Connect the word to the passage",
+    "💖 3. Activity: Listen to the word",
+    "💖 4. Spelling practice",
+    "💖 5. Word relationships",
+    "💖 6. Synonym Quiz",
+    "💖 7. Antonym Quiz"
 ])
 
 # TAB 1: Word list
@@ -64,8 +65,33 @@ with tab1:
             )
         else:
             st.warning("The 'Definition' column was not found in your CSV file. Please check the column name.")
-# TAB 2: Listen to the word
-with tab2:
+
+#TAB 2 : Connect the word to the passage
+with tab2: 
+    word_examples = {
+        "compass" : "Emma found an old **compass** in her attic one rainy afternoon.",
+        "journey" : "The **journey** ended at the gallery, where the compass stopped moving.",
+        "desire" : "Emma realized her **desire** to become an artist.",
+        "attic" : "Emma found an old compass in her **attic** one rainy afternoon.",
+        "magnetic" : "It pointed to the one's greatest desire rather than **magnetic** north.",
+        "curiosity" : "Emma, driven by **curiosity**, followed the compass's lead.",
+        "deserted" : "The compass led her to various places: a lonely old bookstore, a **deserted** park, and finally, a small, forgotten art gallery.",
+        "discover" : "At each stop, she **discovered** pieces of her own hidden passions.",
+        "passion" : "At each stop, she discovered pieces of her own hidden **passions**.",
+        "literature" : "At each stop, she discovered pieces of her own hidden passions: **literature**, nature, and art.",
+        "inspire" : "**Inspired**, Emma went home to start her first painting.",
+        "treasured" : "The compass now her most **treasured** possession.",
+        "possession" : "the compass now her most treasured **possession**."
+    }  # <-- Added missing closing brace
+
+    st.title("📚 Word to the Passage")
+    selected_word = st.selectbox("Choose a word", [""] + list(word_examples.keys()))
+    if selected_word:
+        st.markdown(f"**passage** {word_examples[selected_word]}")  # <-- Added missing parenthesis
+
+                    
+# TAB 3: Listen to the word
+with tab3:
     st.title("🔊 Word Pronunciation Practice")
     st.markdown("## Select a word to hear its pronunciation")
     selected_word = st.selectbox("Choose a word:", word_list, key="pronunciation")
@@ -76,8 +102,8 @@ with tab2:
         audio_fp.seek(0)
         st.audio(audio_fp, format='audio/mp3')
 
-# TAB 3: Spelling practice
-with tab3:
+# TAB 4: Spelling practice
+with tab4:
     st.markdown("### 🎧 Listen and Type the Word")
     st.caption("Click the button to hear a word. Then type it and press 'Check the answer'.")
     if "current_word" not in st.session_state:
@@ -115,8 +141,8 @@ with tab3:
         else:
             st.error("❌ Try again.")
 
-# TAB 4: Word relationships
-with tab4:
+# TAB 5: Word relationships
+with tab5:
     st.markdown("### 🔄 Synonyms and Antonyms")
     st.caption("Enrich your vocabulary by learning how a single word can be expressed in different ways!")
     selected_word = st.selectbox("Choose a word to explore:", word_list, key="relationships")
@@ -136,8 +162,8 @@ with tab4:
         else:
             st.write("No antonyms found.")
 
-# TAB 5: Synonym Quiz
-with tab5:
+# TAB 6: Synonym Quiz
+with tab6:
     st.title("🟢 Synonym Quiz")
 
     def generate_synonym_quiz():
@@ -162,7 +188,7 @@ with tab5:
         st.session_state['score_synonym'] = 0
         st.session_state['answered_synonym'] = False
 
-    quiz = st.session_state['quiz_synonym']
+    quiz = st.session_state['quiz_synonym']  # <-- Properly define quiz
     if quiz:
         st.markdown(f"### {quiz['question']}")
         selected = st.radio("Options:", quiz['options'], key="options_synonym")
@@ -178,10 +204,11 @@ with tab5:
             if st.button("Next Word", key="next_synonym"):
                 st.session_state['quiz_synonym'] = generate_synonym_quiz()
                 st.session_state['answered_synonym'] = False
-                st.rerun()  # Use st.rerun() instead of st.experimental_rerun()
+                st.rerun()
 
-# TAB 6: Antonym Quiz
-with tab6:
+
+# TAB 7: Antonym Quiz
+with tab7:
     st.title("🔴 Antonym Quiz")
 
     def generate_antonym_quiz():
