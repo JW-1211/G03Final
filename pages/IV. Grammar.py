@@ -17,7 +17,6 @@ tab1, tab2, tab3, tab4 = st.tabs([
 ######### TAB 1
 
 with tab1:
-    with tab1:
     st.markdown("## 📋 Understanding Past Tense")
     st.write("Let's Learn About the Past Tense!")
 
@@ -59,6 +58,7 @@ with tab1:
 
     combined_verbs_df = pd.DataFrame(combined_verb_data)
     st.table(combined_verbs_df)
+
 ######### TAB 2
 
 with tab2:
@@ -115,7 +115,6 @@ with tab2:
         st.write(f"Base form: {selected_regular_verb}, Past tense: {past_form}")
         
         # Pronunciation for base form
-        st.write("Pronunciation for base form:")
         tts_base = gTTS(selected_regular_verb)
         audio_fp_base = BytesIO()
         tts_base.write_to_fp(audio_fp_base)
@@ -123,7 +122,6 @@ with tab2:
         st.audio(audio_fp_base, format="audio/mp3")
         
         # Pronunciation for past tense form
-        st.write("Pronunciation for past tense:")
         tts_past = gTTS(past_form)
         audio_fp_past = BytesIO()
         tts_past.write_to_fp(audio_fp_past)
@@ -143,8 +141,6 @@ with tab2:
             tts.write_to_fp(audio_fp)
             audio_fp.seek(0)
             st.audio(audio_fp, format="audio/mp3")
-
-######### TAB 3
 
 ######### TAB 3
 
