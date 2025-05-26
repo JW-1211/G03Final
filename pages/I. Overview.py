@@ -8,7 +8,7 @@ tab1, tab2 = st.tabs(["💫Guidelines", "💫Guess the story"])
 with tab1:
     st.subheader("Guidelines")
     st.write("""
-1.  Let’s try to guess the overall flow of the story based on the **four-panel comic**.
+1.  Let’s try to guess the overall flow of the story based on the **four-panel comic picture**.
 
 2.  Let’s try to predict the key words that appear in the story using the **word cloud**.
 
@@ -24,7 +24,7 @@ with tab2:
 
     with col1:
         image1 = Image.open("images/https://github.com/JW-1211/G03Final/blob/main/images/6A82B559-4316-4241-A738-5AE40DE629AA.jpeg")
-        st.image(image1, caption="A four-panel comic", use_container_width=True)
+        st.image(image1, caption="A four-panel comic picture", use_container_width=True)
 
     with col2:
         image2 = Image.open("images/IMG_1605.jpeg")
