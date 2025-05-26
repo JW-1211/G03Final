@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title("I. Overview")
 
-tab1, tab2 = st.tabs(["💫Guidelines", "💫Guess the story"])
+tab1, tab2 = st.tabs(["💫1. Guidelines", "💫2. Guess the story"])
 
 with tab1:
     st.subheader("Guidelines")
@@ -23,7 +23,7 @@ with tab2:
     col1, col2 = st.columns(2)
 
     with col1:
-        image1 = Image.open("images/https://github.com/JW-1211/G03Final/blob/main/images/6A82B559-4316-4241-A738-5AE40DE629AA.png")
+        image1 = Image.open("images/Compassnumber.png")
         st.image(image1, caption="A four-panel comic picture", use_container_width=True)
 
     with col2:
