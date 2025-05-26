@@ -83,13 +83,13 @@ with tab1:
 
     # --- 3. Final Draft Section ---
     st.header("3. Final Draft")
-    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you want during this session!")
+    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you want, as long as you don't refresh the page!")
 
     if "final_draft" not in st.session_state:
         st.session_state["final_draft"] = ""
 
     final_draft = st.text_area(
-        "Your Final Draft",
+        "Your final draft:",
         value=st.session_state["final_draft"],
         height=200,
         key="final_draft_area"
