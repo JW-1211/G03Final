@@ -8,9 +8,9 @@ tab1, tab2 = st.tabs(["💫Guidelines", "💫Guess the story"])
 with tab1:
     st.subheader("Guidelines")
     st.write("""
-1.  Let’s try to guess the overall flow of the story based on the four-panel comic.
+1.  Let’s try to guess the overall flow of the story based on the **four-panel comic**.
 
-2.  Let’s try to predict the key words that appear in the story using the word cloud.
+2.  Let’s try to predict the key words that appear in the story using the **word cloud**.
 
 So, what might happen to the main character?
 """)
