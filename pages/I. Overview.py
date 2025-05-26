@@ -8,6 +8,7 @@ tab1, tab2 = st.tabs(["💫1. Guidelines", "💫2. Guess the story"])
 with tab1:
     st.subheader("Guidelines")
     st.write("""
+    
     Before we start today’s lesson, let’s guess what the story is about!
     
 1.  Let’s try to guess the overall flow of the story based on the **four-panel comic picture**.
