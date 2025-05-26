@@ -85,7 +85,7 @@ with tab1:
 
     # --- 3. Final Draft Section with TTS ---
     st.header("3. Final Draft")
-    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you don't refresh the page! When you're done editing, use the button on the bottom right to generate audio, so that you can practice your pronunciation before sharing it with the class.")
+    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you don't refresh the page! When you're done editing, use the button on the bottom right to generate audio, so that you can practice your pronunciation before sharing your story with the class.")
 
     if "final_draft" not in st.session_state:
         st.session_state["final_draft"] = ""
