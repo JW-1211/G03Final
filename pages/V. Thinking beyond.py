@@ -13,7 +13,7 @@ tab1, tab2 = st.tabs(["Creative writing", "The Epic Conclusion"])
 # --- TAB 1: Combined Random Word & Grammar Check ---
 with tab1:
     st.header("1. Get a Random Word")
-    CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
+    CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocab_past.csv"
     
     @st.cache_data
     def load_words(url):
