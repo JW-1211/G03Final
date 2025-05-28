@@ -142,21 +142,17 @@ with tab4:
             st.error("❌ Try again.")
 
 # TAB 5: Word relationships
-# TAB 5: Word relationships
 with tab5:
-    # Load CSVs from raw URLs
     synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
     antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
     sentences_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_sentences.csv")
 
-    # Get all unique words
     all_words = sorted(
         set(synonyms_df['word']).union(set(antonyms_df['word']))
     )
 
-    selected_word = st.selectbox("Choose a word:", all_words)
+    selected_word = st.selectbox("Choose a word (relationships):", all_words, key="relationships")
 
-    # Helper to get non-empty values from synonym/antonym columns
     def get_word_list(df, word, prefix):
         row = df[df['word'] == word]
         if row.empty:
@@ -168,7 +164,6 @@ with tab5:
                 values.append(val)
         return values
 
-    # Get synonyms and antonyms
     synonyms = get_word_list(synonyms_df, selected_word, "synonym")
     antonyms = get_word_list(antonyms_df, selected_word, "antonym")
 
@@ -183,9 +178,17 @@ with tab5:
         st.subheader("Synonyms")
         if synonyms:
             for syn in synonyms:
-                if st.button(syn, key=f"syn_{syn}"):
+                cols = st.columns([4, 1])
+                if cols[0].button(syn, key=f"syn_{syn}"):
                     st.session_state.clicked_word = syn
                     st.session_state.clicked_type = "synonym"
+                # Generate audio for the synonym
+                tts = gTTS(syn, lang='en')
+                audio_fp = BytesIO()
+                tts.write_to_fp(audio_fp)
+                audio_fp.seek(0)
+                with cols[1]:
+                    st.audio(audio_fp, format='audio/mp3')
         else:
             st.info("This word doesn't have any matching synonyms.")
 
@@ -193,9 +196,17 @@ with tab5:
         st.subheader("Antonyms")
         if antonyms:
             for ant in antonyms:
-                if st.button(ant, key=f"ant_{ant}"):
+                cols = st.columns([4, 1])
+                if cols[0].button(ant, key=f"ant_{ant}"):
                     st.session_state.clicked_word = ant
                     st.session_state.clicked_type = "antonym"
+                # Generate audio for the antonym
+                tts = gTTS(ant, lang='en')
+                audio_fp = BytesIO()
+                tts.write_to_fp(audio_fp)
+                audio_fp.seek(0)
+                with cols[1]:
+                    st.audio(audio_fp, format='audio/mp3')
         else:
             st.info("This word doesn't have any matching antonyms.")
 
@@ -206,14 +217,22 @@ with tab5:
             (sentences_df['related_word'] == st.session_state.clicked_word)
         ]
         if not row.empty:
-            # Show up to 3 sentences
             for i in range(1, 4):
                 col = f"sentence{i}"
                 sentence = row.iloc[0][col] if col in row.columns else None
                 if pd.notna(sentence) and sentence != '':
-                    st.write(f"**Example sentence:** {sentence}")
+                    # Inline sentence and audio
+                    sent_cols = st.columns([10, 1])
+                    sent_cols[0].write(f"**Example sentence:** {sentence}")
+                    tts = gTTS(sentence, lang='en')
+                    audio_fp = BytesIO()
+                    tts.write_to_fp(audio_fp)
+                    audio_fp.seek(0)
+                    with sent_cols[1]:
+                        st.audio(audio_fp, format='audio/mp3')
         else:
             st.write("No example sentence available for this word pair.")
+
 
 
 # TAB 6: Synonym Quiz
