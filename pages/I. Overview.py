@@ -9,7 +9,9 @@ with tab1:
     st.subheader("Guidelines")
     st.write("""
     
-    'Before we start today’s lesson, let’s guess what the story is about!'
+    import streamlit as st
+
+st.markdown("<p style='color:blue;'>Before we start today’s lesson, let’s guess what the story is about!</p>", unsafe_allow_html=True)
     
 1.  Let’s try to guess the overall flow of the story based on the **four-panel comic picture**.
 
