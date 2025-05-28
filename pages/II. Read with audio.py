@@ -28,7 +28,7 @@ translations = [
 sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences_raw)]
 
 st.title("II. Read with audio")
-tab1, tab2, tab3 = st.tabs(["Story", "Translation", "Read with audio"])
+tab1, tab2, tab3 = st.tabs(["📖 Story", "🔤 Translation", "🔊 Read with audio"])
 
 # Story Tab
 with tab1:
@@ -66,4 +66,3 @@ with tab3:
         audio_bytes.seek(0)
 
         st.audio(audio_bytes, format='audio/mp3')
-
