@@ -295,7 +295,7 @@ with tab6:
 
     q = st.session_state.current_question
     if q:
-        st.markdown(f"### Which is a {q['type']} of **{q['word']}**?")
+        st.markdown(f"### Which is a/an {q['type']} of **{q['word']}**?")
         selected = st.radio("Choose the correct answer:", q['options'])
         col1, col2 = st.columns([1, 2])
         with col1:
