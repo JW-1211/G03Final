@@ -44,8 +44,8 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📚 2. Connect the word to the passage",
     "🔉 3. Activity: Listen to the word",
     "✅ 4. Vocabulary Quiz",
-    "💖 5. Word relationships",
-    "💖 6. Related word quiz"
+    "💖 5. Word relations",
+    "💖 6. Word quiz"
 ])
 
 # TAB 1: Word list
