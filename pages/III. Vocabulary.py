@@ -178,7 +178,7 @@ with tab5:
         st.subheader("Synonyms")
         if synonyms:
             for syn in synonyms:
-                cols = st.columns([4, 1])
+                cols = st.columns([6, 1])  # Adjusted ratio for visibility
                 if cols[0].button(syn, key=f"syn_{syn}"):
                     st.session_state.clicked_word = syn
                     st.session_state.clicked_type = "synonym"
@@ -196,7 +196,7 @@ with tab5:
         st.subheader("Antonyms")
         if antonyms:
             for ant in antonyms:
-                cols = st.columns([4, 1])
+                cols = st.columns([6, 1])  # Adjusted ratio for visibility
                 if cols[0].button(ant, key=f"ant_{ant}"):
                     st.session_state.clicked_word = ant
                     st.session_state.clicked_type = "antonym"
@@ -221,8 +221,7 @@ with tab5:
                 col = f"sentence{i}"
                 sentence = row.iloc[0][col] if col in row.columns else None
                 if pd.notna(sentence) and sentence != '':
-                    # Inline sentence and audio
-                    sent_cols = st.columns([10, 1])
+                    sent_cols = st.columns([12, 1])  # Sentence + audio
                     sent_cols[0].write(f"**Example sentence:** {sentence}")
                     tts = gTTS(sentence, lang='en')
                     audio_fp = BytesIO()
@@ -232,8 +231,6 @@ with tab5:
                         st.audio(audio_fp, format='audio/mp3')
         else:
             st.write("No example sentence available for this word pair.")
-
-
 
 # TAB 6: Synonym Quiz
 with tab6:
