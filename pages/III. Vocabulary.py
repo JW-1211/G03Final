@@ -103,30 +103,50 @@ with tab3:
         st.audio(audio_fp, format='audio/mp3')
 
 # TAB 4: Vocabulary Quiz
-with tab4
+with tab4:
     st.title("💡 Multiple Choice Vocabulary Quiz")
-    vocab_pairs = df[['Word', 'Meaning']].dropna().values.tolist()
-    if len(vocab_pairs) < 4:
-        st.warning("퀴즈를 만들기 위해 단어가 충분하지 않습니다.")
-    else:
-        question = random.choice(vocab_pairs)
-        word, correct_meaning = question
-        wrong_choices = random.sample(
-            [m for w, m in vocab_pairs if m != correct_meaning],
-            3
-        )
-        options = wrong_choices + [correct_meaning]
-        random.shuffle(options)
-        st.subheader(f"🔤 단어: **{word}**")
-        user_answer = st.radio(“Choose the right meaning:", options)
-        if st.button("Check answer", key="submit_quiz"):
-            if user_answer == correct_meaning:
-                st.success("✅ Well done!")
-            else:
-                st.error(f"❌ Error. The right answer is: **{correct_meaning}**")
-        if st.button("🔁 Next word", key="next_quiz"):
-            st.experimental_rerun()
 
+    if "Word" not in df.columns or "Definition" not in df.columns:
+        st.error("❌ The CSV file must contain 'Word' and 'Definition' columns.")
+        st.stop()
+
+    # Prepare word-definition pairs
+    vocab_pairs = df[['Word', 'Definition']].dropna().values.tolist()
+
+    cleaned_pairs = []
+    for word, definition in vocab_pairs:
+        main_meaning = definition.split(')')[0] + ')' if ')' in definition else definition
+        cleaned_pairs.append((word.strip(), main_meaning.strip()))
+
+    # Remove duplicates
+    cleaned_pairs = list(set(cleaned_pairs))
+
+    if len(cleaned_pairs) < 4:
+        st.warning("⚠️ Not enough vocabulary data to run the quiz.")
+    else:
+        # Select a random quiz question
+        question = random.choice(cleaned_pairs)
+        word, correct_def = question
+
+        # Choose 3 wrong definitions
+        wrong_defs = [d for w, d in cleaned_pairs if d != correct_def]
+        wrong_choices = random.sample(wrong_defs, 3) if len(wrong_defs) >= 3 else wrong_defs[:3]
+
+        options = wrong_choices + [correct_def]
+        random.shuffle(options)
+
+        st.subheader(f"📖 What is the meaning of the word: **{word}**?")
+        user_choice = st.radio("Select the correct definition:", options)
+
+        if st.button("Submit"):
+            if user_choice == correct_def:
+                st.success("✅ Correct!")
+            else:
+                st.error(f"❌ Wrong. The correct answer is: **{correct_def}**")
+
+        if st.button("Next Question"):
+            st.experimental_rerun()
+        
 
 # TAB 5: Word relationships
 with tab5:
