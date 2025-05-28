@@ -5,10 +5,11 @@ from io import BytesIO
 import random
 import requests
 
+# --- CONFIGURATION ---
+
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
 
-df = load_word_list()
-word_list = df["Word"].dropna().tolist()
+
 
 st.write("🌱 Vocabulary learning")
 
