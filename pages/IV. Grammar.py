@@ -7,16 +7,23 @@ import pandas as pd
 st.write("🌱 Grammar Learning")
 
 # Create tabs
-tab1, tab2, tab3, tab4 = st.tabs([
-    "1. Understanding Past Tense",
-    "2. Pronunciation Practice",
-    "3. Regular Verb Quiz",
-    "4. Irregular Verb Quiz"
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "1. Past Tense Video",
+    "2. Understanding Past Tense",
+    "3. Pronunciation Practice",
+    "4. Regular Verb Quiz",
+    "5. Irregular Verb Quiz"
 ])
 
-######### TAB 1
+######### TAB 1 - Past Tense Video
 
 with tab1:
+    st.title("Understanding Past Tense")
+    st.video("https://youtu.be/q6j-D5EzZo8", start_time=0)
+
+######### TAB 2 - Understanding Past Tense
+
+with tab2:
     st.markdown("## 📋 Understanding Past Tense")
     st.write("Let's Learn About the Past Tense!")
 
@@ -44,7 +51,7 @@ with tab1:
 
     irregular_verbs_df = pd.DataFrame(irregular_verbs_data)
     st.table(irregular_verbs_df)
-    
+
     # Add the new section for stories with past tense forms
     st.header("Stories with Past Tense Forms")
     st.write("Here is a table of verbs used in stories with their past and past participle forms:")
@@ -59,9 +66,9 @@ with tab1:
     combined_verbs_df = pd.DataFrame(combined_verb_data)
     st.table(combined_verbs_df)
 
-######### TAB 2
+######### TAB 3 - Pronunciation Practice
 
-with tab2:
+with tab3:
     st.title("🔊 Pronunciation Practice")
 
     # Define the lists of verbs
@@ -113,20 +120,21 @@ with tab2:
     if selected_regular_verb:
         past_form = regular_verbs[selected_regular_verb]
         st.write(f"Base form: {selected_regular_verb}, Past tense: {past_form}")
-        
-        # Pronunciation for base form
-        tts_base = gTTS(selected_regular_verb)
-        audio_fp_base = BytesIO()
-        tts_base.write_to_fp(audio_fp_base)
-        audio_fp_base.seek(0)
-        st.audio(audio_fp_base, format="audio/mp3")
-        
-        # Pronunciation for past tense form
-        tts_past = gTTS(past_form)
-        audio_fp_past = BytesIO()
-        tts_past.write_to_fp(audio_fp_past)
-        audio_fp_past.seek(0)
-        st.audio(audio_fp_past, format="audio/mp3")
+
+        # Combine audio for base form and past tense
+        try:
+            # Create a list of forms to pronounce
+            forms = [selected_regular_verb, past_form]
+            combined_audio_fp = BytesIO()
+            for form in forms:
+                tts = gTTS(form)
+                tts.write_to_fp(combined_audio_fp)
+            
+            # Play the combined audio
+            combined_audio_fp.seek(0)
+            st.audio(combined_audio_fp, format="audio/mp3")
+        except Exception as e:
+            st.error(f"Error generating audio: {e}")
 
     # Irregular Verbs Section
     st.header("Irregular Verbs Pronunciation")
@@ -134,17 +142,24 @@ with tab2:
 
     if selected_irregular_verb:
         forms = [selected_irregular_verb] + list(irregular_verbs[selected_irregular_verb])
-        for form in forms:
-            st.write(f"Pronunciation for: {form}")
-            tts = gTTS(form)
-            audio_fp = BytesIO()
-            tts.write_to_fp(audio_fp)
-            audio_fp.seek(0)
-            st.audio(audio_fp, format="audio/mp3")
+        
+        # Combine audio for all forms
+        try:
+            combined_audio_fp = BytesIO()
+            for form in forms:
+                st.write(f"Pronunciation for: {form}")
+                tts = gTTS(form)
+                tts.write_to_fp(combined_audio_fp)
+            
+            # Play the combined audio
+            combined_audio_fp.seek(0)
+            st.audio(combined_audio_fp, format="audio/mp3")
+        except Exception as e:
+            st.error(f"Error generating audio for {form}: {e}")
 
-######### TAB 3
+######### TAB 4 - Regular Verb Quiz
 
-with tab3:
+with tab4:
     st.title("Regular Verb Quiz")
 
     # List of regular verbs and their past tense forms with rules
@@ -191,10 +206,9 @@ with tab3:
             else:
                 st.error(f"❌ Incorrect. The correct past tense is: **{past_form}**")
 
+######### TAB 5 - Irregular Verb Quiz
 
-######### TAB 4
-
-with tab4:
+with tab5:
     st.title("Irregular Verb Quiz")
 
     # Initialize session state variables
@@ -240,4 +254,3 @@ with tab4:
                     st.info(f"The correct past tense is: **{correct_past}**")
                 if not participle_correct:
                     st.info(f"The correct past participle is: **{correct_participle}**")
-
