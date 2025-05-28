@@ -26,7 +26,7 @@ translations = [
 
 # 탭 구성
 st.title("II. Read with audio")
-tab1, tab2, tab3 = st.tabs(["📖 Story", "🔤 Translation", "🔊 Read with audio"])
+tab1, tab2, tab3 = st.tabs(["1️⃣ 📖 Story", "2️⃣ 🔤 Translation", "3️⃣ 🔊 Read with audio"])
 
 # 📖 
 with tab1:
