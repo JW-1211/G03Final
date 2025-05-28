@@ -45,9 +45,15 @@ with tab1:
 # 🔤 Translation Tab
 with tab2:
     st.header("Translation")
-    st.markdown('<div style="font-size:22px; line-height:1.8;">', unsafe_allow_html=True)
+    st.markdown('<div style="line-height:1.8;">', unsafe_allow_html=True)
     for i in range(len(sentences_raw)):
-        st.markdown(f"<b>{i+1}. {sentences_raw[i]}</b><br>→ {translations[i]}<br><br>", unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <p style="font-size:22px;"><b>{i+1}. {sentences_raw[i]}</b></p>
+            <p style="font-size:24px; color:#333;">→ {translations[i]}</p>
+            """,
+            unsafe_allow_html=True
+        )
     st.markdown('</div>', unsafe_allow_html=True)
 
 # 🔊 Read with audio Tab
