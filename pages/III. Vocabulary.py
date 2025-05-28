@@ -178,7 +178,7 @@ with tab5:
         st.subheader("Synonyms")
         if synonyms:
             for syn in synonyms:
-                cols = st.columns([3, 2])  # Wider audio column
+                cols = st.columns([3, 2])
                 if cols[0].button(syn, key=f"syn_{syn}"):
                     st.session_state.clicked_word = syn
                     st.session_state.clicked_type = "synonym"
@@ -196,7 +196,7 @@ with tab5:
         st.subheader("Antonyms")
         if antonyms:
             for ant in antonyms:
-                cols = st.columns([3, 2])  # Wider audio column
+                cols = st.columns([3, 2])
                 if cols[0].button(ant, key=f"ant_{ant}"):
                     st.session_state.clicked_word = ant
                     st.session_state.clicked_type = "antonym"
@@ -211,17 +211,20 @@ with tab5:
             st.info("This word doesn't have any matching antonyms.")
 
     st.divider()
+    # Only display something if a word has been clicked
     if st.session_state.clicked_word:
         row = sentences_df[
             (sentences_df['word'] == selected_word) &
             (sentences_df['related_word'] == st.session_state.clicked_word)
         ]
+        sentences_found = False
         if not row.empty:
             for i in range(1, 4):
                 col = f"sentence{i}"
                 sentence = row.iloc[0][col] if col in row.columns else None
                 if pd.notna(sentence) and sentence != '':
-                    sent_cols = st.columns([6, 2])  # Wider audio column for sentence
+                    sentences_found = True
+                    sent_cols = st.columns([6, 2])
                     sent_cols[0].write(f"**Example sentence:** {sentence}")
                     tts = gTTS(sentence, lang='en')
                     audio_fp = BytesIO()
@@ -229,8 +232,9 @@ with tab5:
                     audio_fp.seek(0)
                     with sent_cols[1]:
                         st.audio(audio_fp, format='audio/mp3')
-        else:
-            st.write("No example sentence available for this word pair.")
+        # Only show the message if a word was clicked and there are truly no sentences
+        if not sentences_found:
+            pass  # Show nothing
 
 # TAB 6: Synonym Quiz
 with tab6:
