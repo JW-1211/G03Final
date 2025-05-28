@@ -30,26 +30,27 @@ sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences_raw)]
 st.title("II. Read with audio")
 tab1, tab2, tab3 = st.tabs(["📖 Story", "🔤 Translation", "🔊 Read with audio"])
 
-# Story Tab
+# 📖 Story Tab
 with tab1:
     st.header("Story")
     st.markdown(
         f"""
-        <div style="font-size:20px; line-height:1.6;">
+        <div style="font-size:22px; line-height:1.8;">
         {text.replace('\n', '<br><br>')}
         </div>
         """,
         unsafe_allow_html=True
     )
 
-# Translation Tab
+# 🔤 Translation Tab
 with tab2:
     st.header("Translation")
+    st.markdown('<div style="font-size:22px; line-height:1.8;">', unsafe_allow_html=True)
     for i in range(len(sentences_raw)):
-        st.markdown(f"**{i+1}. {sentences_raw[i]}**")
-        st.markdown(f"→ {translations[i]}")
+        st.markdown(f"<b>{i+1}. {sentences_raw[i]}</b><br>→ {translations[i]}<br><br>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# Read with audio Tab
+# 🔊 Read with audio Tab
 with tab3:
     st.header("Select a sentence to hear")
 
