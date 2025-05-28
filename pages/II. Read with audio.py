@@ -3,6 +3,7 @@ from gtts import gTTS
 import io
 import re
 
+# 원문 텍스트
 text = """
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
 
@@ -11,8 +12,10 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 """
 
+# 문장 나누기 (빈 문장 제거 포함)
 sentences_raw = [s for s in re.split(r'(?<=[.!?])\s+', text.strip()) if s.strip()]
 
+# 해석 (예시로 간단한 번역 추가)
 translations = [
     "엠마는 비 오는 오후 다락방에서 오래된 나침반을 발견했습니다.",
     "그것은 평범한 나침반이 아니었고, 자기 북쪽이 아닌 사람의 가장 큰 욕망을 가리켰습니다.",
@@ -41,4 +44,18 @@ with tab2:
 
 # 🔊 문장별 오디오 탭
 with tab3:
-    st.header("🔊 Select a sentence to he
+    st.header("🔊 Select a sentence to hear")
+    numbered_sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences_raw)]
+    selected = st.selectbox("Choose a sentence:", numbered_sentences)
+
+    if st.button("Play Audio"):
+        selected_index = numbered_sentences.index(selected)
+        selected_sentence = sentences_raw[selected_index]
+        st.write(f"**Selected sentence:** {selected_sentence}")
+
+        tts = gTTS(text=selected_sentence, lang='en')
+        audio_bytes = io.BytesIO()
+        tts.write_to_fp(audio_bytes)
+        audio_bytes.seek(0)
+
+        st.audio(audio_bytes, format='audio/mp3')
