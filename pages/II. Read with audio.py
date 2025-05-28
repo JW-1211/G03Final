@@ -11,65 +11,34 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 """
 
-sentences_raw = re.split(r'(?<=[.!?])\s+', text.strip())
+sentences_raw = [s for s in re.split(r'(?<=[.!?])\s+', text.strip()) if s.strip()]
 
 translations = [
-    "엠마는 비 오는 어느 날 오후 다락방에서 오래된 나침반을 발견했다.",
-    "그건 평범한 나침반이 아니라 자기 북이 아니라 가장 큰 욕망을 가리키는 나침반이었다.",
-    "엠마는 호기심에 이끌려 나침반이 가리키는 방향을 따라 도시를 여행하게 되었다.",
-    "그 나침반은 그녀를 외로운 헌책방, 버려진 공원, 그리고 잊혀진 작은 미술관으로 이끌었다.",
-    "각 장소에서 그녀는 자신의 숨겨진 열정인 문학, 자연, 예술을 발견했다.",
-    "여정은 미술관에서 끝났고, 그곳에서 나침반은 멈췄다.",
-    "아름다운 그림들 사이에서 엠마는 자신이 예술가가 되고 싶다는 열망을 깨달았다.",
-    "영감을 받은 엠마는 집으로 돌아가 첫 그림을 그리기 시작했다.",
-    "이제 나침반은 도시뿐만 아니라 그녀의 꿈을 이끄는 가장 소중한 물건이 되었다."
+    "엠마는 비 오는 오후 다락방에서 오래된 나침반을 발견했습니다.",
+    "그것은 평범한 나침반이 아니었고, 자기 북쪽이 아닌 사람의 가장 큰 욕망을 가리켰습니다.",
+    "엠마는 호기심에 이끌려 나침반이 가리키는 방향을 따라갔고, 전에 없던 방식으로 도시를 여행하게 되었습니다.",
+    "나침반은 그녀를 외로운 오래된 서점, 버려진 공원, 그리고 결국 작고 잊힌 미술관으로 이끌었습니다.",
+    "각 장소에서 그녀는 자신의 숨겨진 열정인 문학, 자연, 예술을 발견했습니다.",
+    "그 여정은 미술관에서 끝났고, 나침반은 멈췄습니다.",
+    "아름다운 그림들에 둘러싸여, 엠마는 예술가가 되고 싶다는 자신의 욕망을 깨달았습니다.",
+    "영감을 받은 엠마는 집으로 돌아가 첫 번째 그림을 그리기 시작했고, 그 나침반은 이제 도시뿐 아니라 그녀의 꿈을 이끄는 가장 소중한 보물이 되었습니다."
 ]
 
-sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences_raw)]
-
+# 탭 구성
 st.title("II. Read with audio")
 tab1, tab2, tab3 = st.tabs(["📖 Story", "🔤 Translation", "🔊 Read with audio"])
 
-# 📖 Story Tab
+# 📖 본문 탭
 with tab1:
-    st.header("Story")
-    st.markdown(
-        f"""
-        <div style="font-size:22px; line-height:1.8;">
-        {text.replace('\n', '<br><br>')}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.header("📖 Story")
+    st.markdown(f"<div style='font-size: 18px; line-height: 1.6;'>{text.replace('\n', '<br>')}</div>", unsafe_allow_html=True)
 
-# 🔤 Translation Tab
+# 🔤 해석 탭
 with tab2:
-    st.header("Translation")
-    st.markdown('<div style="line-height:1.8;">', unsafe_allow_html=True)
-    for i in range(len(sentences_raw)):
-        st.markdown(
-            f"""
-            <p style="font-size:22px;"><b>{i+1}. {sentences_raw[i]}</b></p>
-            <p style="font-size:24px; color:#333;">→ {translations[i]}</p>
-            """,
-            unsafe_allow_html=True
-        )
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.header("🔤 Translation")
+    for i, trans in enumerate(translations, 1):
+        st.markdown(f"<div style='font-size: 17px; margin-bottom: 8px;'><strong>{i}.</strong> {trans}</div>", unsafe_allow_html=True)
 
-# 🔊 Read with audio Tab
+# 🔊 문장별 오디오 탭
 with tab3:
-    st.header("Select a sentence to hear")
-
-    selected_sentence = st.selectbox("Choose a sentence:", sentences)
-
-    if st.button("Play Audio"):
-        st.write(f"**Selected sentence:** {selected_sentence}")
-
-        sentence_text = selected_sentence.split(". ", 1)[-1]
-
-        tts = gTTS(text=sentence_text, lang='en')
-        audio_bytes = io.BytesIO()
-        tts.write_to_fp(audio_bytes)
-        audio_bytes.seek(0)
-
-        st.audio(audio_bytes, format='audio/mp3')
+    st.header("🔊 Select a sentence to he
