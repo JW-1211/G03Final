@@ -143,24 +143,80 @@ with tab4:
 
 # TAB 5: Word relationships
 with tab5:
-    st.markdown("### 🔄 Synonyms and Antonyms")
-    st.caption("Enrich your vocabulary by learning how a single word can be expressed in different ways!")
-    selected_word = st.selectbox("Choose a word to explore:", word_list, key="relationships")
-    if selected_word:
-        relations = get_word_relations(selected_word)
-        synonyms = relations['synonyms']
-        antonyms = relations['antonyms']
-        st.markdown("---")
-        st.markdown("<h4 style='color:green;'>Synonyms</h4>", unsafe_allow_html=True)
-        if synonyms:
-            st.write(", ".join(synonyms))
-        else:
-            st.write("No synonyms found.")
-        st.markdown("<h4 style='color:red; margin-top:20px;'>Antonyms</h4>", unsafe_allow_html=True)
-        if antonyms:
-            st.write(", ".join(antonyms))
-        else:
-            st.write("No antonyms found.")
+import streamlit as st
+import pandas as pd
+
+# Load CSVs
+synonyms_df = pd.read_csv("synonyms.csv")
+antonyms_df = pd.read_csv("antonyms.csv")
+sentences_df = pd.read_csv("sentences.csv")
+
+# Get all unique words
+all_words = sorted(
+    set(synonyms_df['word']).union(set(antonyms_df['word']))
+)
+
+selected_word = st.selectbox("Choose a word:", all_words)
+
+# Helper to get non-empty values from synonym/antonym columns
+def get_word_list(df, word, prefix):
+    row = df[df['word'] == word]
+    if row.empty:
+        return []
+    values = []
+    for i in range(1, 4):
+        val = row[f"{prefix}{i}"].values[0] if f"{prefix}{i}" in row else None
+        if pd.notna(val) and val != '':
+            values.append(val)
+    return values
+
+# Get synonyms and antonyms
+synonyms = get_word_list(synonyms_df, selected_word, "synonym")
+antonyms = get_word_list(antonyms_df, selected_word, "antonym")
+
+# Session state for clicked word
+if "clicked_word" not in st.session_state:
+    st.session_state.clicked_word = None
+if "clicked_type" not in st.session_state:
+    st.session_state.clicked_type = None
+
+col1, col2 = st.columns(2)
+with col1:
+    st.subheader("Synonyms")
+    if synonyms:
+        for syn in synonyms:
+            if st.button(syn, key=f"syn_{syn}"):
+                st.session_state.clicked_word = syn
+                st.session_state.clicked_type = "synonym"
+    else:
+        st.info("This word doesn't have any matching synonyms.")
+
+with col2:
+    st.subheader("Antonyms")
+    if antonyms:
+        for ant in antonyms:
+            if st.button(ant, key=f"ant_{ant}"):
+                st.session_state.clicked_word = ant
+                st.session_state.clicked_type = "antonym"
+    else:
+        st.info("This word doesn't have any matching antonyms.")
+
+st.divider()
+if st.session_state.clicked_word:
+    row = sentences_df[
+        (sentences_df['word'] == selected_word) &
+        (sentences_df['related_word'] == st.session_state.clicked_word)
+    ]
+    if not row.empty:
+        # Show up to 3 sentences
+        for i in range(1, 4):
+            col = f"sentence{i}"
+            sentence = row.iloc[0][col] if col in row.columns else None
+            if pd.notna(sentence) and sentence != '':
+                st.write(f"**Example sentence:** {sentence}")
+    else:
+        st.write("No example sentence available for this word pair.")
+
 
 # TAB 6: Synonym Quiz
 with tab6:
