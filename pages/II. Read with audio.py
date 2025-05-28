@@ -3,7 +3,6 @@ from gtts import gTTS
 import io
 import re
 
-# 원문 텍스트
 text = """
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
 
@@ -12,10 +11,8 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 """
 
-# 문장 나누기 (빈 문장 제거 포함)
 sentences_raw = [s for s in re.split(r'(?<=[.!?])\s+', text.strip()) if s.strip()]
 
-# 해석 (예시로 간단한 번역 추가)
 translations = [
     "엠마는 비 오는 오후 다락방에서 오래된 나침반을 발견했습니다.",
     "그것은 평범한 나침반이 아니었고, 자기 북쪽이 아닌 사람의 가장 큰 욕망을 가리켰습니다.",
@@ -31,18 +28,24 @@ translations = [
 st.title("II. Read with audio")
 tab1, tab2, tab3 = st.tabs(["📖 Story", "🔤 Translation", "🔊 Read with audio"])
 
-# 📖 본문 탭
+# 📖 
 with tab1:
     st.header("📖 Story")
-    st.markdown(f"<div style='font-size: 18px; line-height: 1.6;'>{text.replace('\n', '<br>')}</div>", unsafe_allow_html=True)
+    st.markdown(
+        f"<div style='font-size: 20px; line-height: 1.8;'>{text.replace('\n', '<br>')}</div>",
+        unsafe_allow_html=True
+    )
 
-# 🔤 해석 탭
+# 🔤 
 with tab2:
     st.header("🔤 Translation")
     for i, trans in enumerate(translations, 1):
-        st.markdown(f"<div style='font-size: 17px; margin-bottom: 8px;'><strong>{i}.</strong> {trans}</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"<div style='font-size: 19px; margin-bottom: 10px;'><strong>{i}.</strong> {trans}</div>",
+            unsafe_allow_html=True
+        )
 
-# 🔊 문장별 오디오 탭
+# 🔊 
 with tab3:
     st.header("🔊 Select a sentence to hear")
     numbered_sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences_raw)]
