@@ -11,7 +11,9 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 """
 
-sentences = re.split(r'(?<=[.!?])\s+', text.strip())
+sentences_raw = re.split(r'(?<=[.!?])\s+', text.strip())
+
+sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences_raw)]
 
 st.title("II. Read with audio")
 tab1, tab2 = st.tabs(["Story", "Read with audio"])
@@ -35,7 +37,9 @@ with tab2:
     if st.button("Play Audio"):
         st.write(f"**Selected sentence:** {selected_sentence}")
 
-        tts = gTTS(text=selected_sentence, lang='en')
+        sentence_text = selected_sentence.split(". ", 1)[-1]
+
+        tts = gTTS(text=sentence_text, lang='en')
         audio_bytes = io.BytesIO()
         tts.write_to_fp(audio_bytes)
         audio_bytes.seek(0)
