@@ -104,10 +104,8 @@ with tab3:
 
 # TAB 4: Vocabulary Quiz
 with tab4
-    st.header("💡 Multiple Choice Vocabulary Quiz")
-
+    st.title("💡 Multiple Choice Vocabulary Quiz")
     vocab_pairs = df[['Word', 'Meaning']].dropna().values.tolist()
-
     if len(vocab_pairs) < 4:
         st.warning("퀴즈를 만들기 위해 단어가 충분하지 않습니다.")
     else:
