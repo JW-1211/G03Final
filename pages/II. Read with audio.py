@@ -24,7 +24,10 @@ highlight_words = ["compass", "desire", "Emma", "journey", "gallery", "art"]
 def highlight_text(text, words):
     for word in words:
         pattern = re.compile(rf'\b({word})\b', re.IGNORECASE)
-        text = pattern.sub(r'<mark>\1</mark>', text)
+        text = pattern.sub(
+            r'<span style="background-color: rgba(255, 255, 0, 0.3); padding: 2px 4px; border-radius: 4px;">\1</span>',
+            text
+        )
     return text
 
 sentences = re.split(r'(?<=[.!?])\s+', text.strip())
@@ -54,7 +57,6 @@ with tab3:
     selected = st.selectbox("Choose a sentence:", numbered_sentences)
 
     if st.button("▶️ Play Audio"):
-        
         selected_sentence = re.sub(r'^\d+\.\s+', '', selected)
         st.write(f"**Selected sentence:** {selected_sentence}")
 
