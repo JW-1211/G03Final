@@ -87,7 +87,7 @@ with tab2:
     st.title("📚 Word to the Passage")
     selected_word = st.selectbox("Choose a word", [""] + list(word_examples.keys()))
     if selected_word:
-        st.markdown(f"**passage** {word_examples[selected_word]}")  # <-- Added missing parenthesis
+        st.markdown(f"**Passage:** {word_examples[selected_word]}")  # <-- Added missing parenthesis
 
                     
 # TAB 3: Listen to the word
