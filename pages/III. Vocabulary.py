@@ -5,34 +5,7 @@ from io import BytesIO
 import random
 import requests
 
-# --- CONFIGURATION ---
-API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # <-- Replace with your API Ninjas key
-
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
-API_URL = "https://api.api-ninjas.com/v1/thesaurus"
-
-@st.cache_data
-def load_word_list():
-    df = pd.read_csv(CSV_URL)
-    if 'Frequency' in df.columns:
-        df = df.sort_values('Frequency', ascending=False)
-    return df
-
-def get_word_relations(word):
-    try:
-        response = requests.get(
-            f"{API_URL}?word={word}",
-            headers={'X-Api-Key': API_NINJAS_KEY}
-        )
-        response.raise_for_status()
-        data = response.json()
-        return {
-            'synonyms': data.get('synonyms', []),
-            'antonyms': data.get('antonyms', [])
-        }
-    except Exception as e:
-        st.error(f"API Error: {str(e)}")
-        return {'synonyms': [], 'antonyms': []}
 
 df = load_word_list()
 word_list = df["Word"].dropna().tolist()
