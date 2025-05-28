@@ -154,6 +154,7 @@ with tab4:
             if st.button("Next Question"):
                 del st.session_state.quiz_data
                 st.experimental_rerun()
+                return  # ✅ prevent error by exiting immediately
          
 
 # TAB 5: Word relationships
