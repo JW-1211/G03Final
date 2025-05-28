@@ -34,7 +34,7 @@ sentences = re.split(r'(?<=[.!?])\s+', text.strip())
 
 st.title("II. Read with audio")
 
-tab1, tab2, tab3 = st.tabs(["1️⃣ 📖 Story", "2️⃣ 🔤 Translation", "3️⃣ 🔊 Read with audio"])
+tab1, tab2, tab3 = st.tabs(["📖 1.Story", "🔤 2.Translation", "🔊 3.Read with audio"])
 
 with tab1:
     st.header("📖 Story")
