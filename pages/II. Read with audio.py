@@ -18,7 +18,15 @@ tab1, tab2 = st.tabs(["Story", "Read with audio"])
 
 with tab1:
     st.header("Story")
-    st.write(text)
+    # 글자 크기와 줄 간격 향상
+    st.markdown(
+        f"""
+        <div style="font-size:18px; line-height:1.6;">
+        {text.replace('\n', '<br><br>')}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 with tab2:
     st.header("Select a sentence to hear")
