@@ -111,29 +111,21 @@ with tab4
     if len(vocab_pairs) < 4:
         st.warning("퀴즈를 만들기 위해 단어가 충분하지 않습니다.")
     else:
-        # 문제 단어 선택
         question = random.choice(vocab_pairs)
         word, correct_meaning = question
-
-        # 오답 3개 고르기
         wrong_choices = random.sample(
             [m for w, m in vocab_pairs if m != correct_meaning],
             3
         )
-
-        # 보기 섞기
         options = wrong_choices + [correct_meaning]
         random.shuffle(options)
-
         st.subheader(f"🔤 단어: **{word}**")
         user_answer = st.radio(“Choose the right meaning:", options)
-
         if st.button("Check answer", key="submit_quiz"):
             if user_answer == correct_meaning:
                 st.success("✅ Well done!")
             else:
                 st.error(f"❌ Error. The right answer is: **{correct_meaning}**")
-
         if st.button("🔁 Next word", key="next_quiz"):
             st.experimental_rerun()
 
