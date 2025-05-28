@@ -147,9 +147,9 @@ import streamlit as st
 import pandas as pd
 
 # Load CSVs
-synonyms_df = pd.read_csv("synonyms.csv")
-antonyms_df = pd.read_csv("antonyms.csv")
-sentences_df = pd.read_csv("sentences.csv")
+synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
+antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
+sentences_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_sentences.csv")
 
 # Get all unique words
 all_words = sorted(
