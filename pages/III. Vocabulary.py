@@ -102,44 +102,41 @@ with tab3:
         audio_fp.seek(0)
         st.audio(audio_fp, format='audio/mp3')
 
-# TAB 4: Spelling practice
-with tab4:
-    st.markdown("### 🎧 Listen and Type the Word")
-    st.caption("Click the button to hear a word. Then type it and press 'Check the answer'.")
-    if "current_word" not in st.session_state:
-        st.session_state.current_word = None
-    if "audio_data" not in st.session_state:
-        st.session_state.audio_data = None
-    if "user_input" not in st.session_state:
-        st.session_state.user_input = ""
-    if "check_clicked" not in st.session_state:
-        st.session_state.check_clicked = False
+# TAB 4: Vocabulary Quiz
+with tab4
+    st.header("💡 Multiple Choice Vocabulary Quiz")
 
-    if st.button("🔊 Let me listen to a word"):
-        st.session_state.current_word = random.choice(word_list)
-        st.session_state.user_input = ""
-        st.session_state.check_clicked = False
-        tts = gTTS(st.session_state.current_word, lang='en')
-        audio_fp = BytesIO()
-        tts.write_to_fp(audio_fp)
-        audio_fp.seek(0)
-        st.session_state.audio_data = audio_fp.read()
+    vocab_pairs = df[['Word', 'Meaning']].dropna().values.tolist()
 
-    if st.session_state.audio_data:
-        st.audio(st.session_state.audio_data, format='audio/mp3')
+    if len(vocab_pairs) < 4:
+        st.warning("퀴즈를 만들기 위해 단어가 충분하지 않습니다.")
+    else:
+        # 문제 단어 선택
+        question = random.choice(vocab_pairs)
+        word, correct_meaning = question
 
-    st.session_state.user_input = st.text_input(
-        "Type the word you heard:", value=st.session_state.user_input
-    )
+        # 오답 3개 고르기
+        wrong_choices = random.sample(
+            [m for w, m in vocab_pairs if m != correct_meaning],
+            3
+        )
 
-    if st.button("✅ Check the answer"):
-        st.session_state.check_clicked = True
+        # 보기 섞기
+        options = wrong_choices + [correct_meaning]
+        random.shuffle(options)
 
-    if st.session_state.check_clicked and st.session_state.current_word:
-        if st.session_state.user_input.strip().lower() == st.session_state.current_word.lower():
-            st.success("✅ Correct!")
-        else:
-            st.error("❌ Try again.")
+        st.subheader(f"🔤 단어: **{word}**")
+        user_answer = st.radio(“Choose the right meaning:", options)
+
+        if st.button("Check answer", key="submit_quiz"):
+            if user_answer == correct_meaning:
+                st.success("✅ Well done!")
+            else:
+                st.error(f"❌ Error. The right answer is: **{correct_meaning}**")
+
+        if st.button("🔁 Next word", key="next_quiz"):
+            st.experimental_rerun()
+
 
 # TAB 5: Word relationships
 with tab5:
