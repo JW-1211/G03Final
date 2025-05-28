@@ -39,14 +39,13 @@ word_list = df["Word"].dropna().tolist()
 
 st.write("🌱 Vocabulary learning")
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "🐥 1. Lesson: Word list",
     "📚 2. Connect the word to the passage",
     "🔉 3. Activity: Listen to the word",
     "✅ 4. Vocabulary Quiz",
     "💖 5. Word relationships",
-    "💖 6. Synonym Quiz",
-    "💖 7. Antonym Quiz"
+    "💖 6. Related word quiz"
 ])
 
 # TAB 1: Word list
@@ -254,89 +253,121 @@ with tab5:
 
 # TAB 6: Synonym Quiz
 with tab6:
-    st.title("🟢 Synonym Quiz")
+    st.title("🟢 Word Quiz")
 
-    def generate_synonym_quiz():
-        for word in word_list:
-            relations = get_word_relations(word)
-            if len(relations['synonyms']) >= 1 and len(relations['antonyms']) >= 3:
-                correct = random.choice(relations['synonyms'])
-                distractors = random.sample(relations['antonyms'], 3)
-                options = [correct] + distractors
-                random.shuffle(options)
-                return {
-                    'word': word,
-                    'question': f"Which of the following is a synonym of '{word}'?",
-                    'options': options,
-                    'correct': correct
-                }
-        st.error("Could not generate a synonym quiz. Try again later.")
+    import streamlit as st
+import pandas as pd
+import random
+
+# Load CSV data
+synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
+antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
+
+def get_related_words(df, word, prefix):
+    """Get non-empty related words from a dataframe"""
+    row = df[df['word'] == word]
+    if row.empty:
+        return []
+    return [val for i in range(1,4) 
+            if (f"{prefix}{i}" in row.columns) and pd.notna(row[f"{prefix}{i}"].values[0]) 
+            and row[f"{prefix}{i}"].values[0] != '']
+
+def generate_quiz_question():
+    """Generate a random quiz question with options"""
+    # Randomly choose between synonym or antonym question
+    question_type = random.choice(['synonym', 'antonym'])
+    
+    # Get all valid words that have at least one related word
+    valid_words = []
+    for word in set(synonyms_df['word']).union(set(antonyms_df['word'])):
+        if question_type == 'synonym' and len(get_related_words(synonyms_df, word, 'synonym')) > 0:
+            valid_words.append(word)
+        elif question_type == 'antonym' and len(get_related_words(antonyms_df, word, 'antonym')) > 0:
+            valid_words.append(word)
+    
+    if not valid_words:
         return None
+    
+    target_word = random.choice(valid_words)
+    
+    # Get correct answers
+    if question_type == 'synonym':
+        correct_answers = get_related_words(synonyms_df, target_word, 'synonym')
+        wrong_pool = get_related_words(antonyms_df, target_word, 'antonym')
+    else:
+        correct_answers = get_related_words(antonyms_df, target_word, 'antonym')
+        wrong_pool = get_related_words(synonyms_df, target_word, 'synonym')
+    
+    # Get wrong answers
+    all_words = set(synonyms_df['word']).union(set(antonyms_df['word']))
+    if len(wrong_pool) < 3:
+        additional_wrong = [w for w in all_words 
+                           if w != target_word and w not in correct_answers]
+        wrong_pool += random.sample(additional_wrong, min(3-len(wrong_pool), len(additional_wrong)))
+    
+    # Select 3 wrong answers
+    wrong_answers = random.sample(wrong_pool, 3) if len(wrong_pool) >=3 else wrong_pool
+    
+    # Combine options and shuffle
+    correct_answer = random.choice(correct_answers)
+    options = wrong_answers + [correct_answer]
+    random.shuffle(options)
+    
+    return {
+        'word': target_word,
+        'correct': correct_answer,
+        'options': options,
+        'type': question_type
+    }
 
-    if 'quiz_synonym' not in st.session_state or st.session_state['quiz_synonym'] is None:
-        st.session_state['quiz_synonym'] = generate_synonym_quiz()
-        st.session_state['score_synonym'] = 0
-        st.session_state['answered_synonym'] = False
+# Quiz Tab Implementation
+def quiz_tab():
+    st.title("📝 Vocabulary Quiz")
+    
+    # Initialize session state
+    if 'score' not in st.session_state:
+        st.session_state.score = 0
+    if 'total' not in st.session_state:
+        st.session_state.total = 0
+    if 'current_question' not in st.session_state:
+        st.session_state.current_question = generate_quiz_question()
+    if 'answered' not in st.session_state:
+        st.session_state.answered = False
+    
+    # Display current question
+    q = st.session_state.current_question
+    if q:
+        st.markdown(f"### What is the {q['type']} of **{q['word']}**?")
+        selected = st.radio("Choose the correct answer:", q['options'])
+        
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            if st.button("Submit Answer", disabled=st.session_state.answered):
+                st.session_state.answered = True
+                st.session_state.total += 1
+                if selected == q['correct']:
+                    st.session_state.score += 1
+                    st.success("✅ Correct!")
+                else:
+                    st.error(f"❌ Incorrect. The correct answer was: {q['correct']}")
+                
+        with col2:
+            if st.session_state.answered:
+                if st.button("Next Question ➡️"):
+                    st.session_state.current_question = generate_quiz_question()
+                    st.session_state.answered = False
+                    st.rerun()
+        
+        st.divider()
+        st.markdown(f"**Score:** {st.session_state.score} / {st.session_state.total}")
+    else:
+        st.error("Could not generate quiz question. Please check your data files.")
 
-    quiz = st.session_state['quiz_synonym']  # <-- Properly define quiz
-    if quiz:
-        st.markdown(f"### {quiz['question']}")
-        selected = st.radio("Options:", quiz['options'], key="options_synonym")
-        if st.button("Check Answer", key="check_synonym"):
-            st.session_state['answered_synonym'] = True
-            if selected == quiz['correct']:
-                st.success("✅ Correct! Well done!")
-                st.session_state['score_synonym'] += 1
-            else:
-                st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
-            st.markdown(f"**Score:** {st.session_state['score_synonym']}")
-        if st.session_state['answered_synonym']:
-            if st.button("Next Word", key="next_synonym"):
-                st.session_state['quiz_synonym'] = generate_synonym_quiz()
-                st.session_state['answered_synonym'] = False
-                st.rerun()
+# Add this tab to your existing app
+# In your main app code where you have other tabs, add:
+# with tabX:  # Replace X with your tab number
+#     quiz_tab()
 
-
-# TAB 7: Antonym Quiz
-with tab7:
-    st.title("🔴 Antonym Quiz")
-
-    def generate_antonym_quiz():
-        for word in word_list:
-            relations = get_word_relations(word)
-            if len(relations['antonyms']) >= 1 and len(relations['synonyms']) >= 3:
-                correct = random.choice(relations['antonyms'])
-                distractors = random.sample(relations['synonyms'], 3)
-                options = [correct] + distractors
-                random.shuffle(options)
-                return {
-                    'word': word,
-                    'question': f"Which of the following is an antonym of '{word}'?",
-                    'options': options,
-                    'correct': correct
-                }
-        st.error("Could not generate an antonym quiz. Try again later.")
-        return None
-
-    if 'quiz_antonym' not in st.session_state or st.session_state['quiz_antonym'] is None:
-        st.session_state['quiz_antonym'] = generate_antonym_quiz()
-        st.session_state['score_antonym'] = 0
-        st.session_state['answered_antonym'] = False
-
-    quiz = st.session_state['quiz_antonym']
-    if quiz:
-        st.markdown(f"### {quiz['question']}")
-        selected = st.radio("Options:", quiz['options'], key="options_antonym")
-        if st.button("Check Answer", key="check_antonym"):
-            st.session_state['answered_antonym'] = True
-            if selected == quiz['correct']:
-                st.success("✅ Correct! Well done!")
-                st.session_state['score_antonym'] += 1
-            else:
-                st.error(f"❌ Incorrect. The correct answer was: {quiz['correct']}")
-            st.markdown(f"**Score:** {st.session_state['score_antonym']}")
-        if st.session_state['answered_antonym']:
-            if st.button("Next Word", key="next_antonym"):
                 st.session_state['quiz_antonym'] = generate_antonym_quiz()
                 st.session_state['answered_antonym'] = False
                 st.rerun()  # Use st.rerun() instead of st.experimental_rerun()
