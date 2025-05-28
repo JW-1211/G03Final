@@ -41,7 +41,7 @@ from io import BytesIO
 import base64
 
 with tab3:
-    st.header("Text-to-Speech (TTS)")
+    st.header("Let's share your ideas!")
 
     text_input = st.text_area("Type a sentence to hear it in English:", "")
 
