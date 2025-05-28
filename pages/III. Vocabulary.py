@@ -40,10 +40,10 @@ word_list = df["Word"].dropna().tolist()
 st.write("🌱 Vocabulary learning")
 
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-    "💖 1. Lesson: Word list",
-    "💖 2. Connect the word to the passage",
-    "💖 3. Activity: Listen to the word",
-    "💖 4. Vocabulary quiz",
+    "1. Lesson: Word list",
+    "📚 2. Connect the word to the passage",
+    "🔉 3. Activity: Listen to the word",
+    "4. Vocabulary Quiz",
     "💖 5. Word relationships",
     "💖 6. Synonym Quiz",
     "💖 7. Antonym Quiz"
