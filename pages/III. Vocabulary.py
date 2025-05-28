@@ -104,49 +104,57 @@ with tab3:
 
 # TAB 4: Vocabulary Quiz
 with tab4:
-    st.title("💡 Multiple Choice Vocabulary Quiz")
+    st.header("💡 Multiple Choice Vocabulary Quiz")
 
     if "Word" not in df.columns or "Definition" not in df.columns:
         st.error("❌ The CSV file must contain 'Word' and 'Definition' columns.")
         st.stop()
 
-    # Prepare word-definition pairs
+    # Prepare cleaned word-definition pairs
     vocab_pairs = df[['Word', 'Definition']].dropna().values.tolist()
-
     cleaned_pairs = []
     for word, definition in vocab_pairs:
         main_meaning = definition.split(')')[0] + ')' if ')' in definition else definition
         cleaned_pairs.append((word.strip(), main_meaning.strip()))
 
-    # Remove duplicates
     cleaned_pairs = list(set(cleaned_pairs))
 
     if len(cleaned_pairs) < 4:
         st.warning("⚠️ Not enough vocabulary data to run the quiz.")
     else:
-        # Select a random quiz question
-        question = random.choice(cleaned_pairs)
-        word, correct_def = question
+        # Initialize session state
+        if "quiz_data" not in st.session_state:
+            question = random.choice(cleaned_pairs)
+            word, correct_def = question
+            wrong_defs = [d for w, d in cleaned_pairs if d != correct_def]
+            wrong_choices = random.sample(wrong_defs, 3)
+            options = wrong_choices + [correct_def]
+            random.shuffle(options)
 
-        # Choose 3 wrong definitions
-        wrong_defs = [d for w, d in cleaned_pairs if d != correct_def]
-        wrong_choices = random.sample(wrong_defs, 3) if len(wrong_defs) >= 3 else wrong_defs[:3]
+            st.session_state.quiz_data = {
+                "word": word,
+                "correct": correct_def,
+                "options": options,
+                "answered": False
+            }
 
-        options = wrong_choices + [correct_def]
-        random.shuffle(options)
+        q = st.session_state.quiz_data
 
-        st.subheader(f"📖 What is the meaning of the word: **{word}**?")
-        user_choice = st.radio("Select the correct definition:", options)
+        st.subheader(f"📖 What is the meaning of the word: **{q['word']}**?")
+        user_choice = st.radio("Select the correct definition:", q['options'], key="quiz_choice")
 
-        if st.button("Submit"):
-            if user_choice == correct_def:
+        if st.button("Submit") and not q["answered"]:
+            if user_choice == q["correct"]:
                 st.success("✅ Correct!")
             else:
-                st.error(f"❌ Wrong. The correct answer is: **{correct_def}**")
+                st.error(f"❌ Wrong. The correct answer is: **{q['correct']}**")
+            st.session_state.quiz_data["answered"] = True
 
-        if st.button("Next Question"):
-            st.experimental_rerun()
-        
+        if q["answered"]:
+            if st.button("Next Question"):
+                del st.session_state.quiz_data
+                st.experimental_rerun()
+         
 
 # TAB 5: Word relationships
 with tab5:
