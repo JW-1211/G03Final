@@ -17,7 +17,7 @@ with tab1:
 
 3. What do you think will happen to the main character? **Talk in your group!**
 
-4. Make a sentence based on what your group guessed. **Write 1 or 2 sentences in English**.
+4. Make a sentence based on what your group guessed. **Try to make 1 or 2 sentences in English**.
 """)
 
 
