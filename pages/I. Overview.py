@@ -9,7 +9,6 @@ with tab1:
     st.subheader("Guidelines")
     st.write("""
     
-    import streamlit as st
 
 st.markdown("<p style='color:blue;'> Before we start today’s lesson, let’s guess what the story is about! </p>", unsafe_allow_html=True)
     
