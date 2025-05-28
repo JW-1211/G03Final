@@ -5,9 +5,6 @@ from io import BytesIO
 import random
 import requests
 
-# --- CONFIGURATION ---
-API_NINJAS_KEY = "e+bJafR3fh0DLmxfRkUZfg==GEtwBoUf9Y8wAkyI"  # <-- Replace with your API Ninjas key
-
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
 
 @st.cache_data
