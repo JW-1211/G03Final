@@ -50,7 +50,7 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 
 # TAB 1: Word list
 with tab1:
-    st.markdown("### 📋 Word Frequency Table")
+    st.markdown("### 📋 Word List")
     if st.button("Show Word List"):
         if 'Definition' in df.columns:
             st.dataframe(
