@@ -1,7 +1,12 @@
 import streamlit as st
-from gtts import gTTS
+from elevenlabs import generate, play, set_api_key
 import io
 import re
+
+set_api_key("sk_8d5dd83b03138c19dc86df513a5032734c4a5b3957fd3600")  # <-- 여기에 본인 API 키 입력
+
+highlight_words = ["Emma", "compass", "desire", "journey", "gallery", "art"]
+highlight_color = "#fff3b0"  # 형광펜 색상
 
 text = """
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
@@ -12,57 +17,51 @@ Inspired, Emma went home to start her first painting, the compass now her most t
 """
 
 translation = """
-엠마는 어느 비 오는 오후, 다락방에서 오래된 나침반을 발견했습니다. 그것은 평범한 나침반이 아니었습니다—나침반은 북쪽이 아니라 사람의 가장 큰 욕망을 가리켰습니다. 엠마는 호기심에 이끌려 나침반이 가리키는 방향을 따라갔고, 전혀 새로운 방식으로 도시를 여행하게 되었습니다.
+엠마는 비 오는 어느 날 오후 다락방에서 오래된 나침반을 발견했습니다. 그것은 단순한 나침반이 아니라, 자석의 북쪽이 아닌 사람이 가장 바라는 것을 가리키는 나침반이었습니다. 엠마는 호기심에 이끌려 나침반을 따라 도시를 전혀 다른 시각으로 탐험하게 되었습니다.
 
-나침반은 그녀를 외로운 오래된 서점, 버려진 공원, 그리고 마침내 작은 잊혀진 미술관으로 이끌었습니다. 각 장소에서 그녀는 자신의 숨겨진 열정인 문학, 자연, 예술을 발견했습니다. 여정은 미술관에서 끝났고, 나침반은 멈췄습니다. 아름다운 그림들에 둘러싸여, 엠마는 자신이 예술가가 되고 싶다는 열망을 깨달았습니다.
+나침반은 그녀를 외로운 헌책방, 인적이 드문 공원, 그리고 작은 잊힌 미술관으로 이끌었습니다. 각 장소에서 엠마는 문학, 자연, 예술과 같은 자신의 숨겨진 열정을 발견했습니다. 마지막 미술관에서 나침반은 멈췄고, 그녀는 화가가 되고 싶다는 자신의 열망을 깨달았습니다.
 
-영감을 받은 엠마는 집으로 돌아가 첫 그림을 그리기 시작했고, 그 나침반은 이제 그녀의 가장 소중한 소지품이자 도시의 길만이 아니라 꿈을 향한 안내자가 되었습니다.
+영감을 얻은 엠마는 집으로 돌아가 첫 그림을 그리기 시작했고, 나침반은 도시뿐만 아니라 그녀의 꿈도 이끄는 가장 소중한 물건이 되었습니다.
 """
-
-highlight_words = ["compass", "desire", "Emma", "journey", "gallery", "art"]
-
-def highlight_text(text, words):
-    for word in words:
-        pattern = re.compile(rf'\b({word})\b', re.IGNORECASE)
-        text = pattern.sub(
-            r'<span style="background-color: rgba(255, 255, 0, 0.3); padding: 2px 4px; border-radius: 4px;">\1</span>',
-            text
-        )
-    return text
 
 sentences = re.split(r'(?<=[.!?])\s+', text.strip())
 
+def highlight_text(text):
+    for word in highlight_words:
+        text = re.sub(f"\\b({word})\\b", f'<mark style="background-color: {highlight_color};">{word}</mark>', text)
+    return text
+
+st.set_page_config(page_title="Read with ElevenLabs Audio", layout="wide")
 st.title("II. Read with audio")
 
-tab1, tab2, tab3 = st.tabs(["📖 1. Story", "🔤 2. Translation", "🔊 3. Read with audio"])
+tab1, tab2, tab3 = st.tabs([
+    "1️⃣ 📖 Story",
+    "2️⃣ 🅰️ Translation",
+    "3️⃣ 🔊 Read with audio"
+])
 
 with tab1:
-    st.header("📖 Story")
-    highlighted_text = highlight_text(text, highlight_words)
-    st.markdown(
-        f"<div style='font-size: 20px; line-height: 1.8;'>{highlighted_text.replace(chr(10), '<br>')}</div>",
-        unsafe_allow_html=True
-    )
+    st.header("📖 Original Story")
+    st.markdown(f"<div style='font-size: 18px; line-height: 1.6;'>{highlight_text(text)}</div>", unsafe_allow_html=True)
 
 with tab2:
-    st.header("🔤 Translation")
-    st.markdown(
-        f"<div style='font-size: 18px; line-height: 1.8;'>{translation.replace(chr(10), '<br>')}</div>",
-        unsafe_allow_html=True
-    )
+    st.header("🅰️ 번역 보기")
+    st.markdown(f"<div style='font-size: 18px; line-height: 1.6;'>{translation}</div>", unsafe_allow_html=True)
 
 with tab3:
-    st.header("🔊 Select a sentence to hear")
+    st.header("🔊 문장별 오디오 듣기")
+
     numbered_sentences = [f"{i+1}. {s}" for i, s in enumerate(sentences)]
-    selected = st.selectbox("Choose a sentence:", numbered_sentences)
+    selected = st.selectbox("문장을 선택하세요:", numbered_sentences)
 
-    if st.button("▶️ Play Audio"):
-        selected_sentence = re.sub(r'^\d+\.\s+', '', selected)
-        st.write(f"**Selected sentence:** {selected_sentence}")
+    if st.button("▶️ Play with ElevenLabs"):
+        selected_sentence = selected.split(". ", 1)[1]
 
-        tts = gTTS(text=selected_sentence, lang='en')
-        audio_bytes = io.BytesIO()
-        tts.write_to_fp(audio_bytes)
-        audio_bytes.seek(0)
+        with st.spinner("Generating voice..."):
+            audio = generate(
+                text=selected_sentence,
+                voice="Rachel",  # 기본 목소리 (변경 가능)
+                model="eleven_monolingual_v1"
+            )
 
-        st.audio(audio_bytes, format='audio/mp3')
+            st.audio(audio, format="audio/mp3")
