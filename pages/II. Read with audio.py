@@ -1,24 +1,15 @@
 import streamlit as st
+from gtts import gTTS
+import io
 import re
-import os
-import sys
-import subprocess
 
-# 💡 자동 패키지 설치
-required = ['elevenlabs']
-for pkg in required:
-    try:
-        __import__(pkg)
-    except ImportError:
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', pkg])
+# 강조할 단어 목록 및 색상 스타일 설정
+highlight_words = ["Emma", "compass", "desire", "journey", "gallery", "art"]
+def highlight_text(text):
+    for word in highlight_words:
+        text = re.sub(f"\\b({word})\\b", r'<mark style="background-color: #fff59d;">\\1</mark>', text)
+    return text
 
-from elevenlabs import generate, set_api_key
-import base64
-
-# 🗝️ API 키 설정 (보안상 실제 키는 환경변수로 처리 권장)
-set_api_key("sk_fa81c907489cb93db378208ac7a2ed1b905da3f2d2a6d0af")  # 여기에 실제 API 키 입력
-
-# 📖 텍스트와 문장 분리
 text = """
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
 
@@ -28,45 +19,45 @@ Inspired, Emma went home to start her first painting, the compass now her most t
 """
 
 translation = """
-엠마는 어느 비 오는 오후, 다락방에서 오래된 나침반을 발견했습니다. 이건 평범한 나침반이 아니었어요—자신의 가장 큰 욕망을 가리키는 나침반이었죠. 호기심에 사로잡힌 엠마는 나침반을 따라 도시를 새롭게 탐험하기 시작했습니다.
+엠마는 어느 비 오는 오후 다락방에서 오래된 나침반을 발견했습니다. 그것은 단순한 나침반이 아니었습니다—자신의 가장 큰 욕망을 가리키는 나침반이었습니다. 호기심에 사로잡힌 엠마는 그 나침반을 따라, 전에 없던 방식으로 도시를 여행하게 됩니다.
 
-그 여정은 오래된 서점, 버려진 공원, 그리고 잊혀진 작은 미술관으로 이어졌습니다. 각 장소마다 그녀는 문학, 자연, 예술과 같은 자신의 숨겨진 열정을 발견했습니다. 여정은 미술관에서 멈췄고, 나침반도 그곳에서 멈췄습니다. 아름다운 그림들 사이에서 엠마는 자신이 예술가가 되고 싶다는 걸 깨달았어요.
+나침반은 그녀를 외로운 헌책방, 인적이 끊긴 공원, 그리고 마침내 잊혀진 작은 미술관으로 이끌었습니다. 각 장소에서 엠마는 문학, 자연, 예술이라는 자신의 숨겨진 열정을 발견합니다. 미술관에 도착했을 때, 나침반은 멈추었습니다. 아름다운 그림들 속에서 엠마는 자신이 예술가가 되고 싶다는 욕망을 깨닫게 됩니다.
 
-영감을 얻은 엠마는 집으로 돌아가 첫 그림을 그리기 시작했습니다. 이제 나침반은 도시뿐 아니라 그녀의 꿈을 향한 길잡이가 되었죠.
+영감을 받은 엠마는 집으로 돌아가 첫 그림을 그리기 시작했고, 나침반은 이제 도시뿐만 아니라 그녀의 꿈을 안내해주는 가장 소중한 존재가 되었습니다.
 """
 
-# 🎯 문장 나누기 및 강조 단어 설정
 sentences = re.split(r'(?<=[.!?])\s+', text.strip())
-highlight_words = ["Emma", "compass", "desire", "journey", "gallery", "art"]
 
-# 📚 탭 구성
-tab1, tab2, tab3 = st.tabs(["1️⃣ 📖 본문", "2️⃣ 🅰️ 해석", "3️⃣ 🔊 문장별 오디오"])
+st.title("II. Read with Audio")
+tab1, tab2, tab3 = st.tabs(["1️⃣ 📖 Story", "2️⃣ ✏️ Translation", "3️⃣ 🔊 Read with audio"])
 
-# ✨ 하이라이트 함수
-def highlight_text(text, words):
-    for word in words:
-        text = re.sub(rf'\b({re.escape(word)})\b', r'<mark style="background-color: #ffff88a0">\1</mark>', text)
-    return text
-
-# 📖 탭 1 - 원문
 with tab1:
-    st.markdown("### 📖 Story")
-    st.markdown(f"<div style='font-size:18px; line-height:1.6'>{highlight_text(text, highlight_words)}</div>", unsafe_allow_html=True)
+    st.header("Original Story")
+    st.markdown(f"<div style='font-size:18px;'>{highlight_text(text)}</div>", unsafe_allow_html=True)
 
-# 🅰️ 탭 2 - 해석
 with tab2:
-    st.markdown("### 🅰️ 번역")
-    st.markdown(f"<div style='font-size:18px; line-height:1.6'>{translation}</div>", unsafe_allow_html=True)
+    st.header("한국어 해석")
+    st.markdown(f"<div style='font-size:19px;'>{translation}</div>", unsafe_allow_html=True)
 
-# 🔊 탭 3 - 오디오
 with tab3:
-    st.markdown("### 🔊 문장별 오디오 듣기")
-    for i, sentence in enumerate(sentences, 1):
-        col1, col2 = st.columns([6, 1])
-        with col1:
-            st.markdown(f"**{i}.** {sentence}")
-        with col2:
-            if st.button(f"▶️", key=f"btn_{i}"):
-                audio = generate(text=sentence, voice="Rachel", model="eleven_monolingual_v1")
-                b64 = base64.b64encode(audio).decode()
-                st.audio(f"data:audio/mp3;base64,{b64}", format="audio/mp3")
+    st.header("Select a sentence to hear")
+
+    # 문장 리스트를 번호와 함께 표시
+    sentence_options = [f"{i+1}. {s}" for i, s in enumerate(sentences)]
+    selected_label = st.selectbox("Choose a sentence:", sentence_options)
+    selected_index = sentence_options.index(selected_label)
+    selected_sentence = sentences[selected_index]
+
+    if st.button("Play Audio"):
+        st.markdown(f"**Selected sentence:** {selected_sentence}")
+
+        # gTTS로 생성 (예외적으로 2, 5, 7번은 미리 녹음된 mp3 사용)
+        if selected_index in [1, 4, 6]:
+            st.audio(f"https://yourserver.com/audio/sentence_{selected_index+1}.mp3")
+        else:
+            tts = gTTS(text=selected_sentence, lang='en')
+            audio_bytes = io.BytesIO()
+            tts.write_to_fp(audio_bytes)
+            audio_bytes.seek(0)
+            st.audio(audio_bytes, format='audio/mp3')
+
