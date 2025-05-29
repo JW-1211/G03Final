@@ -3,3 +3,4 @@ gtts
 pandas
 requests
 nltk
+elevenlabs
