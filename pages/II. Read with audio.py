@@ -4,7 +4,7 @@ import io
 import re
 
 # ElevenLabs API 키 설정
-set_api_key(sk_8d5dd83b03138c19dc86df513a5032734c4a5b3957fd3600)  # 여기에 본인의 API 키를 넣으세요
+set_api_key(sk_fa81c907489cb93db378208ac7a2ed1b905da3f2d2a6d0af)  # 여기에 본인의 API 키를 넣으세요
 
 # 텍스트 원문
 text = """
