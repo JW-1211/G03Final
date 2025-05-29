@@ -3,7 +3,7 @@ from elevenlabs import generate, play, set_api_key
 import io
 import re
 
-set_api_key("sk_8d5dd83b03138c19dc86df513a5032734c4a5b3957fd3600")  # <-- 여기에 본인 API 키 입력
+set_api_key("sk_8d5dd83b03138c19dc86df513a5032734c4a5b3957fd3600")  
 
 highlight_words = ["Emma", "compass", "desire", "journey", "gallery", "art"]
 highlight_color = "#fff3b0"  # 형광펜 색상
@@ -60,7 +60,7 @@ with tab3:
         with st.spinner("Generating voice..."):
             audio = generate(
                 text=selected_sentence,
-                voice="Rachel",  # 기본 목소리 (변경 가능)
+                voice="Rachel",  
                 model="eleven_monolingual_v1"
             )
 
