@@ -63,7 +63,7 @@ with tab1:
                 
                 matches = result.get('matches', [])
                 if not matches:
-                    st.success("✅ Your writing doesn't have any grammatical errors!")
+                    st.success("✅ No issues found!")
                 else:
                     st.error(f"❌ Found {len(matches)} issue(s):")
                     for i, match in enumerate(matches, 1):
@@ -86,9 +86,21 @@ with tab1:
         else:
             st.warning("Please enter some text.")
 
+# --- TAB 2: Padlet + Final Draft ---
+with tab2:
+    st.header("📌 Upload Assignments to Padlet")
+    st.markdown("Share your creative writing or upload your assignment below!")
+
+    PADLET_EMBED_URL = "https://padlet.com/thelightside/sentences2go"
+    components.iframe(
+        PADLET_EMBED_URL,
+        height=600,
+        scrolling=True
+    )
+
     st.divider()
 
-    # --- 3. Final Draft Section with TTS ---
+    # --- Final Draft Section with TTS (moved here) ---
     st.header("3. Final Draft")
     st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you don't refresh the page! When you're done editing, use the button on the bottom right to generate audio, so that you can practice your pronunciation before sharing your story with the class.")
 
@@ -102,7 +114,6 @@ with tab1:
         key="final_draft_area"
     )
 
-    # Two buttons side-by-side
     col1, col2 = st.columns([1, 2])
     
     with col1:
@@ -127,18 +138,6 @@ with tab1:
     if st.session_state["final_draft"]:
         st.subheader("Your saved draft:")
         st.info(st.session_state["final_draft"])
-
-# --- TAB 2: Padlet ---
-with tab2:
-    st.header("📌 Upload your writing to Padlet")
-    st.markdown("Share the sentence that you've written with the rest of the class, and work with your teammates to write a paragraph by making use of the words that you've been assigned! Visit the Padlet webpage for additional instructions.")
-
-    PADLET_EMBED_URL = "https://padlet.com/thelightside/sentences2go"
-    components.iframe(
-        PADLET_EMBED_URL,
-        height=600,
-        scrolling=True
-    )
 
 # --- TAB 3: The Epic Conclusion ---
 with tab3:
