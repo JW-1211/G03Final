@@ -235,7 +235,13 @@ with tab3:
     - 2. Sign up, select the 'Write your own script' option on the bottom left and copy-paste your paragraph in the textbox.
     - 3. After you've completed generating your AI video, select the 'Publish for free' option and upload the video to YouTube.
     - 4. Share the link on Padlet for your classmates!
-    - 5. Last but not least - after you've finished sharing, don't forget to ask for peer feedback! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
+    """)
+
+    st.header("✨ Wrapping it up")
+    st.markdown("""
+    - 1. After you've finished sharing, don't forget to ask for peer feedback! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
+    - 2. Make sure to review the vocabulary/grammar explained in today's lesson, so you don't forget it.
+    - 3. Think of what you want to do next time
     """)
 
     st.success("Excellent work! Mission accomplished successfully - congratulations on meeting your objectives.")
