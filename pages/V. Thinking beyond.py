@@ -45,7 +45,7 @@ with tab1:
     st.markdown(
         "Write a sentence describing what you think happened next in the story, after Emma went home. "
         "Use one of the random word suggestions provided by pressing the button above, and make sure to apply the past tense. "
-        "You can check your grammar, save your draft, and generate audio for pronunciation practice!"
+        "Use the tool below check your grammar, save your draft, and generate audio for pronunciation practice!"
     )
 
     if "final_draft" not in st.session_state:
