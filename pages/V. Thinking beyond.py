@@ -41,7 +41,7 @@ with tab1:
 
     st.divider()
 
-    st.header("2. Write, Check, and Save Your Story")
+    st.header("2. Sentence Writing & Proofreading")
     st.markdown(
         "Write a sentence describing what you think happened next in the story, after Emma went home. "
         "Use one of the random word suggestions provided by pressing the button above, and make sure to apply the past tense. "
