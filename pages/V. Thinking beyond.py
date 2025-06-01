@@ -230,14 +230,15 @@ with tab2:
 with tab3:
     st.header("📊 Share your writing with your classmates using AI video generation!")
     st.subheader("Instructions:")
-
     st.markdown("""
-    - 1. When your group has completed its paragraph, copy it and go to https://www.revid.ai/.
-    - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important part.
-    - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
+    - 1. After your paragraph is finished, go to https://www.steve.ai/.
+    - 2. Sign up, select the 'Write your own script' on the bottom left and copy-paste your paragraph in the textbox.
+    - 3. After you've completed generating your AI video, select the 'Publish for free' option and upload the video to YouTube.
+    - 4. Share the link on Padlet for your classmates!
+    - 5. Last but not least - after you've finished sharing, don't forget to ask for peer feedback! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
     """)
 
-    st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
+    st.success("Excellent work! Mission accomplished successfully - congratulations on meeting your objectives.")
 
     st.image(
         "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/story03.png",
