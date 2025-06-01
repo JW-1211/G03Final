@@ -22,28 +22,23 @@ with tab1:
 4. Make a sentence based on what your group guessed. **Try to make 1 or 2 sentences in English**.
 """)
 
-
 with tab2:
     st.subheader("Guess the story")
     st.write("Let's guess the story!")
-    
-    col1, col2 = st.columns([1, 2])
+
+    image1 = Image.open("images/CompassNumber.jpg")
+    st.image(image1, caption="A four-panel comic picture", use_container_width=True)
+
+
+    col1, col2 = st.columns(2)
 
     with col1:
-        image1 = Image.open("images/CompassNumber.jpg")
-        st.image(image1, caption="A four-panel comic picture", use_container_width=True)
+        image2 = Image.open("images/WordcloudE.jpg")
+        st.image(image2, caption="English word cloud", use_container_width=True)
 
     with col2:
-        
-        subcol1, subcol2 = st.columns(2)  # 워드클라우드 2개를 나란히 배치
-        with subcol1:
-            image2 = Image.open("images/WordcloudE.jpg")
-            st.image(image2, caption="English word cloud", use_container_width=True)
-
-        with subcol2:
-            image3 = Image.open("images/WordcloudK.jpg")
-            st.image(image3, caption="Korean word cloud", use_container_width=True)
-
+        image3 = Image.open("images/WordcloudK.jpg")
+        st.image(image3, caption="Korean word cloud", use_container_width=True)
 
 from gtts import gTTS
 import streamlit as st
