@@ -27,19 +27,22 @@ with tab2:
     st.subheader("Guess the story")
     st.write("Let's guess the story!")
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns([1, 2])
 
     with col1:
         image1 = Image.open("images/CompassNumber.jpg")
         st.image(image1, caption="A four-panel comic picture", use_container_width=True)
 
     with col2:
-        image2 = Image.open("images/WordcloudE.jpg")
         
-    with col3:
-        image3 + Image.open("images/WordcloudK.jpg")
-                            
-        st.image(image2, image3, caption="Word clouds", use_container_width=True)
+        subcol1, subcol2 = st.columns(2)  # 워드클라우드 2개를 나란히 배치
+        with subcol1:
+            image2 = Image.open("images/WordcloudE.jpg")
+            st.image(image2, caption="English word cloud", use_container_width=True)
+
+        with subcol2:
+            image3 = Image.open("images/WordcloudK.jpg")
+            st.image(image3, caption="Korean word cloud", use_container_width=True)
 
 
 from gtts import gTTS
