@@ -56,7 +56,7 @@ with tab1:
         st.session_state["grammar_feedback"] = None
 
     user_text = st.text_area(
-        "Write your story here:",
+        "Enter your sentence here:",
         value=st.session_state["final_draft"],
         height=200,
         key="story_area"
@@ -155,7 +155,7 @@ with tab2:
         st.session_state["grammar_feedback_padlet"] = None
 
     user_text_padlet = st.text_area(
-        "Write your story here (Padlet):",
+        "Enter your paragraph here:",
         value=st.session_state["final_draft_padlet"],
         height=200,
         key="story_area_padlet"
@@ -164,7 +164,7 @@ with tab2:
     col1p, col2p = st.columns([1, 2])
 
     with col1p:
-        if st.button("Check Grammar (Padlet)"):
+        if st.button("Check Grammar"):
             if user_text_padlet.strip():
                 url = "https://api.languagetool.org/v2/check"
                 data = {'text': user_text_padlet, 'language': 'en-US'}
@@ -198,7 +198,7 @@ with tab2:
                 st.session_state["grammar_feedback_padlet"] = "Please enter some text."
 
     with col2p:
-        if st.button("Save Draft & Generate Audio (Padlet)"):
+        if st.button("Save Draft & Generate Audio"):
             st.session_state["final_draft_padlet"] = user_text_padlet
             if user_text_padlet.strip():
                 try:
