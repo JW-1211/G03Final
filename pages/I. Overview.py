@@ -27,7 +27,7 @@ with tab2:
     st.subheader("Guess the story")
     st.write("Let's guess the story!")
     
-    col1, col2, col3 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         image1 = Image.open("images/CompassNumber.jpg")
