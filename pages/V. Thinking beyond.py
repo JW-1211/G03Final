@@ -74,9 +74,8 @@ with tab1:
                     response.raise_for_status()
                     result = response.json()
                     matches = result.get('matches', [])
-                    feedback = ""
                     if not matches:
-                        feedback = "✅ There are no grammatical errors found in your writing!"
+                        st.session_state["grammar_feedback"] = "✅ There are no grammatical errors found in your writing!"
                     else:
                         feedback = f"❌ Found {len(matches)} issue(s):\n"
                         for i, match in enumerate(matches, 1):
@@ -93,7 +92,7 @@ with tab1:
                                 f"- **Suggestion:** `{suggestion}`\n"
                                 f"- **Rule:** {match.get('rule', {}).get('description', 'Unknown rule')}\n"
                             )
-                    st.session_state["grammar_feedback"] = feedback
+                        st.session_state["grammar_feedback"] = feedback
                 except Exception as e:
                     st.session_state["grammar_feedback"] = f"API Error: {str(e)}"
             else:
@@ -115,9 +114,13 @@ with tab1:
             else:
                 st.warning("Please write something first!")
 
-    # Show grammar feedback if available
-    if st.session_state.get("grammar_feedback"):
-        st.markdown(st.session_state["grammar_feedback"])
+    # Show grammar feedback if available (only one message at a time)
+    feedback = st.session_state.get("grammar_feedback")
+    if feedback:
+        if feedback.startswith("✅"):
+            st.success(feedback)
+        else:
+            st.error(feedback)
 
     # Show latest saved draft and audio if available
     if st.session_state["final_draft"]:
