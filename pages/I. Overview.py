@@ -35,8 +35,8 @@ with tab2:
 
     with col2:
         image2 = Image.open("images/Word cloud Enlgish.jpg)
-        image3 = Image.open("images/Word cloud (Korean).jpg)                   
-        st.image(image2, caption="Word clouds", use_container_width=True)
+        image3 = Image.open("image             
+        st.image(image2, image3, caption="Word clouds", use_container_width=True)
 
 from gtts import gTTS
 import streamlit as st
