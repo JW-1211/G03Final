@@ -87,9 +87,10 @@ with tab1:
             st.warning("Please enter some text.")
 
 # --- TAB 2: Padlet + Final Draft ---
+
 with tab2:
-    st.header("📌 Upload Assignments to Padlet")
-    st.markdown("Share your creative writing or upload your assignment below!")
+    st.header("📌 Upload your writing to Padlet")
+    st.markdown("Share the sentence that you've written with the rest of the class, and work with your teammates to write a paragraph by making use of the words that you've been assigned! Visit the Padlet webpage for additional instructions.")
 
     PADLET_EMBED_URL = "https://padlet.com/thelightside/sentences2go"
     components.iframe(
