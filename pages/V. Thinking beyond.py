@@ -228,11 +228,11 @@ with tab2:
 
 # --- TAB 3: The Epic Conclusion (unchanged) ---
 with tab3:
-    st.header("📊 Share your writing with your classmates!")
-    st.subheader("Things to keep in mind while presenting:")
+    st.header("📊 Share your writing with your classmates using AI video generation!")
+    st.subheader("Instructions:")
 
     st.markdown("""
-    - 1. As you share your story, also explain your reasoning behind it! Describe why you think this might have happened.
+    - 1. When your group has completed its paragraph, copy it and go to https://www.revid.ai/.
     - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important part.
     - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
     """)
