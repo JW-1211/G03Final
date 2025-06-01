@@ -43,8 +43,8 @@ with tab1:
 
     st.header("2. Write, Check, and Save Your Story")
     st.markdown(
-        "Write a sentence describing what you think happened next in the story, after Emma went home. "
-        "Use one of the random word suggestions provided by pressing the button above, and make sure to apply the past tense. "
+        "Write a sentence or paragraph about what you think happened next in the story, after Emma went home. "
+        "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
         "You can check your grammar, save your draft, and generate audio for pronunciation practice!"
     )
 
@@ -114,7 +114,6 @@ with tab1:
             else:
                 st.warning("Please write something first!")
 
-    # Show grammar feedback if available (only one message at a time)
     feedback = st.session_state.get("grammar_feedback")
     if feedback:
         if feedback.startswith("✅"):
@@ -122,14 +121,13 @@ with tab1:
         else:
             st.error(feedback)
 
-    # Show latest saved draft and audio if available
     if st.session_state["final_draft"]:
         st.subheader("Your saved draft:")
         st.info(st.session_state["final_draft"])
         if st.session_state.get("audio_data"):
             st.audio(BytesIO(st.session_state["audio_data"]), format="audio/mp3")
 
-# --- TAB 2: Padlet ---
+# --- TAB 2: Padlet + Replicated Draft/Grammar Function ---
 with tab2:
     st.header("📌 Upload your writing to Padlet")
     st.markdown("Share the sentence that you've written with the rest of the class, and work with your teammates to write a paragraph using your assigned words! Visit the Padlet webpage for additional instructions.")
@@ -140,7 +138,95 @@ with tab2:
         scrolling=True
     )
 
-# --- TAB 3: The Epic Conclusion (restored original content) ---
+    st.divider()
+
+    # Replicated function from Tab 1, with independent session state keys
+    st.header("2. Write, Check, and Save Your Story (Padlet Draft)")
+    st.markdown(
+        "You can use this area to write, check, and save a version of your story specifically for Padlet sharing. "
+        "Grammar feedback and audio will be generated for this version only."
+    )
+
+    if "final_draft_padlet" not in st.session_state:
+        st.session_state["final_draft_padlet"] = ""
+    if "audio_data_padlet" not in st.session_state:
+        st.session_state["audio_data_padlet"] = None
+    if "grammar_feedback_padlet" not in st.session_state:
+        st.session_state["grammar_feedback_padlet"] = None
+
+    user_text_padlet = st.text_area(
+        "Write your story here (Padlet):",
+        value=st.session_state["final_draft_padlet"],
+        height=200,
+        key="story_area_padlet"
+    )
+
+    col1p, col2p = st.columns([1, 2])
+
+    with col1p:
+        if st.button("Check Grammar (Padlet)"):
+            if user_text_padlet.strip():
+                url = "https://api.languagetool.org/v2/check"
+                data = {'text': user_text_padlet, 'language': 'en-US'}
+                try:
+                    response = requests.post(url, data=data)
+                    response.raise_for_status()
+                    result = response.json()
+                    matches = result.get('matches', [])
+                    if not matches:
+                        st.session_state["grammar_feedback_padlet"] = "✅ There are no grammatical errors found in your writing!"
+                    else:
+                        feedback = f"❌ Found {len(matches)} issue(s):\n"
+                        for i, match in enumerate(matches, 1):
+                            context = match.get('context', {})
+                            offset = context.get('offset', 0)
+                            length = context.get('length', 0)
+                            context_text = context.get('text', '')
+                            error_part = context_text[offset:offset+length] if context_text else ''
+                            replacements = match.get('replacements', [])
+                            suggestion = ', '.join([r['value'] for r in replacements]) if replacements else 'No suggestion'
+                            feedback += (
+                                f"\n**Issue {i}:** {match.get('message', 'Unknown error')}\n"
+                                f"- **Error:** `{error_part}`\n"
+                                f"- **Suggestion:** `{suggestion}`\n"
+                                f"- **Rule:** {match.get('rule', {}).get('description', 'Unknown rule')}\n"
+                            )
+                        st.session_state["grammar_feedback_padlet"] = feedback
+                except Exception as e:
+                    st.session_state["grammar_feedback_padlet"] = f"API Error: {str(e)}"
+            else:
+                st.session_state["grammar_feedback_padlet"] = "Please enter some text."
+
+    with col2p:
+        if st.button("Save Draft & Generate Audio (Padlet)"):
+            st.session_state["final_draft_padlet"] = user_text_padlet
+            if user_text_padlet.strip():
+                try:
+                    tts = gTTS(user_text_padlet)
+                    audio_bytes = BytesIO()
+                    tts.write_to_fp(audio_bytes)
+                    audio_bytes.seek(0)
+                    st.session_state["audio_data_padlet"] = audio_bytes.read()
+                    st.success("Draft saved and audio generated!")
+                except Exception as e:
+                    st.error(f"Error generating audio: {str(e)}")
+            else:
+                st.warning("Please write something first!")
+
+    feedback_padlet = st.session_state.get("grammar_feedback_padlet")
+    if feedback_padlet:
+        if feedback_padlet.startswith("✅"):
+            st.success(feedback_padlet)
+        else:
+            st.error(feedback_padlet)
+
+    if st.session_state["final_draft_padlet"]:
+        st.subheader("Your saved draft (Padlet):")
+        st.info(st.session_state["final_draft_padlet"])
+        if st.session_state.get("audio_data_padlet"):
+            st.audio(BytesIO(st.session_state["audio_data_padlet"]), format="audio/mp3")
+
+# --- TAB 3: The Epic Conclusion (unchanged) ---
 with tab3:
     st.header("📊 Share your writing with your classmates!")
     st.subheader("Things to keep in mind while presenting:")
