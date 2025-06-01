@@ -63,7 +63,7 @@ with tab1:
                 
                 matches = result.get('matches', [])
                 if not matches:
-                    st.success("✅ No issues found!")
+                    st.success("✅ Your writing doesn't have any grammatical errors!")
                 else:
                     st.error(f"❌ Found {len(matches)} issue(s):")
                     for i, match in enumerate(matches, 1):
