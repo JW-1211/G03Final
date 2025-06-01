@@ -140,18 +140,19 @@ with tab2:
         scrolling=True
     )
 
-# --- TAB 3: Follow-up Activities ---
+# --- TAB 3: The Epic Conclusion (restored original content) ---
 with tab3:
     st.header("📊 Share your writing with your classmates!")
-    st.subheader("Presentation tips:")
-    
+    st.subheader("Things to keep in mind while presenting:")
+
     st.markdown("""
-    - Explain your reasoning behind the story
-    - Highlight notable events with emphasis
-    - Ask for peer feedback after presenting
+    - 1. As you share your story, also explain your reasoning behind it! Describe why you think this might have happened.
+    - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important part.
+    - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
     """)
-    
-    st.success("Congratulations! Mission accomplished successfully!")
+
+    st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
+
     st.image(
         "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/story03.png",
         caption="Thank you for participating! :D",
