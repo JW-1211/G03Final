@@ -29,6 +29,7 @@ with tab2:
     image1 = Image.open("images/CompassNumber.jpg")
     st.image(image1, caption="A four-panel comic picture", use_container_width=True)
 
+    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
