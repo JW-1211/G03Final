@@ -34,8 +34,11 @@ with tab2:
         st.image(image1, caption="A four-panel comic picture", use_container_width=True)
 
     with col2:
-        image2 = Image.open("images/Word cloud Enlgish.jpg)
-        image3 = Image.open("images/Word          
+        image2 = Image.open("images/WordcloudE.jpg")
+        
+    with col3:
+        image3 + Image.open("images/WordcloudK.jpg")
+                            
         st.image(image2, image3, caption="Word clouds", use_container_width=True)
 
 from gtts import gTTS
