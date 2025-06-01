@@ -4,20 +4,18 @@ import random
 import requests
 from gtts import gTTS
 from io import BytesIO
-import streamlit.components.v1 as components  # For embedding Padlet
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="V. Thinking beyond")
-
 st.title("Get creative!")
 
-# Define tabs with Padlet as tab2
 tab1, tab2, tab3 = st.tabs([
     "✨1. Creative writing", 
     "📌 Padlet", 
     "✨2. Follow-up activities"
 ])
 
-# --- TAB 1: Combined Random Word & Grammar Check ---
+# --- TAB 1: Combined Grammar Check & Final Draft ---
 with tab1:
     st.header("1. Get a Random Word from the Story")
     CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocab_past.csv"
@@ -43,116 +41,114 @@ with tab1:
 
     st.divider()
 
-    st.header("2. Grammar Checker")
+    st.header("2. Write, Check, and Save Your Story")
     st.markdown(
-        "Write a sentence about what you think happened next in the story, after Emma went home. "
+        "Write a sentence or paragraph about what you think happened next in the story, after Emma went home. "
         "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
-        "You'll get instant feedback and suggestions for improving your creative writing!"
+        "You can check your grammar, save your draft, and generate audio for pronunciation practice!"
     )
-    sentence = st.text_area("Enter your story to check for errors:", height=150)
-    
-    if st.button("Check Grammar"):
-        if sentence.strip():
-            url = "https://api.languagetool.org/v2/check"
-            data = {'text': sentence, 'language': 'en-US'}
-            
-            try:
-                response = requests.post(url, data=data)
-                response.raise_for_status()
-                result = response.json()
-                
-                matches = result.get('matches', [])
-                if not matches:
-                    st.success("✅ There are no grammatical errors found in your writing!")
-                else:
-                    st.error(f"❌ Found {len(matches)} issue(s):")
-                    for i, match in enumerate(matches, 1):
-                        context = match.get('context', {})
-                        offset = context.get('offset', 0)
-                        length = context.get('length', 0)
-                        context_text = context.get('text', '')
-                        error_part = context_text[offset:offset+length] if context_text else ''
-                        
-                        replacements = match.get('replacements', [])
-                        suggestion = ', '.join([r['value'] for r in replacements]) if replacements else 'No suggestion'
-                        
-                        st.markdown(f"""**Issue {i}:** {match.get('message', 'Unknown error')}\n
-- **Error:** `{error_part}`
-- **Suggestion:** `{suggestion}`
-- **Rule:** {match.get('rule', {}).get('description', 'Unknown rule')}
-""")
-            except Exception as e:
-                st.error(f"API Error: {str(e)}")
-        else:
-            st.warning("Please enter some text.")
-
-# --- TAB 2: Padlet + Final Draft ---
-
-with tab2:
-    st.header("📌 Upload your writing to Padlet")
-    st.markdown("Share the sentence that you've written with the rest of the class, and work with your teammates to write a paragraph by making use of the words that you've been assigned! Visit the Padlet webpage for additional instructions.")
-
-    PADLET_EMBED_URL = "https://padlet.com/thelightside/sentences2go"
-    components.iframe(
-        PADLET_EMBED_URL,
-        height=600,
-        scrolling=True
-    )
-
-    st.divider()
-
-    # --- Final Draft Section with TTS (moved here) ---
-    st.header("3. Final Draft")
-    st.markdown("Edit and save your final version of the story here. You can come back and revise it as much as you don't refresh the page! When you're done editing, use the button on the bottom right to generate audio, so that you can practice your pronunciation before sharing your story with the class.")
 
     if "final_draft" not in st.session_state:
         st.session_state["final_draft"] = ""
+    if "audio_data" not in st.session_state:
+        st.session_state["audio_data"] = None
+    if "grammar_feedback" not in st.session_state:
+        st.session_state["grammar_feedback"] = None
 
-    final_draft = st.text_area(
-        "Your draft goes here:",
+    user_text = st.text_area(
+        "Write your story here:",
         value=st.session_state["final_draft"],
         height=200,
-        key="final_draft_area"
+        key="story_area"
     )
 
     col1, col2 = st.columns([1, 2])
-    
+
     with col1:
-        if st.button("Save Current Draft"):
-            st.session_state["final_draft"] = final_draft
-            st.success("Draft saved for this session!")
-    
-    with col2:
-        if st.button("🎧 Generate TTS Audio"):
-            if final_draft.strip():
+        if st.button("Check Grammar"):
+            if user_text.strip():
+                url = "https://api.languagetool.org/v2/check"
+                data = {'text': user_text, 'language': 'en-US'}
                 try:
-                    tts = gTTS(final_draft)
+                    response = requests.post(url, data=data)
+                    response.raise_for_status()
+                    result = response.json()
+                    matches = result.get('matches', [])
+                    feedback = ""
+                    if not matches:
+                        feedback = "✅ There are no grammatical errors found in your writing!"
+                    else:
+                        feedback = f"❌ Found {len(matches)} issue(s):\n"
+                        for i, match in enumerate(matches, 1):
+                            context = match.get('context', {})
+                            offset = context.get('offset', 0)
+                            length = context.get('length', 0)
+                            context_text = context.get('text', '')
+                            error_part = context_text[offset:offset+length] if context_text else ''
+                            replacements = match.get('replacements', [])
+                            suggestion = ', '.join([r['value'] for r in replacements]) if replacements else 'No suggestion'
+                            feedback += (
+                                f"\n**Issue {i}:** {match.get('message', 'Unknown error')}\n"
+                                f"- **Error:** `{error_part}`\n"
+                                f"- **Suggestion:** `{suggestion}`\n"
+                                f"- **Rule:** {match.get('rule', {}).get('description', 'Unknown rule')}\n"
+                            )
+                    st.session_state["grammar_feedback"] = feedback
+                except Exception as e:
+                    st.session_state["grammar_feedback"] = f"API Error: {str(e)}"
+            else:
+                st.session_state["grammar_feedback"] = "Please enter some text."
+
+    with col2:
+        if st.button("Save Draft & Generate Audio"):
+            st.session_state["final_draft"] = user_text
+            if user_text.strip():
+                try:
+                    tts = gTTS(user_text)
                     audio_bytes = BytesIO()
                     tts.write_to_fp(audio_bytes)
                     audio_bytes.seek(0)
-                    st.audio(audio_bytes, format="audio/mp3")
+                    st.session_state["audio_data"] = audio_bytes.read()
+                    st.success("Draft saved and audio generated!")
                 except Exception as e:
                     st.error(f"Error generating audio: {str(e)}")
             else:
                 st.warning("Please write something first!")
 
+    # Show grammar feedback if available
+    if st.session_state.get("grammar_feedback"):
+        st.markdown(st.session_state["grammar_feedback"])
+
+    # Show latest saved draft and audio if available
     if st.session_state["final_draft"]:
         st.subheader("Your saved draft:")
         st.info(st.session_state["final_draft"])
+        if st.session_state.get("audio_data"):
+            st.audio(BytesIO(st.session_state["audio_data"]), format="audio/mp3")
 
-# --- TAB 3: The Epic Conclusion ---
+# --- TAB 2: Padlet ---
+with tab2:
+    st.header("📌 Upload your writing to Padlet")
+    st.markdown("Share the sentence that you've written with the rest of the class, and work with your teammates to write a paragraph using your assigned words! Visit the Padlet webpage for additional instructions.")
+    
+    components.iframe(
+        "https://padlet.com/thelightside/sentences2go",
+        height=600,
+        scrolling=True
+    )
+
+# --- TAB 3: Follow-up Activities ---
 with tab3:
     st.header("📊 Share your writing with your classmates!")
-    st.subheader("Things to keep in mind while presenting:")
-
+    st.subheader("Presentation tips:")
+    
     st.markdown("""
-    - 1. As you share your story, also explain your reasoning behind it! Describe why you think this might have happened.
-    - 2. What are some notable events in your story? Make sure to put in emphasis when you get to the important part.
-    - 3. Last but not least - after you've finished sharing, don't forget to ask for peer feedback from your classmates! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
+    - Explain your reasoning behind the story
+    - Highlight notable events with emphasis
+    - Ask for peer feedback after presenting
     """)
-
-    st.success("Congratulations! Mission accomplished successfully - congrats on meeting your objectives.")
-
+    
+    st.success("Congratulations! Mission accomplished successfully!")
     st.image(
         "https://raw.githubusercontent.com/JW-1211/G03Final/main/images/story03.png",
         caption="Thank you for participating! :D",
