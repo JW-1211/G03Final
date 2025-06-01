@@ -41,7 +41,7 @@ with tab1:
 
     st.divider()
 
-    st.header("2. Write, Check, and Save Your Story")
+    st.header("2. Sentence Writing & Proofreading")
     st.markdown(
         "Write a sentence or paragraph about what you think happened next in the story, after Emma went home. "
         "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
@@ -141,10 +141,10 @@ with tab2:
     st.divider()
 
     # Replicated function from Tab 1, with independent session state keys
-    st.header("2. Write, Check, and Save Your Story (Padlet Draft)")
+    st.header("2. Writing Assistant")
     st.markdown(
-        "You can use this area to write, check, and save a version of your story specifically for Padlet sharing. "
-        "Grammar feedback and audio will be generated for this version only."
+        "Use the Writing Assistant from earlier to check for errors in your group's paragraph - and practice reading aloud!"
+        
     )
 
     if "final_draft_padlet" not in st.session_state:
