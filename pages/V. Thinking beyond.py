@@ -43,8 +43,8 @@ with tab1:
 
     st.header("2. Write, Check, and Save Your Story")
     st.markdown(
-        "Write a sentence or paragraph about what you think happened next in the story, after Emma went home. "
-        "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
+        "Write a sentence describing what you think happened next in the story, after Emma went home. "
+        "Use one of the random word suggestions provided by pressing the button above, and make sure to apply the past tense. "
         "You can check your grammar, save your draft, and generate audio for pronunciation practice!"
     )
 
