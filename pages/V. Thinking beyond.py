@@ -240,8 +240,8 @@ with tab3:
     st.header("✨ Wrapping it up")
     st.markdown("""
     - 1. After you've finished sharing, don't forget to ask for peer feedback! Brainstorming as a group is a great way to enhance creativity, and make sure that you haven't left any mistakes lying around.
-    - 2. Make sure to review the vocabulary/grammar explained in today's lesson, so you don't forget it.
-    - 3. Think of what you want to do next time
+    - 2. Remember to review the vocabulary/grammar explained in today's lesson later, so you don't forget anything.
+    - 3. There's going to be a short quiz on today's lesson next week - so don't forget!
     """)
 
     st.success("Excellent work! Mission accomplished successfully - congratulations on meeting your objectives.")
