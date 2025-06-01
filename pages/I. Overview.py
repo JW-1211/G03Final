@@ -35,7 +35,7 @@ with tab2:
 
     with col2:
         image2 = Image.open("images/Word cloud Enlgish.jpg)
-        image3 = Image.open("image             
+        image3 = Image.open("images/Word          
         st.image(image2, image3, caption="Word clouds", use_container_width=True)
 
 from gtts import gTTS
