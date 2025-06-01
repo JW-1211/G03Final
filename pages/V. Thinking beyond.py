@@ -11,8 +11,8 @@ st.title("Get creative!")
 
 tab1, tab2, tab3 = st.tabs([
     "✨1. Creative writing", 
-    "📌 Padlet", 
-    "✨2. Follow-up activities"
+    "📌2. Padlet", 
+    "✨3. Follow-up activities"
 ])
 
 # --- TAB 1: Combined Grammar Check & Final Draft ---
@@ -43,8 +43,8 @@ with tab1:
 
     st.header("2. Write, Check, and Save Your Story")
     st.markdown(
-        "Write a sentence or paragraph about what you think happened next in the story, after Emma went home. "
-        "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
+        "Write a sentence describing what you think happened next in the story, after Emma went home. "
+        "Use one of the random word suggestions provided by pressing the button above, and make sure to apply the past tense. "
         "You can check your grammar, save your draft, and generate audio for pronunciation practice!"
     )
 
@@ -56,7 +56,7 @@ with tab1:
         st.session_state["grammar_feedback"] = None
 
     user_text = st.text_area(
-        "Write your story here:",
+        "Enter your sentence here:",
         value=st.session_state["final_draft"],
         height=200,
         key="story_area_1"
@@ -141,10 +141,10 @@ with tab2:
     st.divider()
 
     # Replicated function from Tab 1, with independent session state keys
-    st.header("2. Write, Check, and Save Your Story (Padlet Draft)")
+    st.header("Writing Assistant")
     st.markdown(
-        "You can use this area to write, check, and save a version of your story specifically for Padlet sharing. "
-        "Grammar feedback and audio will be generated for this version only."
+        "Use the Writing Assistant from earlier to check for grammatical errors in your group's paragraph, and practice reading aloud!"
+        
     )
 
     if "final_draft_padlet" not in st.session_state:
@@ -155,7 +155,7 @@ with tab2:
         st.session_state["grammar_feedback_padlet"] = None
 
     user_text_padlet = st.text_area(
-        "Write your story here (Padlet):",
+        "Enter your paragraph here:",
         value=st.session_state["final_draft_padlet"],
         height=200,
         key="story_area_2"
