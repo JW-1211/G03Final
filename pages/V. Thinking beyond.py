@@ -11,8 +11,8 @@ st.title("Get creative!")
 
 tab1, tab2, tab3 = st.tabs([
     "✨1. Creative writing", 
-    "📌 Padlet", 
-    "✨2. Follow-up activities"
+    "📌2. Padlet", 
+    "✨3. Follow-up activities"
 ])
 
 # --- TAB 1: Combined Grammar Check & Final Draft ---
