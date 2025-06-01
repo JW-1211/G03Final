@@ -11,8 +11,8 @@ st.title("Get creative!")
 
 tab1, tab2, tab3 = st.tabs([
     "✨1. Creative writing", 
-    "📌2. Padlet", 
-    "✨3. Follow-up activities"
+    "📌 Padlet", 
+    "✨2. Follow-up activities"
 ])
 
 # --- TAB 1: Combined Grammar Check & Final Draft ---
@@ -35,13 +35,13 @@ with tab1:
         if "Word" not in df.columns:
             st.error("CSV must have a column named 'Word'.")
         else:
-            if st.button("Suggest a Random Word"):
+            if st.button("Suggest a Random Word", key="suggest_word_1"):
                 word = random.choice(df["Word"].dropna().tolist())
                 st.success(f"Your random word is: **{word}**")
 
     st.divider()
 
-    st.header("2. Sentence Writing & Proofreading")
+    st.header("2. Write, Check, and Save Your Story")
     st.markdown(
         "Write a sentence or paragraph about what you think happened next in the story, after Emma went home. "
         "Use one of the random word suggestions by pressing the button above, and make sure to apply the past tense. "
@@ -56,16 +56,16 @@ with tab1:
         st.session_state["grammar_feedback"] = None
 
     user_text = st.text_area(
-        "Enter your sentence here:",
+        "Write your story here:",
         value=st.session_state["final_draft"],
         height=200,
-        key="story_area"
+        key="story_area_1"
     )
 
     col1, col2 = st.columns([1, 2])
 
     with col1:
-        if st.button("Check Grammar"):
+        if st.button("Check Grammar", key="check_grammar_1"):
             if user_text.strip():
                 url = "https://api.languagetool.org/v2/check"
                 data = {'text': user_text, 'language': 'en-US'}
@@ -99,7 +99,7 @@ with tab1:
                 st.session_state["grammar_feedback"] = "Please enter some text."
 
     with col2:
-        if st.button("Save Draft & Generate Audio"):
+        if st.button("Save Draft & Generate Audio", key="save_draft_1"):
             st.session_state["final_draft"] = user_text
             if user_text.strip():
                 try:
@@ -141,10 +141,10 @@ with tab2:
     st.divider()
 
     # Replicated function from Tab 1, with independent session state keys
-    st.header("2. Writing Assistant")
+    st.header("2. Write, Check, and Save Your Story (Padlet Draft)")
     st.markdown(
-        "Use the Writing Assistant from earlier to check for errors in your group's paragraph - and practice reading aloud!"
-        
+        "You can use this area to write, check, and save a version of your story specifically for Padlet sharing. "
+        "Grammar feedback and audio will be generated for this version only."
     )
 
     if "final_draft_padlet" not in st.session_state:
@@ -155,16 +155,16 @@ with tab2:
         st.session_state["grammar_feedback_padlet"] = None
 
     user_text_padlet = st.text_area(
-        "Enter your paragraph here:",
+        "Write your story here (Padlet):",
         value=st.session_state["final_draft_padlet"],
         height=200,
-        key="story_area_padlet"
+        key="story_area_2"
     )
 
     col1p, col2p = st.columns([1, 2])
 
     with col1p:
-        if st.button("Check Grammar"):
+        if st.button("Check Grammar", key="check_grammar_2"):
             if user_text_padlet.strip():
                 url = "https://api.languagetool.org/v2/check"
                 data = {'text': user_text_padlet, 'language': 'en-US'}
@@ -198,7 +198,7 @@ with tab2:
                 st.session_state["grammar_feedback_padlet"] = "Please enter some text."
 
     with col2p:
-        if st.button("Save Draft & Generate Audio"):
+        if st.button("Save Draft & Generate Audio", key="save_draft_2"):
             st.session_state["final_draft_padlet"] = user_text_padlet
             if user_text_padlet.strip():
                 try:
