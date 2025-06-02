@@ -9,7 +9,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## How to Use
+## Overview
 
 1. **Input your English story text** into the application.
 2. **Run the analysis** to receive detailed feedback on grammar and vocabulary.
@@ -17,7 +17,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Features
+## Read with audio
 
 - **Grammar Analysis:** Sentence parsing and parts of speech tagging.
 - **Vocabulary Insights:** Word frequency, difficulty levels, and more.
@@ -26,7 +26,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Get Started
+## Vocabulary
 
 - Visit the [application page](#) <!-- Replace # with your Streamlit app link -->
 - Enter your story text and click "Analyze".
@@ -36,5 +36,24 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Example
+## Grammar
 
+- **Grammar Analysis:** Sentence parsing and parts of speech tagging.
+- **Vocabulary Insights:** Word frequency, difficulty levels, and more.
+- **Visualizations:** Interactive displays of sentence structures.
+- **Summaries:** Easy-to-understand explanations and highlights.
+---
+
+## Thinking beyond
+
+- **Grammar Analysis:** Sentence parsing and parts of speech tagging.
+- **Vocabulary Insights:** Word frequency, difficulty levels, and more.
+- **Visualizations:** Interactive displays of sentence structures.
+- **Summaries:** Easy-to-understand explanations and highlights.
+
+---
+
+- ## Conclusion
+
+This application helps you understand the grammar and vocabulary of English-based stories.  
+It analyzes your text to provide insights into sentence structure, parts of speech, and vocabulary usage.
