@@ -1,7 +1,6 @@
-
-
-
 # English Story Grammar and Vocabulary Analyzer
+
+![Logo]([https://example.com/logo.png](https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png))
 
 ## Introduction
 
@@ -32,6 +31,8 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 - Visit the [application page](#) <!-- Replace # with your Streamlit app link -->
 - Enter your story text and click "Analyze".
 - Review the grammar and vocabulary feedback.
+
+- # Lesson plan with customized apps
 
 ---
 
