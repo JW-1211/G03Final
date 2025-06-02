@@ -141,7 +141,7 @@ with tab5:
         set(synonyms_df['word']).union(set(antonyms_df['word']))
     )
 
-    selected_word = st.selectbox("Choose a word (relationships):", all_words, key="relationships")
+    selected_word = st.selectbox("Choose a word:", all_words, key="relationships")
 
     def get_word_list(df, word, prefix):
         row = df[df['word'] == word]
