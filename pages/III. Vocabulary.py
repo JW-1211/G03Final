@@ -19,7 +19,7 @@ def load_word_list():
 df = load_word_list()
 word_list = df["Word"].dropna().tolist()
 
-st.write("🌱 Vocabulary learning")
+st.title("🌱 Vocabulary learning")
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "🐥 1. Lesson: Word list",
