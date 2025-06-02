@@ -1,6 +1,6 @@
 # English Story Grammar and Vocabulary Analyzer
 
-![compass](https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png)
+![Compass Logo](https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png)
 
 ## Introduction
 
