@@ -11,9 +11,9 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ## Overview
 
-1. **Guidelines** - Instructions for activity steps and procedures on this page
-2. **Guess the story** - Three visual aids provided for story inference
-3. **Share ideas** - Share inferred ideas together within the group
+- **Guidelines** - Instructions for activity steps and procedures on this page.
+- **Guess the story** - Three visual aids provided for story inference.
+- **Share ideas** - Share inferred ideas together within the group.
 
 ---
 
