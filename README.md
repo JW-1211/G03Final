@@ -28,10 +28,12 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ## Vocabulary 
 
-	**1.Word List Check** – Review vocabulary by parts of speech.
-	**2.Word in Context** – See how each word is used in a real passage.
-	**3.Listen & Repeat** – Practice pronunciation by listening to each word.
-	**4.Quiz Time** – Test your understanding with a multiple-choice quiz (choose the correct Korean meaning).
+1.**Word List Check** – Review vocabulary by parts of speech.
+2.**Word in Context** – See how each word is used in a real passage.
+3.**Listen & Repeat** – Practice pronunciation by listening to each word.
+4.**Quiz Time** – Test your understanding with a multiple-choice quiz (choose the correct Korean meaning).
+
+Let’s build your vocabulary step by step!
 
 Let’s build your vocabulary step by step!
 - # Lesson plan with customized apps
