@@ -26,12 +26,14 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Vocabulary
+## Vocabulary 
 
-- Visit the [application page](#) <!-- Replace # with your Streamlit app link -->
-- Enter your story text and click "Analyze".
-- Review the grammar and vocabulary feedback.
+	**1.Word List Check** – Review vocabulary by parts of speech.
+	**2.Word in Context** – See how each word is used in a real passage.
+	**3.Listen & Repeat** – Practice pronunciation by listening to each word.
+	**4.Quiz Time** – Test your understanding with a multiple-choice quiz (choose the correct Korean meaning).
 
+Let’s build your vocabulary step by step!
 - # Lesson plan with customized apps
 
 ---
