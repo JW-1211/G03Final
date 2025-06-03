@@ -71,6 +71,6 @@ Let’s build your vocabulary step by step!
 
 ---
 
-Thank you for coming, and we hope you enjoy our work! :)
+Thank you for stopping by, and we hope you enjoy our work! :)
 
 ---
