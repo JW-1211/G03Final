@@ -30,4 +30,10 @@ We hope you enjoy this educational experience! Feel free to provide additional f
 """)
 
 st.markdown("---")
-st.write("Thank you for using our application! Feel free to explore and provide feedback.")
+import streamlit as st
+
+st.markdown("""
+> "The only way to do great work is to love what you do."  
+> — Steve Jobs
+""")
+
