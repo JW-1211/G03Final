@@ -7,7 +7,7 @@ Welcome! You can access our application through [this link](https://g03final.str
 
 ---
 
-## ✨ Introduction
+## ✨ "So, what's this app about?"
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
@@ -17,7 +17,6 @@ This application helps you understand the grammar and vocabulary of English-base
 It analyzes your text to provide insights into sentence structure, parts of speech, and vocabulary usage.
 
 # Key features of this app include:
----
 
 ## 1️⃣ Overview
 
