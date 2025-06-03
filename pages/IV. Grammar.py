@@ -4,7 +4,7 @@ from io import BytesIO
 import random
 import pandas as pd
 
-st.write("🌱 Grammar Learning")
+st.title("🌱 Grammar Learning")
 
 # Create tabs
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
