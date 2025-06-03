@@ -13,7 +13,7 @@ Welcome! You can access our application through [this link](https://g03final.str
   <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
 </p>
 
-This application helps you to improve both grammar and vocabulary through careful reading and in-depth analysis of a short story called 'The Lost Compass'. Below is the complete text of the story.  
+This application aims to improve the overall English proficiency of middle school students, through reading and analysis of a short story called 'The Lost Compass'. Below is the complete text of the story:
 
 ```
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
@@ -22,7 +22,7 @@ The compass led her to various places: a lonely old bookstore, a deserted park, 
 Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
 ```
 
-# Key features of this app include:
+# This app is composed of:
 
 ## 1️⃣ Overview
 
