@@ -1,4 +1,4 @@
-# 🧭 Expand your English vocabulary and improve your grammar through story analysis!
+# Enhance your English proficiency through story analysis! 🧭
 
 Welcome! You can access our application through [this link](https://g03final.streamlit.app/) or via QR code:
 <p align="left">
