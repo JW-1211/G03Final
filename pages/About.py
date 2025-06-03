@@ -33,7 +33,7 @@ st.markdown("---")
 import streamlit as st
 
 st.markdown("""
-> "The only way to do great work is to love what you do."  
-> — Steve Jobs
+> "Never give up hope, no matter how dark things seem."  
+> — Star Wars: The Clone Wars, Season 5 Episode 20
 """)
 
