@@ -35,10 +35,9 @@ Inspired, Emma went home to start her first painting, the compass now her most t
 
 ## 2️⃣ Read with audio
 
-- 🧩 **Grammar Analysis:** Sentence parsing and parts of speech tagging.
-- 📊 **Vocabulary Insights:** Word frequency, difficulty levels, and more.
-- 📈 **Visualizations:** Interactive displays of sentence structures.
-- 📝 **Summaries:** Easy-to-understand explanations and highlights.
+- 🧩 **Story Content** The story is presented with key vocabulary highlighted to support contextual learning.
+- 📊 **Korean Translation** Each paragraph is paired with its Korean translation to enhance comprehension.
+- 💿 **Audio Playback:** Learners can select and listen to individual sentences for focused listening practice.
 
 ---
 
