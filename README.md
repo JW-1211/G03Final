@@ -1,4 +1,4 @@
-# English Story Grammar and Vocabulary Analyzer
+# Expand your English vocabulary and improve your grammar through story analysis!
 
 <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
 
