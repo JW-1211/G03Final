@@ -34,6 +34,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 - **Quiz Time** – Test your understanding with a multiple-choice quiz (choose the correct Korean meaning).
 
 Let’s build your vocabulary step by step!
+
 ---
 
 
