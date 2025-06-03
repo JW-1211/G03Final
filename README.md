@@ -32,6 +32,8 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 - **Word in Context** – See how each word is used in a real passage.
 - **Listen & Repeat** – Practice pronunciation by listening to each word.
 - **Quiz Time** – Test your understanding with a multiple-choice quiz (choose the correct Korean meaning).
+- **Word Relations** – Get familiar with the synonyms and antonyms of the words used in the story to expand your vocabulary.
+- **Relations quiz** – Evaluate yourself on how well you remember synonyms/antonyms of a specific word!
 
 Let’s build your vocabulary step by step!
 
