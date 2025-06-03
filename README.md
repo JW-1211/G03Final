@@ -27,17 +27,17 @@ Inspired, Emma went home to start her first painting, the compass now her most t
 
 ## 1️⃣ Overview
 
-- 📋 **Guidelines**: Instructions for activity steps and procedures on this page.
-- 🕵️‍♂️ **Guess the story**: Three visual aids provided for story inference.
-- 💬 **Share ideas**: Share inferred ideas together within the group.
+- 📋 **Guidelines** - Instructions for activity steps and procedures on this page.
+- 🕵️‍♂️ **Guess the story** - Three visual aids provided for story inference.
+- 💬 **Share ideas** - Share inferred ideas together within the group.
 
 ---
 
 ## 2️⃣ Read with audio
 
-- 🧩 **Story Content:** The story is presented with key vocabulary highlighted to support contextual learning.
-- 📊 **Korean Translation:** Each paragraph is paired with its Korean translation to enhance comprehension.
-- 💿 **Audio Playback:** Learners can select and listen to individual sentences for focused listening practice.
+- 🧩 **Story Content** - The story is presented with key vocabulary highlighted to support contextual learning.
+- 📊 **Korean Translation** - Each paragraph is paired with its Korean translation to enhance comprehension.
+- 💿 **Audio Playback** - Learners can select and listen to individual sentences for focused listening practice.
 
 ---
 
@@ -56,18 +56,18 @@ Let’s build your vocabulary step by step!
 
 ## 4️⃣ Grammar
 
-- 🎥 **Past tense video:** Conceptual explanation video about past tense
-- 📖 **Understanding Past tense:** Explains the concept of past tense and how to create regular past tenses, followed by a table of 30 basic irregular past tenses, including irregular past tenses presented in the text. And the final table shows a total of eight past tenses presented in the story.
-- 🔉 **Pronunciation Practice:** Students can practice by listening to the pronunciation of each of the regular and irregular past tenses. 
-- 📝 **Regular verb quiz and Irregular verb quiz:** Students can listen to the pronunciation of each past tense they've learned and enter words to create and memorize past tenses on their own. 
+- 🎥 **Past tense video** - Conceptual explanation video about past tense
+- 📖 **Understanding Past tense** - Explains the concept of past tense and how to create regular past tenses, followed by a table of 30 basic irregular past tenses, including irregular past tenses presented in the text. And the final table shows a total of eight past tenses presented in the story.
+- 🔉 **Pronunciation Practice** - Students can practice by listening to the pronunciation of each of the regular and irregular past tenses. 
+- 📝 **Regular verb quiz and Irregular verb quiz** - Students can listen to the pronunciation of each past tense they've learned and enter words to create and memorize past tenses on their own. 
 
 ---
 
 ## 5️⃣ Thinking beyond
 
-- ✍️ **Creative writing:** Practice creative thinking and writing your own sentences/paragraphs based on the previous story
-- 🎬 **Follow-up activities:** Share your paragraphs with the class in the form of a video, by using AI
-- 🏠 **Homework:** Review your learning and practice for next week's quiz!
+- ✍️ **Creative writing** - Practice creative thinking and writing your own sentences/paragraphs based on the previous story
+- 🎬 **Follow-up activities** - Share your paragraphs with the class in the form of a video, by using AI
+- 🏠 **Homework** - Review your learning and practice for next week's quiz!
 
 ---
 
