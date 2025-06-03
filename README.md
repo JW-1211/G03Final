@@ -13,7 +13,7 @@ Welcome! You can access our application through [this link](https://g03final.str
   <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
 </p>
 
-This application aims to improve the overall English proficiency of middle schoolers through a carefully structured sequence of activities, includes listening, reading, writing, and many more! Each lesson is based on a short story called 'The Lost Compass' - and the complete text of the story is provided below:
+This application aims to improve the overall English proficiency of middle schoolers through a carefully structured sequence of activities, which includes listening, reading, writing, and many more! Each lesson is based on a short story called 'The Lost Compass', and the complete text of the story is provided below:
 
 ```
 Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
