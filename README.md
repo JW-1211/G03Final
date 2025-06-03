@@ -49,10 +49,9 @@ Let’s build your vocabulary step by step!
 
 ## Thinking beyond
 
-- **Grammar Analysis:** Sentence parsing and parts of speech tagging.
-- **Vocabulary Insights:** Word frequency, difficulty levels, and more.
-- **Visualizations:** Interactive displays of sentence structures.
-- **Summaries:** Easy-to-understand explanations and highlights.
+- **Creative writing:** Practice creative thinking and writing your own sentences/paragraphs based on the previous story
+- **Follow-up activities:** Share your paragraphs with the class in the form of a video, by using AI
+- **Homework:** Review your learning and pratice for next week's quiz!
 
 ---
 
