@@ -5,6 +5,22 @@ from io import BytesIO
 import random
 import requests
 
+st.markdown("""
+    <style>
+    /* Make the Streamlit tab bar horizontally scrollable */
+    .stTabs [data-baseweb="tab-list"] {
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        display: flex !important;
+        scrollbar-width: thin;
+    }
+    .stTabs [data-baseweb="tab"] {
+        flex: 0 0 auto !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 CSV_URL = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/vocabulary.csv"
 
 @st.cache_data
