@@ -1,7 +1,7 @@
 # 🧭 Expand your English vocabulary and improve your grammar through story analysis!
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="35%" />
+  <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
 </p>
 
 ---
