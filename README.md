@@ -71,9 +71,6 @@ Let’s build your vocabulary step by step!
 
 ---
 
-## 🏁 Conclusion
-
-This application helps you understand the grammar and vocabulary of English-based stories.  
-It analyzes your text to provide insights into sentence structure, parts of speech, and vocabulary usage.
+Thank you for coming, and we hope you enjoy our work! :)
 
 ---
