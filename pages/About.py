@@ -1,9 +1,9 @@
 import streamlit as st
 
-st.title("About this app:")
+st.title("✔️About this app:")
 
 st.markdown("""
-Welcome, traveler! Make yourself comfortable.
+Welcome, traveler! Feel free to make yourself comfortable, and stay around for awhile.
 
 This application helps with the practice and reinforcement of a variety of linguistic skills, including (but not limited to) listening, reading, vocabulary memorization, and writing!
 """)
