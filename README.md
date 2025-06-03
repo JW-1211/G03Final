@@ -1,10 +1,6 @@
 # 🧭 Expand your English vocabulary and improve your grammar through story analysis!
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
-</p>
-
-You can access the application through [this link](https://g03final.streamlit.app/) or via QR code:
+Welcome! You can access our application through [this link](https://g03final.streamlit.app/) or via QR code:
 <p align="left">
   <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/QR%20code_g3.png" alt="Compass Logo" width="30%" />
 </p>
@@ -12,6 +8,10 @@ You can access the application through [this link](https://g03final.streamlit.ap
 ---
 
 ## ✨ Introduction
+
+<p align="left">
+  <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
+</p>
 
 This application helps you understand the grammar and vocabulary of English-based stories.  
 It analyzes your text to provide insights into sentence structure, parts of speech, and vocabulary usage.
