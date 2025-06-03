@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("About the English Story Grammar and Vocabulary Analyzer")
+st.title("About this app:")
 
 st.markdown("""
 Welcome to the **English Story Grammar and Vocabulary Analyzer**!
@@ -8,14 +8,14 @@ Welcome to the **English Story Grammar and Vocabulary Analyzer**!
 This application helps readers, learners, and educators better understand the grammar and vocabulary used in English stories.
 """)
 
-st.header("Purpose")
+st.header("This application consists of:")
 st.write("""
-The main goal of this application is to provide detailed insights into the grammatical structure and vocabulary of any English story text you input.
 
-By breaking down sentences, tagging parts of speech, and analyzing vocabulary difficulty, it helps users:
-- Improve reading comprehension
-- Enhance language learning
-- Support educational activities
+- **Overview**
+- **Read with audio**
+- **Vocabulary**
+- **Grammar**
+- **Thinking beyond**
 """)
 
 st.header("How It Works")
@@ -33,15 +33,6 @@ st.write("""
 - Teachers looking for tools to aid instruction  
 - Writers and editors interested in language analysis  
 - Anyone curious about the inner workings of English stories
-""")
-
-st.header("Future Improvements")
-st.write("""
-We plan to add features such as:
-- Support for multiple languages
-- More advanced semantic analysis
-- User accounts and saved analyses
-- Enhanced visualization options
 """)
 
 st.markdown("---")
