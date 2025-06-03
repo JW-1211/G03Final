@@ -34,6 +34,6 @@ import streamlit as st
 
 st.markdown("""
 > "Courage begins by trusting oneself."  
-> — Star Wars: The Clone Wars, S5 E18
+> — Star Wars: The Clone Wars, _The Jedi Who Knew Too Much_ S5 E18
 """)
 
