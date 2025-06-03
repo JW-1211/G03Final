@@ -18,12 +18,15 @@ st.write("""
 - **5. Thinking beyond✍️**: Creative thinking, creative writing and modernized sharing methods
 """)
 
-st.header("🟣Who Is This For?")
+st.header("🟣Who is this for?")
 st.write("""
-- Students learning English grammar and vocabulary  
-- Teachers looking for tools to aid instruction  
-- Writers and editors interested in language analysis  
-- Anyone curious about the inner workings of English stories
+- Middle school students who want to learn English grammar and vocabulary  
+- Teachers looking for tools to aid classroom activities  
+- And anyone else who's interested in a quick and easy way to improve their English proficiency
+""")
+
+st.markdown("""
+We hope you enjoy this educational experience! Feel free to provide additional feedback and ideas at totallyrandom@email.com :)
 """)
 
 st.markdown("---")
