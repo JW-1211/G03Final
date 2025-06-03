@@ -16,6 +16,7 @@ Welcome! You can access our application through [this link](https://g03final.str
 This application helps you understand the grammar and vocabulary of English-based stories.  
 It analyzes your text to provide insights into sentence structure, parts of speech, and vocabulary usage.
 
+# Key features of this app include:
 ---
 
 ## 1️⃣ Overview
