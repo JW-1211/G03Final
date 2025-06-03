@@ -13,8 +13,14 @@ Welcome! You can access our application through [this link](https://g03final.str
   <img src="https://raw.githubusercontent.com/JW-1211/G03Final/main/images/Compass.png" alt="Compass Logo" width="60%" />
 </p>
 
-This application helps you understand the grammar and vocabulary of English-based stories.  
-It analyzes your text to provide insights into sentence structure, parts of speech, and vocabulary usage.
+This application helps you to improve both grammar and vocabulary through careful reading and in-depth analysis of a short story called 'The Lost Compass'. Below is the complete text of the story.  
+
+```
+Emma found an old compass in her attic one rainy afternoon. It wasn’t just any compass—it pointed to one’s greatest desire rather than magnetic north. Emma, driven by curiosity, followed the compass’s lead, which took her on a journey through her city like never before.
+The compass led her to various places: a lonely old bookstore, a deserted park, and finally, a small, forgotten art gallery. At each stop, she discovered pieces of her own hidden passions: literature, nature, and art. The journey ended at the gallery, where the compass stopped moving. There, surrounded by beautiful paintings, Emma realized her desire to become an artist.
+
+Inspired, Emma went home to start her first painting, the compass now her most treasured possession, guiding her not just through the city, but through her dreams.
+```
 
 # Key features of this app include:
 
