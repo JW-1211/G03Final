@@ -35,8 +35,8 @@ Inspired, Emma went home to start her first painting, the compass now her most t
 
 ## 2️⃣ Read with audio
 
-- 🧩 **Story Content** The story is presented with key vocabulary highlighted to support contextual learning.
-- 📊 **Korean Translation** Each paragraph is paired with its Korean translation to enhance comprehension.
+- 🧩 **Story Content:** The story is presented with key vocabulary highlighted to support contextual learning.
+- 📊 **Korean Translation:** Each paragraph is paired with its Korean translation to enhance comprehension.
 - 💿 **Audio Playback:** Learners can select and listen to individual sentences for focused listening practice.
 
 ---
