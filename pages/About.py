@@ -12,10 +12,10 @@ st.header("This app consists of five parts in total:")
 st.write("""
 
 - **1. Overview📋**: Warm-up activities including guesswork and sharing ideas
-- **2. Read with audio**: Practicing reading the story aloud with audio
-- **3. Vocabulary**: Memorizing key words and definitions, and expanding vocabulary with synonyms/antonyms
-- **4. Grammar**: Studying rules and examples involving verbs with regular & irregular forms of past tense
-- **5. Thinking beyond**: Creative thinking, creative writing and modernized sharing methods
+- **2. Read with audio🔉**: Practicing reading the story aloud with audio
+- **3. Vocabulary📝**: Memorizing key words and definitions, and expanding vocabulary with synonyms/antonyms
+- **4. Grammar🧩**: Studying rules and examples involving verbs with regular & irregular forms of past tense
+- **5. Thinking beyond✍️**: Creative thinking, creative writing and modernized sharing methods
 """)
 
 st.header("Who Is This For?")
