@@ -9,7 +9,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Overview
+## 1. Overview
 
 - **Guidelines**: Instructions for activity steps and procedures on this page.
 - **Guess the story**: Three visual aids provided for story inference.
@@ -17,7 +17,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Read with audio
+## 2. Read with audio
 
 - **Grammar Analysis:** Sentence parsing and parts of speech tagging.
 - **Vocabulary Insights:** Word frequency, difficulty levels, and more.
@@ -26,7 +26,7 @@ It analyzes your text to provide insights into sentence structure, parts of spee
 
 ---
 
-## Vocabulary 
+## 3. Vocabulary 
 
 - **Word List Check** – Review vocabulary by parts of speech.
 - **Word in Context** – See how each word is used in a real passage.
@@ -40,7 +40,7 @@ Let’s build your vocabulary step by step!
 ---
 
 
-## Grammar
+## 4. Grammar
 
 - **Past tense video:** Conceptual explanation video about past tense
 - **Understanding Past tense:** Explains the concept of past tense and how to create regular past tenses, followed by a table of 30 basic irregular past tenses, including irregular past tenses presented in the text. And the final table shows a total of eight past tenses presented in the story.
@@ -48,7 +48,7 @@ Let’s build your vocabulary step by step!
 - **Regular verb quiz and Irregular verb quiz:** Students can listen to the pronunciation of each past tense they've learned and enter words to create and memorize past tenses on their own. 
 ---
 
-## Thinking beyond
+## 5. Thinking beyond
 
 - **Creative writing:** Practice creative thinking and writing your own sentences/paragraphs based on the previous story
 - **Follow-up activities:** Share your paragraphs with the class in the form of a video, by using AI
