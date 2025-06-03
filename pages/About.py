@@ -33,7 +33,7 @@ st.markdown("---")
 import streamlit as st
 
 st.markdown("""
-> "Never give up hope, no matter how dark things seem."  
-> — Star Wars: The Clone Wars, Season 5 Episode 20
+> "Courage begins by trusting oneself."  
+> — Star Wars: The Clone Wars, S5 E18
 """)
 
