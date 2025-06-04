@@ -5,7 +5,7 @@ st.title("✔️About this app:")
 st.markdown("""
 Welcome, traveler! Feel free to make yourself comfortable, and stay around for awhile.
 
-This application helps with the practice and reinforcement of a variety of linguistic skills, including (but not limited to) listening, reading, vocabulary memorization, and writing!
+This application helps with the practice and reinforcement of a variety of linguistic skills, including (but not limited to) listening, reading, vocabulary retention, and writing!
 """)
 
 st.header("🟣This app consists of five parts in total:")
