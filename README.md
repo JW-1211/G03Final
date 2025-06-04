@@ -67,7 +67,7 @@ Let’s build your vocabulary step by step!
 
 - ✍️ **Creative writing** – Practice creative thinking and writing your own sentences/paragraphs based on the previous story
 - ✍️ **Follow-up activities** – Share your paragraphs with the class in the form of a video, by using AI
-- ✍️ **Homework** – Review your learning and practice for next week's quiz!
+- ✍️ **Homework** – Review your learning and study for next week's quiz!
 
 ---
 
