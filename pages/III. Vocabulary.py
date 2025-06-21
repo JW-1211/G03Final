@@ -301,7 +301,7 @@ with tab6:
     # Quiz in progress
     if idx < len(questions):
         q = questions[idx]
-        st.markdown(f"### Which is a {q['type']} of **{q['word']}**?")
+        st.markdown(f"### Which is a/an {q['type']} of **{q['word']}**?")
         st.session_state.quiz_selected = st.radio(
             "Choose the correct answer:",
             q['options'],
@@ -326,7 +326,7 @@ with tab6:
         st.divider()
         st.markdown(f"**Progress:** {idx+1} / {len(questions)} &nbsp;&nbsp; **Score:** {st.session_state.quiz_score}")
     else:
-        st.success("🎉 Quiz Complete! You've gone through all the words.")
+        st.success("🎉 Quiz complete! You've gone through all the words.")
         st.markdown(f"**Final Score:** {st.session_state.quiz_score} / {len(questions)}")
         if st.button("Restart Quiz"):
             del st.session_state.quiz_questions
