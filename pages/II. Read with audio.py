@@ -53,7 +53,6 @@ with tab3:
     st.header("🧠 True / False Quiz (Auto-generated)")
     st.markdown("아래 문장을 읽고 사실이면 ✅ True, 아니면 ❌ False를 선택하세요.")
 
-    # 사실 문장 후보 추출
     true_statements = [
         "Emma found an old compass.",
         "The compass pointed to her greatest desire.",
@@ -64,7 +63,6 @@ with tab3:
         "Emma started painting after the journey."
     ]
 
-    # False 문장 자동 생성 (일부 단어 바꿔서)
     false_versions = {
         "Emma found an old compass.": "Emma found an old **map**.",
         "The compass pointed to her greatest desire.": "The compass pointed to **magnetic north**.",
@@ -75,13 +73,14 @@ with tab3:
         "Emma started painting after the journey.": "Emma started **writing poems** after the journey."
     }
 
-    # 문제 구성: 진짜 문장 2개, 바꾼 문장 2개
-    selected_true = random.sample(true_statements, 2)
-    selected_false = random.sample([false_versions[s] for s in selected_true], 2)
-
-    # 쌍으로 정답과 함께 묶기
-    quiz_items = [(s, True) for s in selected_true] + [(s, False) for s in selected_false]
-    random.shuffle(quiz_items)
+    if 'quiz_items' not in st.session_state:
+        selected_true = random.sample(true_statements, 2)
+        selected_false = random.sample([false_versions[s] for s in selected_true], 2)
+        quiz_items = [(s, True) for s in selected_true] + [(s, False) for s in selected_false]
+        random.shuffle(quiz_items)
+        st.session_state.quiz_items = quiz_items
+    else:
+        quiz_items = st.session_state.quiz_items
 
     user_answers = []
     for i, (question, answer) in enumerate(quiz_items):
