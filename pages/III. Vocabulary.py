@@ -149,6 +149,20 @@ with tab4:
 
 # TAB 5: Word relationships
 with tab5:
+    st.markdown("""
+    <style>
+    hr {
+        margin-top: 0.1rem !important;
+        margin-bottom: 0.1rem !important;
+    }
+    [data-testid="stCaption"] {
+        margin-top: 0.1rem !important;
+        margin-bottom: 0.1rem !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+with tab5:
     synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
     antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
     sentences_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_sentences.csv")
@@ -213,11 +227,10 @@ with tab5:
         else:
             st.info("This word doesn't have any matching antonyms.")
 
-    # --- The info caption is placed here, just above the divider and before sentences ---
+    # --- Caption just above the divider, with minimal spacing ---
     st.caption(
         "Tip: Click on any synonym or antonym button above to see example sentences for that word."
     )
-
     st.divider()
 
     if st.session_state.clicked_word:
