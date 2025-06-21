@@ -149,7 +149,6 @@ with tab4:
 
 # TAB 5: Word relationships
 with tab5:
-    with tab5:
     synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
     antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
     sentences_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_sentences.csv")
@@ -241,7 +240,6 @@ with tab5:
                     audio_fp.seek(0)
                     with sent_cols[1]:
                         st.audio(audio_fp, format='audio/mp3')
-
 
 # TAB 6: Related word quiz
 with tab6:
@@ -343,4 +341,3 @@ with tab6:
             del st.session_state.quiz_answered
             del st.session_state.quiz_selected
             st.rerun()
-
