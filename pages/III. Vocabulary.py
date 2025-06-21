@@ -60,7 +60,7 @@ with tab1:
                 }
             )
         else:
-            st.warning("The 'Definition' column was not found in your CSV file. Please check the column 
+            st.warning("The 'Definition' column was not found in your CSV file. Please check the column name.")
 
     if st.button("Show Easy Word List"):
         st.markdown("#### 🔹 Word List from GitHub")
@@ -78,6 +78,7 @@ with tab1:
                     }
                 )
             else:
+            
                 st.warning("The 'Definition' column was not found in the GitHub CSV.")
         except Exception as e:
             st.error(f"Error loading data from GitHub: {e}")
