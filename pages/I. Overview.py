@@ -50,7 +50,7 @@ import base64
 
 with tab3:
     st.header("Let's share your ideas!")
-    st.write("You can write your sentence here. Don't worry about mistakes-we'll fix them and listen together!")
+    st.write("Speak your sentence out loud! Don't worry about mistakes-we'll fix them and listen together!")
 
     text_input = st.text_area("Type your English sentence here:", "")
         
