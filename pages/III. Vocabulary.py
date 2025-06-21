@@ -213,12 +213,12 @@ with tab5:
         else:
             st.info("This word doesn't have any matching antonyms.")
 
-    st.divider()
-
-    # Description shown here, just above the example sentences
+    # --- The info caption is placed here, just above the divider and before sentences ---
     st.caption(
         "Tip: Click on any synonym or antonym button above to see example sentences for that word."
     )
+
+    st.divider()
 
     if st.session_state.clicked_word:
         row = sentences_df[
