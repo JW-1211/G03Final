@@ -62,9 +62,9 @@ with tab1:
         else:
             st.warning("The 'Definition' column was not found in your CSV file. Please check the column 
 
-    if st.button("Show Word List from GitHub"):
+    if st.button("Show Easy Word List"):
         st.markdown("#### 🔹 Word List from GitHub")
-        csv_url = "http://raw.githubusercontent.com/JW-1211/G03Final/main/data/voc.csv"
+        csv_url = "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/voc.csv#L8"
         try:
             df_remote = pd.read_csv(csv_url)
 
