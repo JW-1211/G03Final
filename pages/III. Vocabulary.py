@@ -251,49 +251,47 @@ def get_related_words(df, word, prefix):
             if f"{prefix}{i}" in row and pd.notna(row[f"{prefix}{i}"].values[0]) and row[f"{prefix}{i}"].values[0] != '']
 
 def generate_quiz_question():
-    # --- START OF MINIMAL CHANGES in this function ---
+    all_words = set(synonyms_df['word']).union(set(antonyms_df['word']))
     
-    # Get all possible words and filter out the ones already used
-    all_words_pool = set(synonyms_df['word']).union(set(antonyms_df['word']))
-    unused_words = [word for word in all_words_pool if word not in st.session_state.used_words]
+    # Find words that still need a synonym question
+    synonym_candidates = [
+        w for w in all_words 
+        if w not in st.session_state.used_synonym_words and len(get_related_words(synonyms_df, w, 'synonym')) > 0
+    ]
+    # Find words that still need an antonym question
+    antonym_candidates = [
+        w for w in all_words 
+        if w not in st.session_state.used_antonym_words and len(get_related_words(antonyms_df, w, 'antonym')) > 0
+    ]
 
-    # If no unused words are left, the quiz is over
-    if not unused_words:
-        return None
-    
-    question_type = random.choice(['synonym', 'antonym'])
-    valid_words = []
-    
-    # Iterate over ONLY the unused words to find a valid question
-    for word in unused_words:
-        if question_type == 'synonym' and len(get_related_words(synonyms_df, word, 'synonym')) > 0:
-            valid_words.append(word)
-        elif question_type == 'antonym' and len(get_related_words(antonyms_df, word, 'antonym')) > 0:
-            valid_words.append(word)
-            
-    if not valid_words:
-        return None # Return None if no valid question can be formed from remaining words
-        
-    target_word = random.choice(valid_words)
-    
-    # Add the chosen word to the set of used words
-    st.session_state.used_words.add(target_word)
+    # Decide on question type based on what's available
+    possible_types = []
+    if synonym_candidates:
+        possible_types.append('synonym')
+    if antonym_candidates:
+        possible_types.append('antonym')
 
-    # --- END OF MINIMAL CHANGES in this function ---
-    
+    if not possible_types:
+        return None  # Quiz is over
+
+    question_type = random.choice(possible_types)
+
     if question_type == 'synonym':
+        target_word = random.choice(synonym_candidates)
+        st.session_state.used_synonym_words.add(target_word)
         correct_answers = get_related_words(synonyms_df, target_word, 'synonym')
         wrong_pool = get_related_words(antonyms_df, target_word, 'antonym')
-    else:
+    else:  # antonym
+        target_word = random.choice(antonym_candidates)
+        st.session_state.used_antonym_words.add(target_word)
         correct_answers = get_related_words(antonyms_df, target_word, 'antonym')
         wrong_pool = get_related_words(synonyms_df, target_word, 'synonym')
-        
-    all_words = set(synonyms_df['word']).union(set(antonyms_df['word']))
+
     if len(wrong_pool) < 3:
         additional_wrong = [w for w in all_words if w != target_word and w not in correct_answers]
-        wrong_pool += random.sample(additional_wrong, min(3-len(wrong_pool), len(additional_wrong)))
+        wrong_pool += random.sample(additional_wrong, min(3 - len(wrong_pool), len(additional_wrong)))
         
-    wrong_answers = random.sample(wrong_pool, 3) if len(wrong_pool) >=3 else wrong_pool
+    wrong_answers = random.sample(wrong_pool, 3) if len(wrong_pool) >= 3 else wrong_pool
     correct_answer = random.choice(correct_answers)
     options = wrong_answers + [correct_answer]
     random.shuffle(options)
@@ -305,15 +303,15 @@ def generate_quiz_question():
         'type': question_type
     }
 
+# Initialize session state variables
 if 'score' not in st.session_state:
     st.session_state.score = 0
 if 'total' not in st.session_state:
     st.session_state.total = 0
-    
-# --- NEW --- Initialize the set for used words
-if 'used_words' not in st.session_state:
-    st.session_state.used_words = set()
-    
+if 'used_synonym_words' not in st.session_state:
+    st.session_state.used_synonym_words = set()
+if 'used_antonym_words' not in st.session_state:
+    st.session_state.used_antonym_words = set()
 if 'current_question' not in st.session_state:
     st.session_state.current_question = generate_quiz_question()
 if 'answered' not in st.session_state:
@@ -321,7 +319,6 @@ if 'answered' not in st.session_state:
 
 q = st.session_state.current_question
 
-# --- MODIFIED --- Added an 'else' block to handle quiz completion
 if q:
     st.markdown(f"### Which is a(an) {q['type']} of **{q['word']}**?")
     selected = st.radio("Choose the correct answer:", q['options'])
@@ -345,6 +342,13 @@ if q:
     st.divider()
     st.markdown(f"**Score:** {st.session_state.score} / {st.session_state.total}")
 else:
-    # This message appears when all words have been used
-    st.success("🎉 Quiz complete! You have gone through all the available words.")
+    st.success("🎉 Quiz complete! You have answered all available questions.")
     st.markdown(f"### **Final Score:** {st.session_state.score} / {st.session_state.total}")
+    
+    if st.button("Retake Quiz"):
+        # Reset all necessary session state keys to start over
+        keys_to_reset = ['score', 'total', 'used_synonym_words', 'used_antonym_words', 'current_question', 'answered']
+        for key in keys_to_reset:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.rerun()
