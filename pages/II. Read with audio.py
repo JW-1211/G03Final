@@ -27,7 +27,7 @@ sentences = re.split(r'(?<=[.!?])\s+', ' '.join(text_paragraphs).strip())
 
 st.title("II. Read with audio")
 
-tab1, tab2, tab3 = st.tabs(["1️⃣ 📘 Story + Translation", "2️⃣ 🔊 Read with audio", "3️⃣ 🧩 Activity"])
+tab1, tab2, tab3 = st.tabs(["1️⃣ 📘 Story + Translation", "2️⃣ 🔊 Read with audio", "3️⃣ 🧠 True / False Quiz"])
 
 with tab1:
     st.header("📘 Story + Translation")
@@ -50,47 +50,50 @@ with tab2:
         st.audio(audio_bytes, format='audio/mp3')
 
 with tab3:
-    st.header("🧩 Story Activity: Select the correct order by number")
-    st.markdown("📝 Read the sentences below, then select the correct order by choosing the numbers for each step.")
+    st.header("🧠 True / False Quiz (Auto-generated)")
+    st.markdown("아래 문장을 읽고 사실이면 ✅ True, 아니면 ❌ False를 선택하세요.")
 
-    correct_order = [
+    # 사실 문장 후보 추출
+    true_statements = [
         "Emma found an old compass.",
+        "The compass pointed to her greatest desire.",
         "Emma followed the compass through the city.",
-        "Emma visited an art gallery.",
-        "Emma decided to become an artist."
+        "She visited a bookstore, a park, and an art gallery.",
+        "The compass stopped moving in the gallery.",
+        "Emma realized she wanted to become an artist.",
+        "Emma started painting after the journey."
     ]
 
-    # 번호와 문장 출력
-    for idx, sentence in enumerate(correct_order, start=1):
-        st.write(f"{idx}. {sentence}")
+    # False 문장 자동 생성 (일부 단어 바꿔서)
+    false_versions = {
+        "Emma found an old compass.": "Emma found an old **map**.",
+        "The compass pointed to her greatest desire.": "The compass pointed to **magnetic north**.",
+        "Emma followed the compass through the city.": "Emma **ignored** the compass and stayed home.",
+        "She visited a bookstore, a park, and an art gallery.": "She visited a **café**, a mall, and a theater.",
+        "The compass stopped moving in the gallery.": "The compass **never stopped** moving.",
+        "Emma realized she wanted to become an artist.": "Emma realized she wanted to become a **scientist**.",
+        "Emma started painting after the journey.": "Emma started **writing poems** after the journey."
+    }
 
-    step_keys = [f"step_{i}" for i in range(len(correct_order))]
-    numbers = list(range(1, len(correct_order)+1))
+    # 문제 구성: 진짜 문장 2개, 바꾼 문장 2개
+    selected_true = random.sample(true_statements, 2)
+    selected_false = random.sample([false_versions[s] for s in selected_true], 2)
 
-    if 'selected_numbers' not in st.session_state:
-        st.session_state.selected_numbers = {k: 0 for k in step_keys}  # 0 = not selected
+    # 쌍으로 정답과 함께 묶기
+    quiz_items = [(s, True) for s in selected_true] + [(s, False) for s in selected_false]
+    random.shuffle(quiz_items)
 
-    selected_numbers = st.session_state.selected_numbers
+    user_answers = []
+    for i, (question, answer) in enumerate(quiz_items):
+        user_input = st.radio(f"{i+1}. {question}", options=["True", "False"], key=f"tf_{i}")
+        user_answers.append(user_input == "True")
 
-    # 중복 선택 방지용: 이미 고른 번호들
-    chosen_numbers = [num for k, num in selected_numbers.items() if num != 0]
-
-    for i, key in enumerate(step_keys):
-        available_numbers = [num for num in numbers if num not in chosen_numbers or selected_numbers[key] == num]
-        selected_num = st.selectbox(f"Step {i+1} 번호 선택", options=[0] + available_numbers, format_func=lambda x: "선택 안함" if x == 0 else str(x), key=key)
-        selected_numbers[key] = selected_num
-        # 선택 즉시 반영
-        chosen_numbers = [num for k, num in selected_numbers.items() if num != 0]
-
-    if st.button("Check Order"):
-        user_order_nums = [selected_numbers[k] for k in step_keys]
-        if 0 in user_order_nums:
-            st.warning("모든 단계를 선택하세요.")
-        elif len(set(user_order_nums)) != len(user_order_nums):
-            st.warning("중복된 번호를 선택하지 마세요.")
-        else:
-            user_order = [correct_order[num - 1] for num in user_order_nums]
-            if user_order == correct_order:
-                st.success("✅ 정답입니다!")
+    if st.button("Check Answers"):
+        score = 0
+        for i, (q, correct) in enumerate(quiz_items):
+            if user_answers[i] == correct:
+                st.success(f"✅ Q{i+1}: Correct")
+                score += 1
             else:
-                st.error("❌ 순서가 틀렸습니다. 다시 시도해보세요.")
+                st.error(f"❌ Q{i+1}: Incorrect (Answer: {'True' if correct else 'False'})")
+        st.markdown(f"### Your Score: {score} / {len(quiz_items)}")
