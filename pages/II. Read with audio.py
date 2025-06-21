@@ -73,6 +73,12 @@ with tab3:
         "Emma started painting after the journey.": "Emma started **writing poems** after the journey."
     }
 
+    # 새 문제 만들기 버튼
+    if st.button("🔁 새 문제 풀기"):
+        if 'quiz_items' in st.session_state:
+            del st.session_state.quiz_items
+
+    # 문제 생성
     if 'quiz_items' not in st.session_state:
         selected_true = random.sample(true_statements, 2)
         selected_false = random.sample([false_versions[s] for s in selected_true], 2)
@@ -83,7 +89,7 @@ with tab3:
         quiz_items = st.session_state.quiz_items
 
     user_answers = []
-    for i, (question, answer) in enumerate(quiz_items):
+    for i, (question, _) in enumerate(quiz_items):
         user_input = st.radio(f"{i+1}. {question}", options=["True", "False"], key=f"tf_{i}")
         user_answers.append(user_input == "True")
 
@@ -96,3 +102,9 @@ with tab3:
             else:
                 st.error(f"❌ Q{i+1}: Incorrect (Answer: {'True' if correct else 'False'})")
         st.markdown(f"### Your Score: {score} / {len(quiz_items)}")
+
+    if st.button("📖 해설 보기"):
+        st.markdown("### 📘 해설")
+        for i, (q, correct) in enumerate(quiz_items):
+            explanation = "This is stated in the story." if correct else "This is **not** mentioned or contradicts the story."
+            st.markdown(f"**Q{i+1}:** {q} → {'✅ True' if correct else '❌ False'}  \n→ {explanation}")
