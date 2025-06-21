@@ -229,7 +229,7 @@ with tab5:
 
     # --- Caption just above the divider, with minimal spacing ---
     st.caption(
-        "Tip: Click on any synonym or antonym button above to see example sentences for that word."
+        "Tip: Click on any of the word buttons shown above to see example sentences for that word."
     )
     st.divider()
 
