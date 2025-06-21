@@ -50,8 +50,8 @@ with tab2:
         st.audio(audio_bytes, format='audio/mp3')
 
 with tab3:
-    st.header("🧩 Story Activity: Sentence Ordering")
-    st.markdown("📝 Select the story events in the correct order:")
+    st.header("🧩 Story Activity: Select the correct order by number")
+    st.markdown("📝 Read the sentences below, then select the correct order by choosing the numbers for each step.")
 
     correct_order = [
         "Emma found an old compass.",
@@ -60,40 +60,37 @@ with tab3:
         "Emma decided to become an artist."
     ]
 
-    options = correct_order.copy()
-    random.shuffle(options)
+    # 번호와 문장 출력
+    for idx, sentence in enumerate(correct_order, start=1):
+        st.write(f"{idx}. {sentence}")
 
     step_keys = [f"step_{i}" for i in range(len(correct_order))]
+    numbers = list(range(1, len(correct_order)+1))
 
-    if 'selected_steps' not in st.session_state:
-        st.session_state.selected_steps = {k: "" for k in step_keys}
+    if 'selected_numbers' not in st.session_state:
+        st.session_state.selected_numbers = {k: 0 for k in step_keys}  # 0 = not selected
 
-    selected_steps = st.session_state.selected_steps
+    selected_numbers = st.session_state.selected_numbers
 
-    def get_remaining_options(selected_steps, options, current_step):
-        current_choice = selected_steps.get(current_step, "")
-        chosen_elsewhere = [selected_steps[k] for k in step_keys if k != current_step and selected_steps.get(k, "") != ""]
-        remaining = [opt for opt in options if (opt not in chosen_elsewhere)]
-        return current_choice, remaining
+    # 중복 선택 방지용: 이미 고른 번호들
+    chosen_numbers = [num for k, num in selected_numbers.items() if num != 0]
 
     for i, key in enumerate(step_keys):
-        current_choice, remaining = get_remaining_options(selected_steps, options, key)
-
-        if current_choice != "" and current_choice not in remaining:
-            select_options = ["", current_choice] + remaining
-            index = 1
-        else:
-            select_options = [""] + remaining
-            index = select_options.index(current_choice) if current_choice in select_options else 0
-
-        selected = st.selectbox(f"Step {i+1}", select_options, index=index, key=key)
-        selected_steps[key] = selected
+        available_numbers = [num for num in numbers if num not in chosen_numbers or selected_numbers[key] == num]
+        selected_num = st.selectbox(f"Step {i+1} 번호 선택", options=[0] + available_numbers, format_func=lambda x: "선택 안함" if x == 0 else str(x), key=key)
+        selected_numbers[key] = selected_num
+        # 선택 즉시 반영
+        chosen_numbers = [num for k, num in selected_numbers.items() if num != 0]
 
     if st.button("Check Order"):
-        user_order = [selected_steps.get(k, "") for k in step_keys]
-        if "" in user_order:
-            st.warning("Please select all sentences.")
-        elif user_order == correct_order:
-            st.success("✅ Correct order!")
+        user_order_nums = [selected_numbers[k] for k in step_keys]
+        if 0 in user_order_nums:
+            st.warning("모든 단계를 선택하세요.")
+        elif len(set(user_order_nums)) != len(user_order_nums):
+            st.warning("중복된 번호를 선택하지 마세요.")
         else:
-            st.error("❌ Not quite! Try again.")
+            user_order = [correct_order[num - 1] for num in user_order_nums]
+            if user_order == correct_order:
+                st.success("✅ 정답입니다!")
+            else:
+                st.error("❌ 순서가 틀렸습니다. 다시 시도해보세요.")
