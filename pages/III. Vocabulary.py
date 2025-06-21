@@ -60,7 +60,26 @@ with tab1:
                 }
             )
         else:
-            st.warning("The 'Definition' column was not found in your CSV file. Please check the column name.")
+            st.warning("The 'Definition' column was not found in your CSV file. Please check the column 
+    # GitHub 링크에서 단어장 불러오기
+        st.markdown("#### 🔹 Easy Word List")
+        csv_url = "http://raw.githubusercontent.com/JW-1211/G03Final/main/data/voc.csv"
+        try:
+            df_remote = pd.read_csv(csv_url)
+
+            if 'Definition' in df_remote.columns:
+                st.dataframe(
+                    df_remote[['Word', 'Definition', 'Frequency']] if 'Frequency' in df_remote.columns else df_remote[['Word', 'Definition']],
+                    use_container_width=True,
+                    column_config={
+                        'Word': 'Vocabulary Term',
+                        'Definition': st.column_config.TextColumn('Meaning')
+                    }
+                )
+            else:
+                st.warning("The 'Definition' column was not found in the GitHub CSV.")
+        except Exception as e:
+            st.error(f"Error loading data from GitHub: {e}")
 
 # TAB 2 : Connect the word to the passage
 with tab2: 
