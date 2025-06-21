@@ -47,6 +47,14 @@ import os
 from io import BytesIO
 import base64
 
+import openai
+from gtts import gTTS
+from io import BytesIO
+import base64
+import streamlit as st
+
+openai.api_key = "your-openai-api-key"  # 여기에 본인 키 입력!
+
 with tab3:
     st.header("Let's share your ideas!")
 
@@ -56,15 +64,30 @@ with tab3:
         if text_input.strip() == "":
             st.warning("Please enter some text.")
         else:
-            tts = gTTS(text_input, lang='en')
+            # ✅ OpenAI로 문법 교정
+            with st.spinner("Correcting grammar..."):
+                response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": "You are a helpful English grammar corrector."},
+                        {"role": "user", "content": f"Correct the grammar in this sentence: {text_input}"}
+                    ]
+                )
+                corrected_text = response['choices'][0]['message']['content'].strip()
+
+            st.subheader("✅ Corrected Sentence:")
+            st.success(corrected_text)
+
+            # ✅ TTS (gTTS로 수정된 문장 읽기)
+            tts = gTTS(corrected_text, lang='en')
             mp3_fp = BytesIO()
             tts.write_to_fp(mp3_fp)
             mp3_fp.seek(0)
             b64 = base64.b64encode(mp3_fp.read()).decode()
+
             audio_html = f"""
                 <audio autoplay controls>
-                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                    <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
                 </audio>
             """
             st.markdown(audio_html, unsafe_allow_html=True)
-
