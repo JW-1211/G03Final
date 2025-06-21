@@ -65,7 +65,6 @@ with tab3:
         if text_input.strip() == "":
             st.warning("Please enter some text.")
         else:
-            # ✅ OpenAI로 문법 교정
             with st.spinner("Correcting grammar..."):
                 response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
@@ -79,7 +78,6 @@ with tab3:
             st.subheader("✅ Corrected Sentence:")
             st.success(corrected_text)
 
-            # ✅ TTS (gTTS로 수정된 문장 읽기)
             tts = gTTS(corrected_text, lang='en')
             mp3_fp = BytesIO()
             tts.write_to_fp(mp3_fp)
