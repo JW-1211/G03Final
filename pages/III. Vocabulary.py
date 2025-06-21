@@ -243,6 +243,7 @@ with tab6:
     synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
     antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
 
+    # Helper functions
     def get_related_words(df, word, prefix):
         row = df[df['word'] == word]
         if row.empty:
@@ -250,68 +251,88 @@ with tab6:
         return [row[f"{prefix}{i}"].values[0] for i in range(1, 4)
                 if f"{prefix}{i}" in row and pd.notna(row[f"{prefix}{i}"].values[0]) and row[f"{prefix}{i}"].values[0] != '']
 
-    def generate_quiz_question():
-        question_type = random.choice(['synonym', 'antonym'])
-        valid_words = []
-        for word in set(synonyms_df['word']).union(set(antonyms_df['word'])):
-            if question_type == 'synonym' and len(get_related_words(synonyms_df, word, 'synonym')) > 0:
-                valid_words.append(word)
-            elif question_type == 'antonym' and len(get_related_words(antonyms_df, word, 'antonym')) > 0:
-                valid_words.append(word)
-        if not valid_words:
-            return None
-        target_word = random.choice(valid_words)
-        if question_type == 'synonym':
-            correct_answers = get_related_words(synonyms_df, target_word, 'synonym')
-            wrong_pool = get_related_words(antonyms_df, target_word, 'antonym')
-        else:
-            correct_answers = get_related_words(antonyms_df, target_word, 'antonym')
-            wrong_pool = get_related_words(synonyms_df, target_word, 'synonym')
-        all_words = set(synonyms_df['word']).union(set(antonyms_df['word']))
-        if len(wrong_pool) < 3:
-            additional_wrong = [w for w in all_words if w != target_word and w not in correct_answers]
-            wrong_pool += random.sample(additional_wrong, min(3-len(wrong_pool), len(additional_wrong)))
-        wrong_answers = random.sample(wrong_pool, 3) if len(wrong_pool) >=3 else wrong_pool
-        correct_answer = random.choice(correct_answers)
-        options = wrong_answers + [correct_answer]
-        random.shuffle(options)
-        return {
-            'word': target_word,
-            'correct': correct_answer,
-            'options': options,
-            'type': question_type
-        }
+    # Build question list: each question is a dict with 'word', 'type' ('synonym'/'antonym'), 'correct', 'options'
+    @st.cache_data
+    def build_quiz_questions():
+        questions = []
+        all_words = sorted(set(synonyms_df['word']).union(set(antonyms_df['word'])))
+        for word in all_words:
+            syns = get_related_words(synonyms_df, word, 'synonym')
+            ants = get_related_words(antonyms_df, word, 'antonym')
+            # Synonym question
+            if syns:
+                correct = random.choice(syns)
+                # Gather wrong options from antonyms or other synonyms
+                wrongs = []
+                for other_word in all_words:
+                    if other_word != word:
+                        wrongs += get_related_words(antonyms_df, other_word, 'antonym')
+                        wrongs += get_related_words(synonyms_df, other_word, 'synonym')
+                wrong_choices = random.sample([w for w in wrongs if w != correct], k=min(3, len([w for w in wrongs if w != correct])))
+                options = wrong_choices + [correct]
+                random.shuffle(options)
+                questions.append({'word': word, 'type': 'synonym', 'correct': correct, 'options': options})
+            # Antonym question
+            if ants:
+                correct = random.choice(ants)
+                wrongs = []
+                for other_word in all_words:
+                    if other_word != word:
+                        wrongs += get_related_words(synonyms_df, other_word, 'synonym')
+                        wrongs += get_related_words(antonyms_df, other_word, 'antonym')
+                wrong_choices = random.sample([w for w in wrongs if w != correct], k=min(3, len([w for w in wrongs if w != correct])))
+                options = wrong_choices + [correct]
+                random.shuffle(options)
+                questions.append({'word': word, 'type': 'antonym', 'correct': correct, 'options': options})
+        random.shuffle(questions)
+        return questions
 
-    if 'score' not in st.session_state:
-        st.session_state.score = 0
-    if 'total' not in st.session_state:
-        st.session_state.total = 0
-    if 'current_question' not in st.session_state:
-        st.session_state.current_question = generate_quiz_question()
-    if 'answered' not in st.session_state:
-        st.session_state.answered = False
+    # Session state initialization
+    if 'quiz_questions' not in st.session_state:
+        st.session_state.quiz_questions = build_quiz_questions()
+        st.session_state.quiz_index = 0
+        st.session_state.quiz_score = 0
+        st.session_state.quiz_answered = False
+        st.session_state.quiz_selected = None
 
-    q = st.session_state.current_question
-    if q:
-        st.markdown(f"### Which is a(an) {q['type']} of **{q['word']}**?")
-        selected = st.radio("Choose the correct answer:", q['options'])
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            if st.button("Submit Answer", disabled=st.session_state.answered):
-                st.session_state.answered = True
-                st.session_state.total += 1
-                if selected == q['correct']:
-                    st.session_state.score += 1
+    questions = st.session_state.quiz_questions
+    idx = st.session_state.quiz_index
+
+    # Quiz in progress
+    if idx < len(questions):
+        q = questions[idx]
+        st.markdown(f"### Which is a {q['type']} of **{q['word']}**?")
+        st.session_state.quiz_selected = st.radio(
+            "Choose the correct answer:",
+            q['options'],
+            index=None if not st.session_state.quiz_answered else q['options'].index(q['correct'])
+        )
+
+        submit_col, next_col = st.columns([1, 2])
+        with submit_col:
+            if st.button("Submit Answer", disabled=st.session_state.quiz_answered):
+                st.session_state.quiz_answered = True
+                if st.session_state.quiz_selected == q['correct']:
+                    st.session_state.quiz_score += 1
                     st.success("✅ Correct!")
                 else:
                     st.error(f"❌ Incorrect. The correct answer was: {q['correct']}")
-        with col2:
-            if st.session_state.answered:
-                if st.button("Next Question ➡️"):
-                    st.session_state.current_question = generate_quiz_question()
-                    st.session_state.answered = False
-                    st.rerun()
+        with next_col:
+            if st.session_state.quiz_answered and st.button("Next Question ➡️"):
+                st.session_state.quiz_index += 1
+                st.session_state.quiz_answered = False
+                st.session_state.quiz_selected = None
+                st.rerun()
         st.divider()
-        st.markdown(f"**Score:** {st.session_state.score} / {st.session_state.total}")
+        st.markdown(f"**Progress:** {idx+1} / {len(questions)} &nbsp;&nbsp; **Score:** {st.session_state.quiz_score}")
     else:
-        st.error("Could not generate quiz question. Please check your data files.")
+        st.success("🎉 Quiz Complete! You've gone through all the words.")
+        st.markdown(f"**Final Score:** {st.session_state.quiz_score} / {len(questions)}")
+        if st.button("Restart Quiz"):
+            del st.session_state.quiz_questions
+            del st.session_state.quiz_index
+            del st.session_state.quiz_score
+            del st.session_state.quiz_answered
+            del st.session_state.quiz_selected
+            st.rerun()
+
