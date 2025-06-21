@@ -53,40 +53,24 @@ from io import BytesIO
 import base64
 import streamlit as st
 
-
-openai.api_key = "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"
-
 with tab3:
-    st.header("Let's share your ideas!")
-
-    text_input = st.text_area("Type a sentence to hear it in English:", "")
-
-    if st.button("Speak"):
-        if text_input.strip() == "":
-            st.warning("Please enter some text.")
-        else:
-            with st.spinner("Correcting grammar..."):
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful English grammar corrector."},
-                        {"role": "user", "content": f"Correct the grammar in this sentence: {text_input}"}
-                    ]
-                )
-                corrected_text = response['choices'][0]['message']['content'].strip()
-
-            st.subheader("✅ Corrected Sentence:")
-            st.success(corrected_text)
-
-            tts = gTTS(corrected_text, lang='en')
-            mp3_fp = BytesIO()
-            tts.write_to_fp(mp3_fp)
-            mp3_fp.seek(0)
-            b64 = base64.b64encode(mp3_fp.read()).decode()
-
-            audio_html = f"""
-                <audio autoplay controls>
-                    <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-                </audio>
-            """
-            st.markdown(audio_html, unsafe_allow_html=True)
+st.header("Let's share your ideas!")
+text
+_input = st. text_area("Type a sentence to hear it in English:"
+, "')
+if st. button ("Speak"):
+if text_input.strip() == "":
+st.warning("Please enter some text.")
+else:
+tts = gTTS(text_input, lang='en')
+mp3_fp = BytesIO()
+tts.write_to_fp(mp3_fp)
+mp3_fp. seek (0)
+b64 = base64.b64encode (mp3
+_fp. read()) decode ()
+audio_html = f"""
+‹audio autoplay controls>
+‹source src="data:audio/mp3;base64, {b64}" type="audio/mp3">
+</audio >
+"""
+st.markdown(audio_html, unsafe_allow_html=True)
