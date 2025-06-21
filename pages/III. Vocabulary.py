@@ -61,8 +61,9 @@ with tab1:
             )
         else:
             st.warning("The 'Definition' column was not found in your CSV file. Please check the column 
-    # GitHub 링크에서 단어장 불러오기
-        st.markdown("#### 🔹 Easy Word List")
+
+    if st.button("Show Word List from GitHub"):
+        st.markdown("#### 🔹 Word List from GitHub")
         csv_url = "http://raw.githubusercontent.com/JW-1211/G03Final/main/data/voc.csv"
         try:
             df_remote = pd.read_csv(csv_url)
@@ -80,6 +81,8 @@ with tab1:
                 st.warning("The 'Definition' column was not found in the GitHub CSV.")
         except Exception as e:
             st.error(f"Error loading data from GitHub: {e}")
+            
+            
 
 # TAB 2 : Connect the word to the passage
 with tab2: 
