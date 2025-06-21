@@ -47,18 +47,10 @@ import os
 from io import BytesIO
 import base64
 
-import streamlit as st
-from gtts import gTTS
-from io import BytesIO
-import base64
-import openai
-
-import openai
-import streamlit as st
-openai.api_key = st.secrets["openai"]["api_key"]
 
 with tab3:
-    st.header("📝 Fix your English & Listen to It!")
+    st.header("Let's share your ideas!")
+    st.write("You can write your sentence here. Don't worry about mistakes-we'll fix them and listen together!")
 
     text_input = st.text_area("Type your English sentence here:", "")
 
