@@ -53,7 +53,8 @@ with tab3:
     st.write("You can write your sentence here. Don't worry about mistakes-we'll fix them and listen together!")
 
     text_input = st.text_area("Type your English sentence here:", "")
-        if st.button("Speak"):
+        
+    if st.button("Speak"):
         if text_input.strip() == "":
             st.warning("Please enter some text.")
         else:
