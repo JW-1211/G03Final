@@ -47,12 +47,6 @@ import os
 from io import BytesIO
 import base64
 
-import openai
-from gtts import gTTS
-from io import BytesIO
-import base64
-import streamlit as st
-
 with tab3:
 st.header("Let's share your ideas!")
 text
