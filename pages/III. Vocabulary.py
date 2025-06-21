@@ -237,126 +237,143 @@ with tab5:
 
 # TAB 6: Related word quiz
 with tab6:
-    # Note: These are defined within the tab to keep them isolated.
-    import pandas as pd
-    import random
-    
-    st.title("💖 Relations quiz")
+    import pandas as pd, random, streamlit as st          # ← keep imports local to this tab
 
-    # Load data needed only for this tab.
-    # If you load this at the top of the script already, you can comment these out.
-    synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
-    antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
+    # 1️⃣  DATA (unchanged)
+    synonyms_df = pd.read_csv(
+        "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv"
+    )
+    antonyms_df = pd.read_csv(
+        "https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv"
+    )
 
-    # --- Functions are defined inside the tab block to isolate them ---
-    def get_related_words(df, word, prefix):
-        row = df[df['word'] == word]
+    # 2️⃣  HELPERS  – defined INSIDE the tab so they don’t run elsewhere  [1]
+    def get_related(df, word, kind):
+        row = df[df["word"] == word]
         if row.empty:
             return []
-        return [row[f"{prefix}{i}"].values[0] for i in range(1, 4)
-                if f"{prefix}{i}" in row and pd.notna(row[f"{prefix}{i}"].values[0]) and row[f"{prefix}{i}"].values[0] != '']
-
-    def generate_quiz_question():
-        all_words = set(synonyms_df['word']).union(set(antonyms_df['word']))
-        
-        # Find words that still need a synonym question
-        synonym_candidates = [
-            w for w in all_words 
-            if w not in st.session_state.tab6_used_synonyms and len(get_related_words(synonyms_df, w, 'synonym')) > 0
-        ]
-        # Find words that still need an antonym question
-        antonym_candidates = [
-            w for w in all_words 
-            if w not in st.session_state.tab6_used_antonyms and len(get_related_words(antonyms_df, w, 'antonym')) > 0
+        return [
+            row[f"{kind}{i}"].values[0]
+            for i in range(1, 4)
+            if f"{kind}{i}" in row
+            and pd.notna(row[f"{kind}{i}"].values[0])
+            and row[f"{kind}{i}"].values[0] != ""
         ]
 
-        possible_types = []
-        if synonym_candidates:
-            possible_types.append('synonym')
-        if antonym_candidates:
-            possible_types.append('antonym')
+    def new_question():
+        all_words = set(synonyms_df.word) | set(antonyms_df.word)
 
-        if not possible_types:
-            return None  # Quiz is over
+        syn_pool = [
+            w
+            for w in all_words
+            if w not in st.session_state.tab6_used_syn
+            and get_related(synonyms_df, w, "synonym")
+        ]
+        ant_pool = [
+            w
+            for w in all_words
+            if w not in st.session_state.tab6_used_ant
+            and get_related(antonyms_df, w, "antonym")
+        ]
 
-        question_type = random.choice(possible_types)
+        if not syn_pool and not ant_pool:        # quiz finished
+            return None
 
-        if question_type == 'synonym':
-            target_word = random.choice(synonym_candidates)
-            st.session_state.tab6_used_synonyms.add(target_word)
-            correct_answers = get_related_words(synonyms_df, target_word, 'synonym')
-            wrong_pool = get_related_words(antonyms_df, target_word, 'antonym')
-        else:  # antonym
-            target_word = random.choice(antonym_candidates)
-            st.session_state.tab6_used_antonyms.add(target_word)
-            correct_answers = get_related_words(antonyms_df, target_word, 'antonym')
-            wrong_pool = get_related_words(synonyms_df, target_word, 'synonym')
+        qtype = random.choice(
+            (["synonym"] if syn_pool else []) + (["antonym"] if ant_pool else [])
+        )
+
+        if qtype == "synonym":
+            target = random.choice(syn_pool)
+            st.session_state.tab6_used_syn.add(target)
+            correct = get_related(synonyms_df, target, "synonym")
+            wrong_pool = get_related(antonyms_df, target, "antonym")
+        else:
+            target = random.choice(ant_pool)
+            st.session_state.tab6_used_ant.add(target)
+            correct = get_related(antonyms_df, target, "antonym")
+            wrong_pool = get_related(synonyms_df, target, "synonym")
 
         if len(wrong_pool) < 3:
-            additional_wrong = [w for w in all_words if w != target_word and w not in correct_answers]
-            wrong_pool += random.sample(additional_wrong, min(3 - len(wrong_pool), len(additional_wrong)))
-            
-        wrong_answers = random.sample(wrong_pool, 3) if len(wrong_pool) >= 3 else wrong_pool
-        correct_answer = random.choice(correct_answers)
-        options = wrong_answers + [correct_answer]
+            extra = [
+                w
+                for w in all_words
+                if w != target and w not in correct and w not in wrong_pool
+            ]
+            wrong_pool += random.sample(extra, min(3 - len(wrong_pool), len(extra)))
+
+        options = random.sample(wrong_pool, min(3, len(wrong_pool))) + [
+            random.choice(correct)
+        ]
         random.shuffle(options)
-        
-        return {
-            'word': target_word,
-            'correct': correct_answer,
-            'options': options,
-            'type': question_type
-        }
+        return {"word": target, "type": qtype, "correct": correct, "options": options}
 
-    # --- Initialize session state with unique keys for this tab ---
-    if 'tab6_score' not in st.session_state:
-        st.session_state.tab6_score = 0
-    if 'tab6_total' not in st.session_state:
-        st.session_state.tab6_total = 0
-    if 'tab6_used_synonyms' not in st.session_state:
-        st.session_state.tab6_used_synonyms = set()
-    if 'tab6_used_antonyms' not in st.session_state:
-        st.session_state.tab6_used_antonyms = set()
-    if 'tab6_question' not in st.session_state:
-        st.session_state.tab6_question = generate_quiz_question()
-    if 'tab6_answered' not in st.session_state:
-        st.session_state.tab6_answered = False
+    # 3️⃣  SESSION STATE (unique keys prefixed with tab6_)                [1]
+    for k, v in {
+        "tab6_score": 0,
+        "tab6_total": 0,
+        "tab6_used_syn": set(),
+        "tab6_used_ant": set(),
+        "tab6_question": None,
+        "tab6_answered": False,
+    }.items():
+        st.session_state.setdefault(k, v)
 
-    # --- Main quiz logic for this tab ---
+    if st.session_state.tab6_question is None:
+        st.session_state.tab6_question = new_question()
+
+    # 4️⃣  UI
+    st.title("📝 Related-word Quiz (Tab 6)")
+
     q = st.session_state.tab6_question
+    if q is None:
+        st.success(
+            f"🎉 Finished! Final score: {st.session_state.tab6_score} / "
+            f"{st.session_state.tab6_total}"
+        )
+        if st.button("Retake Quiz", key="tab6_retake"):
+            for key in (
+                "tab6_score",
+                "tab6_total",
+                "tab6_used_syn",
+                "tab6_used_ant",
+                "tab6_question",
+                "tab6_answered",
+            ):
+                del st.session_state[key]
+            st.experimental_rerun()
+    else:
+        st.markdown(f"### Pick a **{q['type']}** of *{q['word']}*")
+        choice = st.radio(
+            "Options",
+            q["options"],
+            key="tab6_radio",
+            disabled=st.session_state.tab6_answered,
+        )
 
-    if q:
-        st.markdown(f"### Which is a(an) {q['type']} of **{q['word']}**?")
-        selected = st.radio("Choose the correct answer:", q['options'], key="tab6_quiz_options")
-        
         col1, col2 = st.columns([1, 2])
         with col1:
-            if st.button("Submit Answer", key="tab6_submit", disabled=st.session_state.tab6_answered):
+            if st.button(
+                "Submit",
+                key="tab6_submit",
+                disabled=st.session_state.tab6_answered,
+            ):
                 st.session_state.tab6_answered = True
                 st.session_state.tab6_total += 1
-                if selected == q['correct']:
+                if choice == q["correct"]:
                     st.session_state.tab6_score += 1
                     st.success("✅ Correct!")
                 else:
-                    st.error(f"❌ Incorrect. The correct answer was: {q['correct']}")
-                st.rerun()
+                    st.error(f"❌ The right answer was **{q['correct']}**")
 
         with col2:
-            if st.session_state.tab6_answered:
-                if st.button("Next Question ➡️", key="tab6_next"):
-                    st.session_state.tab6_question = generate_quiz_question()
-                    st.session_state.tab6_answered = False
-                    st.rerun()
-                    
-        st.divider()
-        st.markdown(f"**Score:** {st.session_state.tab6_score} / {st.session_state.tab6_total}")
-    else:
-        st.success("🎉 Quiz complete! You have answered all available questions.")
-        st.markdown(f"### **Final Score:** {st.session_state.tab6_score} / {st.session_state.tab6_total}")
-        
-        if st.button("Retake Quiz", key="tab6_retake"):
-            keys_to_reset = ['tab6_score', 'tab6_total', 'tab6_used_synonyms', 'tab6_used_antonyms', 'tab6_question', 'tab6_answered']
-            for key in keys_to_reset:
-                if key in st.session_state:
-                    del st.session_state[key]
-            st.rerun()
+            if st.session_state.tab6_answered and st.button(
+                "Next Question ➡️", key="tab6_next"
+            ):
+                st.session_state.tab6_question = new_question()
+                st.session_state.tab6_answered = False
+                st.experimental_rerun()
+
+        st.markdown(
+            f"**Score:** {st.session_state.tab6_score} / {st.session_state.tab6_total}"
+        )
