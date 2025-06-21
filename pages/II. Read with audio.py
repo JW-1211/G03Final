@@ -73,16 +73,19 @@ with tab3:
     def get_remaining_options(selected_steps, options, current_step):
         current_choice = selected_steps.get(current_step, "")
         chosen_elsewhere = [selected_steps[k] for k in step_keys if k != current_step and selected_steps.get(k, "") != ""]
-        remaining = [opt for opt in options if (opt == current_choice) or (opt not in chosen_elsewhere)]
-        return remaining
+        remaining = [opt for opt in options if (opt not in chosen_elsewhere)]
+        return current_choice, remaining
 
     for i, key in enumerate(step_keys):
-        remaining = get_remaining_options(selected_steps, options, key)
-        default_value = selected_steps.get(key, "")
-        select_options = [""] + remaining
-        index = 0
-        if default_value in remaining:
-            index = remaining.index(default_value) + 1
+        current_choice, remaining = get_remaining_options(selected_steps, options, key)
+
+        if current_choice != "" and current_choice not in remaining:
+            select_options = ["", current_choice] + remaining
+            index = 1
+        else:
+            select_options = [""] + remaining
+            index = select_options.index(current_choice) if current_choice in select_options else 0
+
         selected = st.selectbox(f"Step {i+1}", select_options, index=index, key=key)
         selected_steps[key] = selected
 
