@@ -149,6 +149,7 @@ with tab4:
 
 # TAB 5: Word relationships
 with tab5:
+    with tab5:
     synonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_synonyms.csv")
     antonyms_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_antonyms.csv")
     sentences_df = pd.read_csv("https://raw.githubusercontent.com/JW-1211/G03Final/main/data/test_sentences.csv")
@@ -214,6 +215,12 @@ with tab5:
             st.info("This word doesn't have any matching antonyms.")
 
     st.divider()
+
+    # Description shown here, just above the example sentences
+    st.caption(
+        "Tip: Click on any synonym or antonym button above to see example sentences for that word."
+    )
+
     if st.session_state.clicked_word:
         row = sentences_df[
             (sentences_df['word'] == selected_word) &
@@ -234,6 +241,7 @@ with tab5:
                     audio_fp.seek(0)
                     with sent_cols[1]:
                         st.audio(audio_fp, format='audio/mp3')
+
 
 # TAB 6: Related word quiz
 with tab6:
