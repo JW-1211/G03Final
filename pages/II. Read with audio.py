@@ -51,7 +51,7 @@ with tab2:
 
 with tab3:
     st.header("🧩 Story Activity: Sentence Ordering")
-    st.markdown("📝 Put these story events in the correct order:")
+    st.markdown("📝 Drag and drop to put these story events in the correct order:")
 
     correct_order = [
         "Emma found an old compass.",
@@ -63,10 +63,15 @@ with tab3:
     randomized = correct_order.copy()
     random.shuffle(randomized)
 
-    user_order = [st.selectbox(f"Step {i+1}:", randomized, key=f"order_{i}") for i in range(4)]
+    selected_order = st.multiselect(
+        label="Select the sentences in order:",
+        options=randomized,
+        default=[],
+        key="activity_multiselect"
+    )
 
     if st.button("Check Order"):
-        if user_order == correct_order:
+        if selected_order == correct_order:
             st.success("✅ Correct order!")
         else:
-            st.warning("❌ Not quite! Try again.")
+            st.warning("❌ Not quite! Try again. Make sure to select all sentences in the correct order.")
