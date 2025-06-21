@@ -53,7 +53,8 @@ from io import BytesIO
 import base64
 import streamlit as st
 
-openai.api_key = "your-openai-api-key"  # 여기에 본인 키 입력!
+
+openai.api_key = "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"
 
 with tab3:
     st.header("Let's share your ideas!")
