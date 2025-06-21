@@ -60,8 +60,8 @@ with tab3:
             tts = gTTS(text_input, lang='en')
             mp3_fp = BytesIO()
             tts.write_to_fp(mp3_fp)
-            mp3_fp. seek (0)
-            b64 = base64. b64encode(mp3_fp.read()).decode()
+            mp3_fp .seek(0)
+            b64 = base64.b64encode(mp3_fp.read()).decode()
             audio_html = f"""
                 <audio autoplay controls>
                 <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
