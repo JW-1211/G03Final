@@ -63,15 +63,34 @@ with tab3:
     options = correct_order.copy()
     random.shuffle(options)
 
-    selected_order = []
+    step_keys = [f"step_{i}" for i in range(len(correct_order))]
 
-    for i in range(len(correct_order)):
-        remaining_options = [opt for opt in options if opt not in selected_order]
-        choice = st.selectbox(f"Step {i+1}", remaining_options, key=f"step_{i}")
-        selected_order.append(choice)
+    def get_remaining_options(selected_steps, options, current_step):
+        chosen = [selected_steps[k] for k in step_keys if k != current_step and k in selected_steps and selected_steps[k] != ""]
+        return [opt for opt in options if opt not in chosen]
+
+    # 세션 상태가 없으면 빈 dict 생성
+    if 'selected_steps' not in st.session_state:
+        st.session_state.selected_steps = {k: "" for k in step_keys}
+
+    selected_steps = st.session_state.selected_steps
+
+    for i, key in enumerate(step_keys):
+        remaining = get_remaining_options(selected_steps, options, key)
+        # 현재 선택값 인덱스 찾아서 기본값 지정
+        default_value = selected_steps.get(key, "")
+        select_options = [""] + remaining
+        index = 0
+        if default_value in remaining:
+            index = remaining.index(default_value) + 1
+        selected = st.selectbox(f"Step {i+1}", select_options, index=index, key=key)
+        selected_steps[key] = selected
 
     if st.button("Check Order"):
-        if selected_order == correct_order:
+        user_order = [selected_steps.get(k, "") for k in step_keys]
+        if "" in user_order:
+            st.warning("Please select all sentences.")
+        elif user_order == correct_order:
             st.success("✅ Correct order!")
         else:
-            st.warning("❌ Not quite! Try again. Make sure to select all sentences in the correct order.")
+            st.error("❌ Not quite! Try again.")
