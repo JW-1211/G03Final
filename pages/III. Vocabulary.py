@@ -301,7 +301,7 @@ with tab6:
     # Quiz in progress
     if idx < len(questions):
         q = questions[idx]
-        st.markdown(f"### Which is a/an {q['type']} of **{q['word']}**?")
+        st.markdown(f"### Which is a(n) {q['type']} of **{q['word']}**?")
         st.session_state.quiz_selected = st.radio(
             "Choose the correct answer:",
             q['options'],
