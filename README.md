@@ -38,7 +38,7 @@ Inspired, Emma went home to start her first painting, the compass now her most t
 - 🔉 **Story Content** – Understand the story more easily with key vocabulary visually emphasized.
 - 🔉 **Korean Translation** – Improve comprehension by viewing the English story alongside its Korean translation.
 - 🔉 **Audio Playback** – Focus your listening practice by selecting and hearing each sentence individually.
-
+- 🔉 **True/False Quiz** – Check your understanding of the story by answering automatically generated true or false questions based on the text.
 ---
 
 ## 3️⃣ Vocabulary 
