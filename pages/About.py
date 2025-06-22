@@ -32,6 +32,15 @@ We hope you enjoy this educational experience! Feel free to provide additional f
 st.markdown("---")
 import streamlit as st
 
+# Divider before video section
+st.markdown("---")
+
+# YouTube video embed section
+st.video("https://www.youtube.com/watch?v=JNXGIz5QisQ")
+
+# Divider after video section
+st.markdown("---")
+
 st.markdown("""
 > "Courage begins by trusting oneself."  
 > — Star Wars: The Clone Wars, _The Jedi Who Knew Too Much_
