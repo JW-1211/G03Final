@@ -61,69 +61,6 @@ with tab2:
         "Base Form": ["Discover", "End", "Realize", "Inspire", "Start", "Find", "Become", "Be"],
         "Simple Past": ["Discovered", "Ended", "Realized", "Inspired", "Started", "Found", "Became", "Was/Were"],
         "Past Participle": ["Discovered", "Ended", "Realized", "Inspired", "Started", "Found", "Become", "Been"]
-    }import streamlit as st
-from gtts import gTTS
-from io import BytesIO
-import random
-import pandas as pd
-
-st.title("🌱 Grammar Learning")
-
-# Create tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "1. Past Tense Video",
-    "2. Understanding Past Tense",
-    "3. Pronunciation Practice",
-    "4. Regular Verb Quiz",
-    "5. Irregular Verb Quiz"
-])
-
-######### TAB 1 - Past Tense Video
-
-with tab1:
-    st.title("Understanding Past Tense")
-    st.video("https://youtu.be/q6j-D5EzZo8", start_time=0)
-
-######### TAB 2 - Understanding Past Tense
-
-with tab2:
-    st.markdown("## 📋 Understanding Past Tense")
-    st.write("Let's Learn About the Past Tense!")
-
-    # Introduction
-    st.header("What is the Past Tense?")
-    st.write("The past tense is used to talk about actions that have already happened.")
-
-    # Regular Verbs Section
-    st.header("Regular Verbs")
-    st.write("Forming Regular Past Tense:")
-    st.write("1. General Rule: Add -ed (e.g., walk → walked)")
-    st.write("2. Ending with 'e': Add -d (e.g., love → loved)")
-    st.write("3. Single Vowel + Consonant: Double the consonant, add -ed (e.g., stop → stopped)")
-    st.write("4. Ending with 'y': Change 'y' to 'i', add -ed (e.g., cry → cried)")
-
-    # Irregular Verbs Section
-    st.header("Irregular Verbs")
-    st.write("Irregular verbs do not follow standard rules. Here are some examples:")
-
-    irregular_verbs_data = {
-        "Base Form": ["Find", "Become", "Be", "Begin", "Break", "Bring", "Buy", "Choose", "Come", "Do", "Drink", "Drive", "Eat", "Fall", "Feel", "Get", "Go", "Have", "Know", "Leave", "Make", "Read", "Run", "Say", "See", "Send", "Sing", "Speak", "Take", "Write"],
-        "Past Tense": ["Found", "Became", "Was/Were", "Began", "Broke", "Brought", "Bought", "Chose", "Came", "Did", "Drank", "Drove", "Ate", "Fell", "Felt", "Got", "Went", "Had", "Knew", "Left", "Made", "Read", "Ran", "Said", "Saw", "Sent", "Sang", "Spoke", "Took", "Wrote"],
-        "Past Participle": ["Found", "Become", "Been", "Begun", "Broken", "Brought", "Bought", "Chosen", "Come", "Done", "Drunk", "Driven", "Eaten", "Fallen", "Felt", "Gotten", "Gone", "Had", "Known", "Left", "Made", "Read", "Run", "Said", "Seen", "Sent", "Sung", "Spoken", "Taken", "Written"]
-    }
-
-    irregular_verbs_df = pd.DataFrame(irregular_verbs_data)
-    st.table(irregular_verbs_df)
-
-    # Add the new section for stories with past tense forms
-    st.header("Stories with Past Tense Forms")
-    st.write("Here is a table of verbs used in stories with their past and past participle forms:")
-
-    # Combine regular and irregular verbs into one table
-    combined_verb_data = {
-        "Base Form": ["Discover", "End", "Realize", "Inspire", "Start", "Find", "Become", "Be"],
-        "Simple Past": ["Discovered", "Ended", "Realized", "Inspired", "Started", "Found", "Became", "Was/Were"],
-        "Past Participle": ["Discovered", "Ended", "Realized", "Inspired", "Started", "Found", "Become", "Been"]
     }
 
     combined_verbs_df = pd.DataFrame(combined_verb_data)
@@ -182,10 +119,9 @@ with tab3:
 
     if selected_regular_verb:
         past_form = regular_verbs[selected_regular_verb]
-        past_participle = past_form  # 규칙동사는 과거형과 과거분사가 동일
+        past_participle = past_form  # 규칙동사는 과거형=과거분사
         st.write(f"Base form: {selected_regular_verb}, Past tense: {past_form}, Past participle: {past_participle}")
 
-        # Combine audio for base form, past tense, and past participle
         try:
             forms = [selected_regular_verb, past_form, past_participle]
             combined_audio_fp = BytesIO()
@@ -205,7 +141,6 @@ with tab3:
         past_tense, past_participle = irregular_verbs[selected_irregular_verb]
         st.write(f"Base form: {selected_irregular_verb}, Past tense: {past_tense}, Past participle: {past_participle}")
 
-        # Combine audio for base form, past tense, and past participle
         try:
             forms = [selected_irregular_verb, past_tense, past_participle]
             combined_audio_fp = BytesIO()
@@ -238,6 +173,7 @@ with tab4:
         st.session_state.regular_user_input = ""
     if "regular_check_clicked" not in st.session_state:
         st.session_state.regular_check_clicked = False
+
     # Button to select a new random regular verb
     if st.button("🎲 Get a new regular verb", key="regular_button"):
         st.session_state.current_regular_verb = random.choice(list(regular_verbs_explained.keys()))
